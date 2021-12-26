@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DO;
 
 namespace BO
 {
-	class ParcelnTransfer
+    public class ParcelnTransfer
 	{
         public int Id { get; set; }
         public bool ParcelStatus { get; set; }  // WaitForCollection=1, OnTheWayToDestination=0
