@@ -1,20 +1,18 @@
-﻿namespace Dal
+﻿
+namespace DO
 {
-    namespace DO
+    public enum WeightCategories
     {
-        public enum WeightCategories
-        {
-            light = 1, medium, heavy
-        }
+        light = 1, medium, heavy
+    }
 
-        public enum Priorities
-        {
-            regular = 1, fast, emergency
-        }
+    public enum Priorities
+    {
+        regular = 1, fast, emergency
+    }
 
-        public enum LongitudeLattitude
-        {
-            Longitude = 1, Lattitude
-        }
+    public enum LongitudeLattitude
+    {
+        Longitude = 1, Lattitude
     }
 }

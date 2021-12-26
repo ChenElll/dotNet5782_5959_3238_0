@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dal.DO;
+﻿using System.Collections.Generic;
+using DO;
+
 
 namespace DalApi
 {
@@ -175,17 +172,9 @@ namespace DalApi
         public IEnumerable<Station> GetStationsList();
 
         /// <summary>
-        /// convert longtitude and lattitude's coordinate from decimal to sexagesimal
-        /// </summary>
-        /// <param name="newDaecimal"></param>
-        /// <param name="longOrLat"></param>
-        /// <returns></returns>
-        string decimalToSexagesimal(double newDaecimal, LongitudeLattitude longOrLat);
-
-        /// <summary>
         /// returns the range that charged by the drone
         /// </summary>
         /// <returns>array that contain the configurations of drones charging</returns>
         double[] getElectricityUseByDrone();
     }
-    }
+}

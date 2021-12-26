@@ -1,8 +1,8 @@
 ﻿using System;
 using DalApi;
-using Dal.DO;
 using System.Collections.Generic;
 using System.Linq;
+using DO;
 
 namespace Dal
 {
@@ -15,6 +15,8 @@ namespace Dal
         {
             DataSource.Initialize();
         }
+
+
         #region DATASOURCE
         static class DataSource
         {
@@ -188,20 +190,7 @@ namespace Dal
         /// <returns>list of drone</returns>
         public IEnumerable<Drone> GetDronesList()
         {
-            var list = new List<Drone>();
-            foreach (Drone item in DataSource.DronesList)
-            {
-                list.Add(item);
-            }
-            return list;
-            //return from item in DataSource.DronesList
-            //       orderby item.Id
-            //       select new Drone()
-            //       {
-            //           Id = item.Id,
-            //           Model = item.Model,
-            //           MaxWeight = item.MaxWeight
-            //       };
+            return DataSource.DronesList.Select(item => item);
         }
         #endregion
 
@@ -213,15 +202,7 @@ namespace Dal
         /// <returns>list of  drones in charge</returns>
         public IEnumerable<DroneCharge> GetDroneChargesList()
         {
-            return from item in DataSource.DroneChargesList
-                   orderby item.DroneId
-                   select new DroneCharge()
-                   {
-                       DroneId = item.DroneId,
-                       StationId = item.StationId,
-                       EntranceTime = item.EntranceTime,
-                       LeavingTime = item.LeavingTime
-                   };
+            return DataSource.DroneChargesList.Select(item => item);
 
         }
         #endregion
@@ -375,17 +356,7 @@ namespace Dal
         /// <returns></returns>
         public IEnumerable<Station> GetStationsList()
         {
-            var list = from item in DataSource.StationsList
-                       orderby item.Id
-                       select new Station()
-                       {
-                           Id = item.Id,
-                           Name = item.Name,
-                           FreeChargeSlots = item.FreeChargeSlots,
-                           Lattitude = item.Lattitude,
-                           Longtitude = item.Longtitude
-                       };
-            return list;
+            return DataSource.StationsList.Select(item => item);
         }
         #endregion
 
@@ -397,17 +368,7 @@ namespace Dal
         /// <returns></returns>
         public IEnumerable<Station> GetListFreeChargeStationList()
         {
-            return from item in DataSource.StationsList.ListFilter(P => P.FreeChargeSlots > 0)
-                   orderby item.Id
-                   select new Station()
-                   {
-                       Id = item.Id,
-                       Name = item.Name,
-                       FreeChargeSlots = item.FreeChargeSlots,
-                       Lattitude = item.Lattitude,
-                       Longtitude = item.Longtitude
-                   };
-
+            return DataSource.StationsList.OrderBy(item => item.Id).Where(item => item.FreeChargeSlots > 0).Select(item=>item);
         }
         #endregion
 
@@ -500,21 +461,7 @@ namespace Dal
         /// <returns></returns>
         public IEnumerable<Parcel> GetParcelsList()
         {
-            return from item in DataSource.ParcelsList
-                   orderby item.Id
-                   select new Parcel()
-                   {
-                       Id = item.Id,
-                       DroneId = item.DroneId,
-                       SenderId = item.SenderId,
-                       TargetId = item.TargetId,
-                       Priority = item.Priority,
-                       Weight = item.Weight,
-                       RequestedTime = item.RequestedTime,
-                       ScheduledTime = item.ScheduledTime,
-                       PickedUpTime = item.PickedUpTime,
-                       DeliveredTime = item.DeliveredTime
-                   };
+            return DataSource.ParcelsList.Select(item => item);
 
         }
         #endregion
@@ -527,20 +474,7 @@ namespace Dal
         /// <returns></returns>
         public IEnumerable<Parcel> GetNotAttributeParcelsList()
         {
-            return from item in DataSource.ParcelsList.ListFilter(P => P.DroneId == 0)
-                   select new Parcel()
-                   {
-                       Id = item.Id,
-                       DroneId = item.DroneId,
-                       SenderId = item.SenderId,
-                       TargetId = item.TargetId,
-                       Priority = item.Priority,
-                       Weight = item.Weight,
-                       RequestedTime = item.RequestedTime,
-                       ScheduledTime = item.ScheduledTime,
-                       PickedUpTime = item.PickedUpTime,
-                       DeliveredTime = item.DeliveredTime
-                   };
+            return DataSource.ParcelsList.OrderBy(item => item.Id).Where(item => item.DroneId == 0).Select(item => item);
         }
         #endregion
 
@@ -700,16 +634,7 @@ namespace Dal
         /// <returns></returns>
         public IEnumerable<Customer> GetCustomersList()
         {
-            return from item in DataSource.CustomersList
-                   orderby item.CustomerName
-                   select new Customer()
-                   {
-                       Id = item.Id,
-                       CustomerName = item.CustomerName,
-                       PhoneNumber = item.PhoneNumber,
-                       Lattitude = item.Lattitude,
-                       Longtitude = item.Longtitude,
-                   };
+            return DataSource.CustomersList.OrderBy(item => item.CustomerName).Select(item => item);
         }
         #endregion
 
