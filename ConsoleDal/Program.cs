@@ -341,8 +341,6 @@ namespace ConsoleDal
 
             
 
-            // initialize function
-            Dal.DalObject.DalObject.DataSource.Initialize();
 
         }
     }
