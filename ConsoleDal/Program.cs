@@ -39,10 +39,6 @@ namespace ConsoleDal
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
-
-
 
             #region Add Functions
 
@@ -339,9 +335,182 @@ namespace ConsoleDal
                 Console.WriteLine("This option does not exist");
             }
 
-            
+
+            Console.WriteLine("Hello World!");
 
 
+
+
+            int choice = 0;
+            do
+            {
+                try
+                {
+                    Console.WriteLine("Please, enter your choice:\n"
+                      + "to add a station/drone/customer/parcel, press 1\n"
+                      + "to update  information, press 2\n"
+                      + "to see view options, press 3\n"
+                      + "to see view lists, press 4\n"
+                      + "to exit, press 5\n");
+
+                    choice = int.Parse(Console.ReadLine());
+
+
+                    switch ((Options)choice)
+                    {
+                        case Options.add:
+                            {
+                                Console.WriteLine("to add a new station to the list choose 1\n" +
+                                    "to add a new drone to the list choose 2\n+" +
+                                    "to reception a new customer to the list choose 3\n" +
+                                    "to reception a new parcel to delivery choose 4\n");
+                                //prints all adding options
+
+                                int chooseAdd = int.Parse(Console.ReadLine());
+
+                                switch ((Add)chooseAdd)
+                                {
+                                    case Add.addStation:
+                                        getAddstation();
+                                        break;
+                                    case Add.addDrone:
+                                        getAddDrone();
+                                        break;
+                                    case Add.receptionNewCustomer:
+                                        getReceptionNewCustomer();
+                                        break;
+                                    case Add.receptionNewParcel:
+                                        getReceptionNewParcel();
+                                        break;
+                                    default:
+                                        getdefault();
+                                        break;
+                                }
+                                break;
+                            }
+
+                        case Options.update:
+                            {
+                                //update options
+                                Console.WriteLine("to update an attribution of a parcel to a drone, choose 1\n" +
+                                    "to update a collection of a parcel by a drone, choose 2\n" +
+                                    "to update a delivery of a parcel to a customer, choose 3\n" +
+                                    "to update a sending of a parcelto charge at a base station, choose 4\n" +
+                                    "to update a released drone, choose 5\n");
+
+                                int chooseUpdate = int.Parse(Console.ReadLine());
+
+                                switch ((Update)chooseUpdate)
+                                {
+                                    case Update.attributeParcelToDrone:
+                                        GetUpdateAttributeParcel();
+                                        break;
+
+                                    case Update.collectionParcel:
+                                        GetUpdateCollectionParcel();
+                                        break;
+
+                                    case Update.deliveryToCustomer:
+                                        GetUpdateDeliveryToCustomer();
+                                        break;
+
+                                    case Update.SendToCharge:
+                                        GetUpdateSendToCharge();
+                                        break;
+
+                                    case Update.releaseDrone:
+                                        GetUpdateReleaseDrone();
+                                        break;
+                                    default:
+                                        getdefault();
+                                        break;
+                                }
+
+                                break;
+                            }
+
+                        case Options.view:
+                            {
+                                //view options
+                                Console.WriteLine("to view options for station, choose 1\n" +
+                                    "to view options for drone, choose 2\n" +
+                                    "to view options for customer, choose 3\n" +
+                                    "to view options for parcel, choose 4\n");
+
+                                int chooseViewOptions = int.Parse(Console.ReadLine());
+
+                                switch ((View)chooseViewOptions)
+                                {
+                                    case View.viewStation:
+                                        getviewStation();
+                                        break;
+                                    case View.viewDrone:
+                                        getviewDrone();
+                                        break;
+                                    case View.viewCustomer:
+                                        getviewCustomer();
+                                        break;
+                                    case View.viewParcel:
+                                        getviewParcel();
+                                        break;
+                                    default:
+                                        getdefault();
+                                        break;
+                                }
+                                break;
+                            }
+
+
+                        case Options.listView:
+                            {
+                                Console.WriteLine("to see the list's view options of the base-station, choose 1\n" +
+                                 "to see the list's view options of the drone, choose 2\n" +
+                                 "to see the list's view options of the customer, choose 3\n" +
+                                 "to see the list's view options of the parcel, choose 4\n");
+
+                                int chooselistView = int.Parse(Console.ReadLine());
+
+                                switch ((ListView)chooselistView)
+                                {
+                                    case ListView.stationList:
+                                        GetListViewStation();
+                                        break;
+
+                                    case ListView.droneList:
+                                        GetListViewDrone();
+                                        break;
+
+                                    case ListView.CustomerList:
+                                        GetListViewCustomer();
+                                        break;
+
+                                    case ListView.parcelList:
+                                        GetListViewParcel();
+                                        break;
+
+                                    case ListView.notAttributeParcel:
+                                        GetListViewNotAttributeParcel();
+                                        break;
+
+                                    case ListView.freeChargeStation:
+                                        GetListViewFreeChargeStation();
+                                        break;
+
+                                    default:
+                                        getdefault();
+                                        break;
+                                }
+                                break;
+                            }
+                        case Options.exit: break;
+                        default:
+                            getdefault();
+                            break;
+                    }
+                }
+                catch (FormatException) { Console.WriteLine("ERROR"); }
+                catch (ArgumentException ex) { Console.WriteLine(ex.Message); }
+            } while (choice != 5);
         }
     }
 }

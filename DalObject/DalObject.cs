@@ -8,13 +8,17 @@ namespace Dal
 {
     sealed class DalObject : IDal
     {
-        static readonly IDal instance = new DalObject();
-        public static IDal Instance { get => instance; }
+        #region singelton
+        static readonly DalObject instance = new DalObject();
+        static DalObject() { }// static ctor to ensure instance init is done just before first usage
+        DalObject() { } // default => private
+        public static DalObject Instance { get => instance; }// The public Instance property to use
+        #endregion
 
-        public DalObject()
-        {
-            DataSource.Initialize();
-        }
+        //static DalObject()
+        //{
+        //    DataSource.Initialize();
+        //}
 
 
         #region DATASOURCE
