@@ -2,7 +2,7 @@
 
 namespace BO
 {
-    public class ParcelnTransfer
+    public class ParcelInTransfer
 	{
         public int Id { get; set; }
         public bool ParcelStatus { get; set; }  // WaitForCollection=1, OnTheWayToDestination=0

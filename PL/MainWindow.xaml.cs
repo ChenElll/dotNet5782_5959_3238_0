@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using BlApi;
+//using IBL;
+
 
 namespace PL
 {
@@ -17,6 +16,15 @@ namespace PL
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ShowDrones_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            if (b != null)
+            {
+                new List_Of_Drones(bl).Show();
+            }
         }
     }
 }

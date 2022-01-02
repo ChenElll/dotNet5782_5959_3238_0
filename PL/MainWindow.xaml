@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" FontFamily="Arial Rounded MT Bold" FontSize="30">
     <Grid>
-
+        <Button x:Name="ShowDronesList" Content="Our Drones" VerticalAlignment="Top" Height="79"
+                Click="ShowDrones_Click"  Margin="0,0,590,0" Background="AliceBlue" BorderBrush="Snow"  />
     </Grid>
 </Window>

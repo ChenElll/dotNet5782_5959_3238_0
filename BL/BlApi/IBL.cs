@@ -8,7 +8,7 @@ namespace BlApi
     {
         void AddStation(BaseStation addBaseStation);
 
-        void AddDrone(DroneToList addDrone, int stationId);
+        void AddDrone(Drone addDrone, int stationId);
 
         void AddCustomer(Customer addCustomer);
 
