@@ -4,6 +4,7 @@ using DalApi;
 using System.Collections.Generic;
 using System.Linq;
 using BO;
+using DO;
 
 namespace BL
 {

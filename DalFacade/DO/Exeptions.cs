@@ -25,6 +25,19 @@ namespace DO
     }
 
     [Serializable]
+    public class LoadingException : Exception
+    {
+        string filePath;
+        public LoadingException() : base() { }
+        public LoadingException(string message) : base(message) { }
+        public LoadingException(string message, Exception inner) : base(message, inner) { }
+
+        public LoadingException(string path, string messege, Exception inner) => filePath = path;
+        protected LoadingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+    }
+
+    [Serializable]
     public class CalculateDistanceProblemException : Exception
     {
         public CalculateDistanceProblemException() : base() { }

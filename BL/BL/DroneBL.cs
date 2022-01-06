@@ -1,4 +1,5 @@
 ﻿using BO;
+using DO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace BL
         /// </summary>
         /// <param name="droneToAdd"></param>
         /// <param name="stationId"></param>
-        public void AddDrone(BO.DroneToList droneToAddBO, int stationId)
+        public void AddDrone(BO.Drone droneToAddBO, int stationId)
         {
             try
             {
