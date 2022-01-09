@@ -38,13 +38,13 @@ namespace BlApi
 
         BO.Parcel GetParcel(int parcelId);
 
-        IEnumerable<BO.BaseStationToList> GetStationList();
+        IEnumerable<BO.BaseStationToList> GetStationList(Func<DO.Station, bool> predicat = null);
 
-        IEnumerable<BO.DroneToList> GetDroneList();
+        IEnumerable<BO.DroneToList> GetDroneList(Func<DroneToList, bool> predicat = null);
 
-        IEnumerable<BO.CustomerToList> GetCustomerList();
+        IEnumerable<BO.CustomerToList> GetCustomerList(Func<DO.Customer, bool> predicat = null);
 
-        IEnumerable<BO.ParcelToList> GetParcelList();
+        IEnumerable<BO.ParcelToList> GetParcelList(Func<DO.Parcel, bool> predicat = null);
 
         IEnumerable<ParcelToList> GetNotScheduleParcelList();
 

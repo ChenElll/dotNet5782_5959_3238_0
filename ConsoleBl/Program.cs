@@ -369,7 +369,7 @@ namespace ConsoleBl
             #region ViewFreeChargeStation
             void GetListViewFreeChargeStation()
             {
-                bl.GetFreeChargeStationList();
+                bl.GetStationList(S => S.FreeChargeSlots > 0);
             }
             #endregion
 

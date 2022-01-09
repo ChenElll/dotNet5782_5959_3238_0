@@ -51,6 +51,7 @@ namespace Dal
             /// <summary>
             /// initialize the program with drones
             /// </summary>        
+            #region
             public static void Initialize()
             {
                 StationsList.Add(
@@ -124,6 +125,8 @@ namespace Dal
         #endregion
 
 
+
+        #endregion
         #region ---------------------------------------DRONE------------------------------------------
 
 
@@ -192,9 +195,17 @@ namespace Dal
         /// get the lidt of the drones
         /// </summary>
         /// <returns>list of drone</returns>
-        public IEnumerable<Drone> GetDronesList()
+        public IEnumerable<Drone> GetDronesList(Func<Drone, bool> predicat = null)
         {
-            return DataSource.DronesList.Select(item => item);
+            var v = from item in DataSource.DronesList
+                    orderby item.Id
+                    select item;
+
+            if (predicat == null)
+                return v.AsEnumerable().OrderBy(D => D.Id);
+
+            return v.Where(predicat).OrderBy(D => D.Id);
+
         }
         #endregion
 
@@ -204,9 +215,16 @@ namespace Dal
         /// get the list of drone in charge
         /// </summary>
         /// <returns>list of  drones in charge</returns>
-        public IEnumerable<DroneCharge> GetDroneChargesList()
+        public IEnumerable<DroneCharge> GetDroneChargesList(Func<DroneCharge, bool> predicat = null)
         {
-            return DataSource.DroneChargesList.Select(item => item);
+            var v = from item in DataSource.DroneChargesList
+                    orderby item.EntranceTime
+                    select item;
+
+            if (predicat == null)
+                return v.AsEnumerable().OrderBy(R => R.DroneId);
+
+            return v.Where(predicat).OrderBy(R => R.DroneId);
 
         }
         #endregion
@@ -284,8 +302,6 @@ namespace Dal
         #endregion
 
 
-
-
         #endregion
         
         
@@ -358,23 +374,30 @@ namespace Dal
         /// get the list of the station
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Station> GetStationsList()
+        public IEnumerable<Station> GetStationsList(Func<Station, bool> predicat = null)
         {
-            return DataSource.StationsList.Select(item => item);
+            var v = from item in DataSource.StationsList
+                    orderby item.Id
+                    select item;
+
+            if (predicat == null)
+                return v.AsEnumerable().OrderBy(s => s.Id);
+
+            return v.Where(predicat).OrderBy(s => s.Id);
         }
         #endregion
 
 
-        #region GetListFreeChargeStation
-        /// <summary>
-        /// get list of free charge station
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Station> GetListFreeChargeStationList()
-        {
-            return DataSource.StationsList.OrderBy(item => item.Id).Where(item => item.FreeChargeSlots > 0).Select(item=>item);
-        }
-        #endregion
+        //#region GetListFreeChargeStation
+        ///// <summary>
+        ///// get list of free charge station
+        ///// </summary>
+        ///// <returns></returns>
+        //public IEnumerable<Station> GetListFreeChargeStationList()
+        //{
+        //    return DataSource.StationsList.OrderBy(item => item.Id).Where(item => item.FreeChargeSlots > 0).Select(item=>item);
+        //}
+        //#endregion
 
         #endregion
 
@@ -463,24 +486,30 @@ namespace Dal
         /// get athe list of all the parcels
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Parcel> GetParcelsList()
+        public IEnumerable<Parcel> GetParcelsList(Func<Parcel, bool> predicat = null)
         {
-            return DataSource.ParcelsList.Select(item => item);
+            var v = from item in DataSource.ParcelsList
+                    orderby item.Id
+                    select item;
 
+            if (predicat == null)
+                return v.AsEnumerable().OrderBy(P => P.Id);
+
+            return v.Where(predicat).OrderBy(P => P.Id);
         }
         #endregion
 
 
-        #region GetListNotAttributeParcel
-        /// <summary>
-        /// gets all the unscheduled parcels
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Parcel> GetNotAttributeParcelsList()
-        {
-            return DataSource.ParcelsList.OrderBy(item => item.Id).Where(item => item.DroneId == 0).Select(item => item);
-        }
-        #endregion
+        //#region GetListNotAttributeParcel
+        ///// <summary>
+        ///// gets all the unscheduled parcels
+        ///// </summary>
+        ///// <returns></returns>
+        //public IEnumerable<Parcel> GetNotAttributeParcelsList()
+        //{
+        //    return DataSource.ParcelsList.OrderBy(item => item.Id).Where(item => item.DroneId == 0).Select(item => item);
+        //}
+        //#endregion
 
 
         #region UpdateScheduled
@@ -636,14 +665,21 @@ namespace Dal
         /// return list of customers
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Customer> GetCustomersList()
+        public IEnumerable<Customer> GetCustomersList(Func<Customer, bool> predicat = null)
         {
-            return DataSource.CustomersList.OrderBy(item => item.CustomerName).Select(item => item);
+            var v = from item in DataSource.CustomersList
+                    orderby item.Id
+                    select item;
+
+            if (predicat == null)
+                return v.AsEnumerable().OrderBy(C => C.Id);
+
+            return v.Where(predicat).OrderBy(C => C.Id);
+
         }
         #endregion
 
         #endregion
-
     }
 
 }

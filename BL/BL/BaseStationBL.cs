@@ -61,9 +61,12 @@ namespace BL
                 //if name's station isn't empty replace it
                 if (stationName != default) { myStation.Name = stationName; }
                 //if number of charge slots isn't 0, count the free ones from the list of drone charges 
-                if (allChargeSlots != default) myStation.FreeChargeSlots = int.Parse(allChargeSlots) - (from D in dal.GetDroneChargesList()
-                                                                                                        where D.StationId == stationId
-                                                                                                        select D).ToList().Count();
+                if (allChargeSlots != default)
+                {
+                    myStation.FreeChargeSlots =
+                    int.Parse(allChargeSlots) - dal.GetDroneChargesList(D => D.StationId == stationId).Count();
+                }
+
                 dal.UpdateStation(myStation);
             }
             catch (Exception ex)
@@ -88,7 +91,7 @@ namespace BL
                 DO.Station stationDO = dal.GetStation(stationId);
                 //filter from drone charge's list those with the station's id wanted
                 List<DO.DroneCharge> droneChargesListDO =
-                    (List<DO.DroneCharge>)dal.GetDroneChargesList().ListFilter(D => D.StationId == stationId);
+                    (List<DO.DroneCharge>)dal.GetDroneChargesList(D => D.StationId == stationId);
 
                 //copy properties from dal station to bl station
                 BO.BaseStation baseStationBO = (BO.BaseStation)stationDO.CopyPropertiesToNew(typeof(BO.BaseStation));
@@ -111,11 +114,11 @@ namespace BL
         /// returns the whole station's list
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<BO.BaseStationToList> GetStationList()
+        public IEnumerable<BO.BaseStationToList> GetStationList(Func<Station, bool> predicat = null)
         {
             try
             {
-                return from item in dal.GetStationsList()
+                return from item in dal.GetStationsList(predicat)
                        select GetStationToList(item.Id);
             }
             catch (Exception ex)
@@ -127,14 +130,11 @@ namespace BL
 
 
         #region GetFreeChargeStationList
-        /// <summary>
-        /// returns all the station that have free charges slots
-        /// </summary>
-        /// <returns></returns>
         public IEnumerable<BO.BaseStationToList> GetFreeChargeStationList()
         {
             //choose all the station that have free charges slots
-            return GetStationList().ToList().FindAll(S => S.FreeChargeSlots > 0);
+            return from item in dal.GetStationsList(S => S.FreeChargeSlots > 0)
+                   select GetStationToList(item.Id);
         }
         #endregion
 
@@ -257,11 +257,11 @@ namespace BL
             try
             {
                 //search the station
-                DO.Station stationDO = dal.GetStation(stationId);   
+                DO.Station stationDO = dal.GetStation(stationId);
                 //copy properties 
                 BO.BaseStationToList baseStationBO = (BO.BaseStationToList)stationDO.CopyPropertiesToNew(typeof(BO.BaseStationToList));
                 baseStationBO.OccupiedChargeSlots =
-                    dal.GetDroneChargesList().ListFilter(item => item.StationId == stationDO.Id).Count();
+                    dal.GetDroneChargesList(item => item.StationId == stationDO.Id).Count();
 
                 return baseStationBO;
             }

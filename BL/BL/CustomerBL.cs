@@ -57,7 +57,7 @@ namespace BL
                     throw new InvalidInputException("customer id can not be negative");
 
                 //search the customer to update
-                DO.Customer customerDO = dal.GetCustomersList().First(x => x.Id == Updates.Id);
+                DO.Customer customerDO = dal.GetCustomersList(x => x.Id == Updates.Id).First();
 
                 //update the details- name and phone number
                 if (Updates.CustomerName != null) customerDO.CustomerName = Updates.CustomerName;
@@ -95,7 +95,7 @@ namespace BL
                 customerBO.FromCustomer = new List<ParcelAtCustomer>();
                 //the list of parcel from customer - search if our customer id is the same as sender id in each parcel in parcel's list
                 foreach (DO.Parcel item in
-                    dal.GetParcelsList().ToList().ListFilter(item => item.SenderId == customerId))
+                    dal.GetParcelsList(item => item.SenderId == customerId))
                 {
                     customerBO.FromCustomer.Add(GetParcelAtCustomer(item.Id));
                 }
@@ -104,7 +104,7 @@ namespace BL
                 customerBO.ToCustomer = new List<ParcelAtCustomer>();
                 //search if our customer id is the same as target id in each parcel in parcel's list
                 foreach (DO.Parcel item in
-                    dal.GetParcelsList().ToList().ListFilter(item => item.TargetId == customerId))
+                    dal.GetParcelsList(item => item.TargetId == customerId))
                 {
                     customerBO.ToCustomer.Add(GetParcelAtCustomer(item.Id));
                 }
@@ -125,17 +125,13 @@ namespace BL
         /// function that returns the whole customer's list
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<BO.CustomerToList> GetCustomerList()
+        public IEnumerable<BO.CustomerToList> GetCustomerList(Func<DO.Customer, bool> predicat = null)
         {
             //returns list of all customer
             try
             {
-                var listOfCustomers = new List<BO.CustomerToList>();
-                foreach (DO.Customer item in dal.GetCustomersList())
-                {
-                    listOfCustomers.Add(GetCustomerToList(item.Id));
-                }
-                return listOfCustomers;
+                return from item in dal.GetCustomersList(predicat)
+                       select GetCustomerToList(item.Id);
             }
             catch (Exception ex)
             {
@@ -189,23 +185,23 @@ namespace BL
 
                     //parcels that are on their way to the customer, are scheduled but no delivered yet
                     NumberParcelsOnWay =
-                           dal.GetParcelsList().ToList().ListFilter(item => item.SenderId == customerId
-                                                                     && item.ScheduledTime != null
-                                                                     && item.DeliveredTime == null).Count(),
+                           dal.GetParcelsList(item => item.SenderId == customerId
+                                              && item.ScheduledTime != null
+                                              && item.DeliveredTime == null).Count(),
 
                     //parcels that were picked up but no delivered yet
                     NumberSentAnd_Not_ProvidedParcels =
-                           dal.GetParcelsList().ToList().ListFilter(item => item.SenderId == customerId
-                                                                     && item.PickedUpTime != null
-                                                                     && item.DeliveredTime == null).Count(),
+                           dal.GetParcelsList(item => item.SenderId == customerId
+                                              && item.PickedUpTime != null
+                                              && item.DeliveredTime == null).Count(),
                     //parcels that were piched up and delivered
                     NumberSentAndProvidedParcels =
-                           dal.GetParcelsList().ToList().ListFilter(item => item.SenderId == customerId
-                                                                     && item.PickedUpTime != null).Count(),
+                           dal.GetParcelsList(item => item.SenderId == customerId
+                                              && item.PickedUpTime != null).Count(),
 
                     NumberParcelsReceived =
-                           dal.GetParcelsList().ToList().ListFilter(item => item.SenderId == customerId
-                                                                     && item.DeliveredTime != null).Count(),
+                           dal.GetParcelsList(item => item.SenderId == customerId
+                                              && item.DeliveredTime != null).Count(),
 
                 };
             }

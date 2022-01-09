@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DO;
 
 
@@ -129,47 +130,52 @@ namespace DalApi
         /// <param name="ParcelId"></param>
         public Parcel GetParcel(int ParcelId);
 
-        /// <summary>
-        /// view of parcels that were not attribute\scheduled
-        /// </summary>
-        /// <returns>list of parcels that were not attribute</returns>
-        public IEnumerable<Parcel> GetNotAttributeParcelsList();
 
-        /// <summary>
-        /// view of all the free charge slots in the stations
-        /// </summary>
-        /// <returns>list of stations that have free charge slots</returns>
-        public IEnumerable<Station> GetListFreeChargeStationList();
+        //----------------------------------------------- GET \ VIEW LIST OPTIONS ---------------------------------------------
+
 
         /// <summary>
         /// view list of all the drone
         /// </summary>
         /// <returns>list of all the drones</returns>
-        public IEnumerable<Drone> GetDronesList();
+        public IEnumerable<Drone> GetDronesList(Func<Drone, bool> predicat = null);
 
         /// <summary>
         /// view list of all drone's charge
         /// </summary>
         /// <returns>list of all drone's charge</returns>
-        public IEnumerable<DroneCharge> GetDroneChargesList();
+        public IEnumerable<DroneCharge> GetDroneChargesList(Func<DroneCharge, bool> predicat = null);
 
         /// <summary>
         /// view list of all the parcels
         /// </summary>
         /// <returns>list of all the parcels</returns>
-        public IEnumerable<Parcel> GetParcelsList();
+        public IEnumerable<Parcel> GetParcelsList(Func<Parcel, bool> predicat = null);
+
+        ///// <summary>
+        ///// view of parcels that were not attribute\scheduled
+        ///// </summary>
+        ///// <returns>list of parcels that were not attribute</returns>
+        //public IEnumerable<Parcel> GetNotAttributeParcelsList();
+
 
         /// <summary>
         /// view list of all the customers
         /// </summary>
         /// <returns>list of all the customers</returns>
-        public IEnumerable<Customer> GetCustomersList();
+        public IEnumerable<Customer> GetCustomersList(Func<Customer, bool> predicat = null);
 
         /// <summary>
         /// view list of all the stations
         /// </summary>
         /// <returns>list of all the stations</returns>
-        public IEnumerable<Station> GetStationsList();
+        public IEnumerable<Station> GetStationsList(Func<Station, bool> predicat = null);
+
+        ///// <summary>
+        ///// view of all the free charge slots in the stations
+        ///// </summary>
+        ///// <returns>list of stations that have free charge slots</returns>
+        //public IEnumerable<Station> GetListFreeChargeStationList();
 
         /// <summary>
         /// returns the range that charged by the drone

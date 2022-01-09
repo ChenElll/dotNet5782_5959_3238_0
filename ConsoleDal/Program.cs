@@ -310,7 +310,7 @@ namespace ConsoleDal
             {
                 Console.WriteLine("Not attribute parcel's list:\n");
 
-                foreach (Parcel p in dal.GetNotAttributeParcelsList())
+                foreach (Parcel p in dal.GetParcelsList(item => item.DroneId == 0))
                 {
                     Console.WriteLine(p.ToString());
                 }
@@ -321,7 +321,7 @@ namespace ConsoleDal
             {
                 Console.WriteLine("free charge station's list:\n");
 
-                foreach (Station s in dal.GetListFreeChargeStationList())
+                foreach (Station s in dal.GetStationsList(item => item.FreeChargeSlots > 0))
                 {
                     Console.WriteLine(s.ToString());
                 }

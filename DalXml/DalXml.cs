@@ -29,6 +29,13 @@ namespace Dal
         #endregion
 
 
+
+
+
+
+
+
+
         #region --------------------------------------STATION-----------------------------------------
 
         #region AddStation
@@ -92,38 +99,17 @@ namespace Dal
         ///// get the list of the station
         ///// </summary>
         ///// <returns></returns>
-        //public IEnumerable<Station> GetStationsList()
-        //{
-        //    List<DO.Station> ListStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
-
-        //    return ListStations.Select(item => item);
-        //}
-        //
-
-        public IEnumerable<DO.Station> GetAllStudents(Func<DO.Station, bool> predicat = null)
+        public IEnumerable<DO.Station> GetStationsList(Func<DO.Station, bool> predicat = null)
         {
             List<DO.Station> listStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
             var v = from item in listStations
                     select item;
 
             if (predicat == null)
-                return v.AsEnumerable().OrderByDescending(s => s.Id);
+                return v.AsEnumerable().OrderBy(s => s.Id);
 
-            return v.Where(predicat).OrderByDescending(s => s.Id);
+            return v.Where(predicat).OrderBy(s => s.Id);
         }
-
-
-
-        //#region GetListFreeChargeStation
-        ///// <summary>
-        ///// get list of free charge station
-        ///// </summary>
-        ///// <returns></returns>
-        //public IEnumerable<Station> GetListFreeChargeStationList()
-        //{
-        //    return DataSource.StationsList.OrderBy(item => item.Id).Where(item => item.FreeChargeSlots > 0).Select(item => item);
-        //}
-        //#endregion
         #endregion
 
         #endregion
@@ -207,23 +193,11 @@ namespace Dal
                     select item;
 
             if (predicat == null)
-                return v.AsEnumerable().OrderByDescending(P => P.Id);
+                return v.AsEnumerable().OrderBy(P => P.Id);
 
-            return v.Where(predicat).OrderByDescending(P => P.Id);
+            return v.Where(predicat).OrderBy(P => P.Id);
         }
         #endregion
-
-
-        //#region GetListNotAttributeParcel
-        ///// <summary>
-        ///// gets all the unscheduled parcels
-        ///// </summary>
-        ///// <returns></returns>
-        //public IEnumerable<Parcel> GetNotAttributeParcelsList()
-        //{
-        //    return DataSource.ParcelsList.OrderBy(item => item.Id).Where(item => item.DroneId == 0).Select(item => item);
-        //}
-        //#endregion
 
 
         #region UpdateScheduled
@@ -385,9 +359,9 @@ namespace Dal
                     select item;
 
             if (predicat == null)
-                return v.AsEnumerable().OrderByDescending(C => C.Id);
+                return v.AsEnumerable().OrderBy(C => C.Id);
 
-            return v.Where(predicat).OrderByDescending(C => C.Id);
+            return v.Where(predicat).OrderBy(C => C.Id);
         }
         #endregion
 

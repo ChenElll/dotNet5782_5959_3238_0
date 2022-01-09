@@ -63,7 +63,7 @@ namespace BL
                     throw new SchedulParcelException("This drone isn't available");
 
 
-                var parcelsToSchedule = (from P in dal.GetNotAttributeParcelsList()
+                var parcelsToSchedule = (from P in dal.GetParcelsList(item => item.DroneId == 0)
                                              //filter parcels that are too heavy
                                          where (int)P.Weight < (int)droneBO.MaxWeight
                                          //order the parcels in that group by descending order of priority and weight 
@@ -73,13 +73,14 @@ namespace BL
                                          //oredr group by descending order of weight
                                          orderby newGroup.Key descending
                                          // choose the new list
-                                         select newGroup).ToList();
+                                         select newGroup).AsEnumerable();
 
                 foreach (object parcel in parcelsToSchedule)
                 {
                     double backAndForthCharging = CustomerDistance(droneBO.Location, ((DO.Parcel)parcel).SenderId);
                     DO.Customer targetCustomer = dal.GetCustomer(((DO.Parcel)parcel).TargetId);
-                    Location targetLocation = new Location() { Longtitude = targetCustomer.Longtitude, Lattitude = targetCustomer.Lattitude };
+                    Location targetLocation =
+                        new Location() { Longtitude = targetCustomer.Longtitude, Lattitude = targetCustomer.Lattitude };
                     backAndForthCharging +=
                         StationDistance(targetLocation, ClosestStationToCustomer(((DO.Parcel)parcel).TargetId));
                     backAndForthCharging *= available;
@@ -142,7 +143,7 @@ namespace BL
                     throw new InvalidInputException("Drone id cannot be negative");
 
                 //find the parcel that is attribute to this drone
-                DO.Parcel parcelDO = dal.GetParcelsList().First(x => x.DroneId == droneId);
+                DO.Parcel parcelDO = dal.GetParcelsList(x => x.DroneId == droneId).First();
                 BO.Parcel parcelBO = GetParcel(parcelDO.Id);
                 BO.DroneToList droneBO = droneToListListBL.Find(x => x.Id == droneId);
 
@@ -154,7 +155,7 @@ namespace BL
 
                 //update details in drone and parcel
 
-                DO.Customer customerSender = dal.GetCustomersList().First(x => x.Id == parcelDO.SenderId);
+                DO.Customer customerSender = dal.GetCustomersList(x => x.Id == parcelDO.SenderId).First();
 
                 BO.Customer senderBO = GetCustomer(customerSender.Id);
 
@@ -190,7 +191,7 @@ namespace BL
                 if (droneId < 0)//check that the drone id to add is not negative
                     throw new InvalidInputException("Drone id cannot be negative");
 
-                DO.Parcel parcelDO = dal.GetParcelsList().First(x => x.DroneId == droneId);
+                DO.Parcel parcelDO = dal.GetParcelsList(x => x.DroneId == droneId).First();
                 BO.Parcel parcelBO = GetParcel(parcelDO.Id);
 
                 if (parcelDO.PickedUpTime == null)//if the parcel was not picked up yet
@@ -225,7 +226,7 @@ namespace BL
 
                 droneBO.Battery -= wayToGoCharge;
 
-                DO.Customer customerTarget = dal.GetCustomersList().First(x => x.Id == parcelDO.TargetId);
+                DO.Customer customerTarget = dal.GetCustomersList(x => x.Id == parcelDO.TargetId).First();
                 droneBO.Location.Lattitude = customerTarget.Lattitude;
                 droneBO.Location.Longtitude = customerTarget.Longtitude;
 
@@ -280,16 +281,13 @@ namespace BL
         /// returns the whole parcel's list
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<BO.ParcelToList> GetParcelList()
+        public IEnumerable<BO.ParcelToList> GetParcelList(Func<DO.Parcel, bool> predicat = null)
         {
             try
             {
-                var listOfParcels = new List<ParcelToList>();
-                foreach (DO.Parcel item in dal.GetParcelsList())
-                {
-                    listOfParcels.Add(GetParcelToList(item.Id));
-                }
-                return listOfParcels;
+                return from item in dal.GetParcelsList(predicat)
+                       select GetParcelToList(item.Id);
+
             }
             catch (Exception ex)
             {
@@ -308,14 +306,9 @@ namespace BL
         {
             try
             {
-                List<BO.ParcelToList> parcelsListBO = new List<ParcelToList>();
-                foreach (DO.Parcel item in dal.GetNotAttributeParcelsList())
-                {
-                    BO.ParcelToList newParcel = (BO.ParcelToList)item.CopyPropertiesToNew(typeof(BO.ParcelToList));
-                    newParcel.ParcelStatus = ParcelStatus.Requested;
-                }
 
-                return parcelsListBO;
+                return from item in dal.GetParcelsList(P => P.DroneId == 0)
+                       select GetParcelToList(item.Id);
             }
             catch (Exception ex)
             {
@@ -379,8 +372,8 @@ namespace BL
                 DO.Parcel parcelDO = dal.GetParcel(parcelId);   //search the parcel 
 
                 BO.ParcelToList parcelBO = (BO.ParcelToList)parcelDO.CopyPropertiesToNew(typeof(BO.ParcelToList));
-                parcelBO.NameSender = dal.GetCustomersList().First(x => x.Id == parcelDO.SenderId).CustomerName;
-                parcelBO.NameTarget = dal.GetCustomersList().First(x => x.Id == parcelDO.TargetId).CustomerName;
+                parcelBO.NameSender = dal.GetCustomersList(x => x.Id == parcelDO.SenderId).First().CustomerName;
+                parcelBO.NameTarget = dal.GetCustomersList(x => x.Id == parcelDO.TargetId).First().CustomerName;
 
                 if (parcelDO.RequestedTime != null)
                     parcelBO.ParcelStatus = ParcelStatus.Requested;

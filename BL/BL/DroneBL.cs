@@ -62,7 +62,7 @@ namespace BL
                     throw new InvalidInputException("drone id can not be negative");
 
                 //find drone in data base and set the details
-                DO.Drone droneDO = dal.GetDronesList().First(x => x.Id == droneBO.Id);
+                DO.Drone droneDO = dal.GetDronesList(x => x.Id == droneBO.Id).First();
                 droneDO.Model = droneBO.Model;
                 dal.UpdateDrone(droneDO);
             }
@@ -87,7 +87,7 @@ namespace BL
                     throw new InvalidInputException("Drone id can not be negative");
 
                 //search the drone in the list of drone
-                BO.DroneToList droneBO = GetDroneList().First(x => x.Id == droneId);
+                BO.DroneToList droneBO = GetDroneList(x => x.Id == droneId).First();
 
                 if (droneBO.Status != DroneStatuses.available)
                 {
@@ -95,7 +95,7 @@ namespace BL
                 }
 
                 //get list of all free chrage stations DO 
-                List<DO.Station> ListStationsDO = dal.GetListFreeChargeStationList().ToList();
+                var ListStationsDO = dal.GetStationsList(S => S.FreeChargeSlots > 0);
                 //if there are no Free charge slots in all Base station
                 if (ListStationsDO == null || ListStationsDO.Count() == 0)
                 {
@@ -110,7 +110,7 @@ namespace BL
 
 
                 //find the closest station to the drone in the list of free charge slots station
-                foreach (var obj in dal.GetListFreeChargeStationList())
+                foreach (var obj in dal.GetStationsList(S => S.FreeChargeSlots > 0))
                 {
                     double newDistance =
                         StationDistance(droneBO.Location, obj.Id);
@@ -129,7 +129,7 @@ namespace BL
                 }
 
                 // find the closest station 
-                DO.Station closestStation = dal.GetListFreeChargeStationList().First(x => x.Id == closestStationId);
+                DO.Station closestStation = dal.GetStationsList(S => S.FreeChargeSlots > 0 && S.Id == closestStationId).First();
 
                 droneBO.Battery -= minDistance * available;  //update drone range charge in accordance to the distance between the drone and the station
                 droneBO.Location.Longtitude = closestStation.Longtitude;  //drone location = station location
@@ -163,7 +163,7 @@ namespace BL
                     throw new InvalidInputException("drone id can not be negative");
 
                 //search the drone in the list of drone
-                BO.DroneToList droneBO = GetDroneList().First(x => x.Id == droneId);
+                BO.DroneToList droneBO = GetDroneList(x => x.Id == droneId).First();
 
                 if (droneBO.Status != DroneStatuses.maintenance)
                 {
@@ -177,7 +177,7 @@ namespace BL
 
                 //find the station where the drone was charging
                 DO.Station dronesStation =
-                    dal.GetStationsList().First(x => x.Lattitude == droneBO.Location.Lattitude && x.Longtitude == droneBO.Location.Longtitude);
+                    dal.GetStationsList(x => x.Lattitude == droneBO.Location.Lattitude && x.Longtitude == droneBO.Location.Longtitude).First();
 
                 dal.UpdateDroneChargeCheckout(droneId, dronesStation.Id);
             }
@@ -217,11 +217,18 @@ namespace BL
         /// return the whole drone's list 
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<BO.DroneToList> GetDroneList()
+        public IEnumerable<BO.DroneToList> GetDroneList(Func<DroneToList, bool> predicat = null)
         {
             try
             {
-                return from item in droneToListListBL select item;
+                var v = from item in droneToListListBL
+                        orderby item.Id
+                        select item;
+
+                if (predicat == null)
+                    return v.AsEnumerable().OrderBy(D => D.Id);
+
+                return v.Where(predicat).OrderBy(D => D.Id);
             }
             catch (Exception ex)
             {
@@ -235,8 +242,7 @@ namespace BL
         // return list of the drone that in charge at this station that it's id had given
         private IEnumerable<BO.DroneInCharge> GetDroneInChargesToList(int baseStationId)
         {
-            return (from item in dal.GetDroneChargesList()
-                    where item.StationId == baseStationId
+            return (from item in dal.GetDroneChargesList(item => item.StationId == baseStationId)
                     select new BO.DroneInCharge()
                     {
                         Id = item.DroneId,
