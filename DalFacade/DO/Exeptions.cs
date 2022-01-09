@@ -46,4 +46,15 @@ namespace DO
         protected CalculateDistanceProblemException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
+
+    [Serializable]
+    public class XMLFileLoadCreateException : Exception
+    {
+        public XMLFileLoadCreateException() : base() { }
+        public XMLFileLoadCreateException(string message) : base(message) { }
+        public XMLFileLoadCreateException(string message, Exception inner) : base(message, inner) { }
+        protected XMLFileLoadCreateException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+
+
 }

@@ -23,8 +23,46 @@ namespace PL
             Button b = sender as Button;
             if (b != null)
             {
-                new List_Of_Drones(bl).Show();
+                new DroneListWindow(bl).Show();
             }
         }
+
+        private void ShowStations_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            if (b != null)
+            {
+                new StationListWindow(bl).Show();
+            }
+        }
+
+        private void ShowCustomers_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            if (b != null)
+            {
+                new CustomerListWindow(bl).Show();
+            }
+        }
+
+        private void ShowParcels_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            if (b != null)
+            {
+                new ParcelListWindow(bl).Show();
+            }
+        }
+
+        private void clipVideo_Loaded(object sender, RoutedEventArgs e)
+        {
+            clip.Play();
+        }
+
+        private void clipVideo_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            clip.Position = TimeSpan.FromSeconds(0);
+        }
+
     }
 }

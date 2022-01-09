@@ -6,8 +6,74 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" FontFamily="Arial Rounded MT Bold" FontSize="30">
+
+    <Window.Resources>
+        <Style x:Key="ComboBoxTest2" TargetType="{x:Type ComboBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="5" Background="#FFFFFFE1" BorderBrush="#00000000" BorderThickness="1" />
+                                            <Border Grid.Column="0" CornerRadius="5,0,0,5"  Margin="1"  Background="#FFFFFFE1"  BorderBrush="Black" BorderThickness="0,0,1,0" />
+                                            <Path x:Name="Arrow" Grid.Column="1"  Fill="Orange" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                                                <Setter TargetName="Border" Property="Background" Value="#FF0F36F1" />
+                                            </Trigger>
+                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
+                                                <Setter TargetName="Border" Property="Background" Value="#FF0F36F1" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
+                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
+                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" Background="#FFFFFFE1" />
+                                    <ScrollViewer SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <Button x:Name="ShowDronesList" Content="Our Drones" VerticalAlignment="Top" Height="79"
-                Click="ShowDrones_Click"  Margin="0,0,590,0" Background="AliceBlue" BorderBrush="Snow"  />
+        <StackPanel>
+            <MediaElement x:Name="clip" Source="/production ID_4193140.mp4" Visibility="Visible" MediaEnded="clipVideo_MediaEnded" Loaded="clipVideo_MediaEnded" 
+                          LoadedBehavior="Play" UnloadedBehavior="Manual"/>
+        </StackPanel>
+
+        <Button x:Name="ShowDronesList" Content="Drones" VerticalAlignment="Top" Height="85"
+                Click="ShowDrones_Click"  Margin="0,0,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
+
+        <Button x:Name="ShowStationsList" Content="Stations" VerticalAlignment="Top" Height="85"
+                Click="ShowStations_Click"  Margin="0,92,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
+
+        <Button x:Name="ShowCustomersList" Content="Customers" VerticalAlignment="Top" Height="85"
+                Click="ShowCustomers_Click"  Margin="0,174,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
+
+        <Button x:Name="ShowParcelsList" Content="Parcels" VerticalAlignment="Top" Height="85"
+                Click="ShowParcels_Click"  Margin="0,261,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
+
+        <Button x:Name="ShowParcelDetails" Content="Parcel Details" VerticalAlignment="Top" Height="85"
+                Click="ShowParcelDetails_Click"  Margin="0,348,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
     </Grid>
 </Window>
