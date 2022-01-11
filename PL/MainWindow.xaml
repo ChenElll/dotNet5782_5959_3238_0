@@ -61,19 +61,16 @@
                           LoadedBehavior="Play" UnloadedBehavior="Manual"/>
         </StackPanel>
 
-        <Button x:Name="ShowDronesList" Content="Drones" VerticalAlignment="Top" Height="85"
+        <Button x:Name="ShowDronesList" Content="Drones" VerticalAlignment="Top" Height="105"
                 Click="ShowDrones_Click"  Margin="0,0,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
 
         <Button x:Name="ShowStationsList" Content="Stations" VerticalAlignment="Top" Height="85"
                 Click="ShowStations_Click"  Margin="0,87,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
 
-        <Button x:Name="ShowCustomersList" Content="Customers" VerticalAlignment="Top" Height="85"
-                Click="ShowCustomers_Click"  Margin="0,174,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
+        <Button x:Name="ShowCustomersList" Content="Customers" VerticalAlignment="Top" Height="105"
+                Click="ShowCustomers_Click"  Margin="0,217,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
 
-        <Button x:Name="ShowParcelsList" Content="Parcels" VerticalAlignment="Top" Height="85"
-                Click="ShowParcels_Click"  Margin="0,261,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
-
-        <Button x:Name="ShowParcelDetails" Content="Parcel Details" VerticalAlignment="Top" Height="85"
-                Click="ShowParcelDetails_Click"  Margin="0,348,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
+        <Button x:Name="ShowParcelsList" Content="Parcels" VerticalAlignment="Top" Height="105"
+                Click="ShowParcels_Click"  Margin="0,325,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
     </Grid>
 </Window>

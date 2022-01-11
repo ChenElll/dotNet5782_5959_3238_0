@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,12 +33,20 @@ namespace PL
             Drones_ListBox.ItemsSource = droneToListsBL;
             StatusSelector.ItemsSource = Enum.GetValues(enumType: typeof(BO.DroneStatuses));
             WeightSelector.ItemsSource = Enum.GetValues(enumType: typeof(DO.WeightCategories));
+            droneToListsBL.CollectionChanged += DroneToListsBL_CollectionChanged;
 
         }
 
+    private void DroneToListsBL_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        // = new ObservableCollection<DroneToList>();
+        ObservableCollection<DroneToList> obsSender = sender as ObservableCollection<DroneToList>;
+        NotifyCollectionChangedAction action = e.Action;
+    }
 
-        //choice to select a drone according to it status and weight
-        private void StatuesAndWeight_SelectionChange(object sender, SelectionChangedEventArgs e)
+
+    //choice to select a drone according to it status and weight
+    private void StatuesAndWeight_SelectionChange(object sender, SelectionChangedEventArgs e)
         {
 
             Drones_ListBox.ItemsSource = from item in droneToListsBL
@@ -74,9 +83,19 @@ namespace PL
         private void ChooseDroneFromTheList(object sender, MouseButtonEventArgs e)
         {
             DroneWindow open =
-                new DroneWindow(bl, bl.GetDrone(((DroneToList)Drones_ListBox.SelectedItem).Id), Drones_ListBox);
+                new DroneWindow(bl, bl.GetDrone(((DroneToList)Drones_ListBox.SelectedItem).Id), this);
             open.Show();
 
+        }
+
+        /// <summary>
+        /// cancel adding action and close window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CancelAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
 
     }

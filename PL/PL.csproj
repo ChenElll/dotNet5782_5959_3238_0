@@ -7,7 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="006781-3d-transparent-glass-icon-arrows-dotted-arrow-right-400x400.png" />
+    <None Remove="collecting_parcel.png" />
+    <None Remove="delivered_icon.png" />
+    <None Remove="scheduled.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="006781-3d-transparent-glass-icon-arrows-dotted-arrow-right-400x400.png" />
+    <Resource Include="collecting_parcel.png" />
+    <Resource Include="delivered_icon.png" />
+    <Resource Include="scheduled.png" />
   </ItemGroup>
 
 </Project>
