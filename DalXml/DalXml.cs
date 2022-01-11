@@ -26,147 +26,154 @@ namespace Dal
         string droneChargesPath = @"DroneChargesXml.xml";
         string parcelsPath = @"ParceslXml.xml";
         string stationsPath = @"StationsXml.xml";
+        string configPath = @"ConfigXml.xml";
         #endregion
 
 
-        #region ---------------------------------------DRONE------------------------------------------
+        //#region ---------------------------------------DRONE------------------------------------------
 
-        XElement droneRoot;
+        //XElement droneRoot;
 
-        DalXml()
-        {
-            if (!File.Exists(dronesPath))
-                CreateFiles();
-            else
-                LoadData();
+        //DalXml()
+        //{
+        //    if (!File.Exists(dronesPath))
+        //        CreateFiles();
+        //    else
+        //        LoadData();
+        //}
 
-        }
-
-        private void CreateFiles()
-        {
-            droneRoot = new XElement("drones");
-            droneRoot.Save(dronesPath);
-        }
-
-
-        private void LoadData()
-        {
-            try
-            {
-                droneRoot = XElement.Load(dronesPath);
-            }
-            catch
-            {
-                throw new LoadingException("File upload problem");
-            }
-        }
-
-        #region AddDrone
-        /// <summary>
-        /// add a drone to the system
-        /// </summary>
-        /// <param name="droneToAdd"></param>
-        public void AddingDrone(Drone droneToAdd)
-        {
-            XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
-
-            XElement tempDrone = (from item in droneRootElement.Elements()
-                                  where int.Parse(item.Element("Id").Value) == droneToAdd.Id
-                                  select item).FirstOrDefault();
-            if (tempDrone != null)
-                throw new AlreadyExistException("The drone already exist in the system");
-
-            //add a drone to drone's xml
-            droneRootElement.Add(new XElement("Id", droneToAdd.Id),
-                                 new XElement("model", droneToAdd.Model),
-                                 new XElement("MaxWeight", droneToAdd.MaxWeight));
-
-            XMLTools.SaveListToXMLElement(droneRootElement, dronesPath);
-        }
-        #endregion
+        //private void CreateFiles()
+        //{
+        //    droneRoot = new XElement("drones");
+        //    droneRoot.Save(dronesPath);
+        //}
 
 
-        #region UpdateDrone
-        /// <summary>
-        /// update drone id,model,weight
-        /// </summary>
-        /// <param name="updatedDrone"></param>
-        public void UpdateDrone(Drone updatedDrone)
-        {
+        //private void LoadData()
+        //{
+        //    try
+        //    {
+        //        droneRoot = XElement.Load(dronesPath);
+        //    }
+        //    catch
+        //    {
+        //        throw new LoadingException("File upload problem");
+        //    }
+        //}
 
-            XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
+        //#region AddDrone
+        ///// <summary>
+        ///// add a drone to the system
+        ///// </summary>
+        ///// <param name="droneToAdd"></param>
+        //public void AddingDrone(Drone droneToAdd)
+        //{
+        //    XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
 
-            XElement tempDrone = (from item in droneRootElement.Elements()
-                                  where int.Parse(item.Element("Id").Value) == updatedDrone.Id
-                                  select item).FirstOrDefault();
-            if (tempDrone == null)
-                throw new DoesntExistException("Error the drone to update doesn't exis in the system");
+        //    XElement tempDrone = (from item in droneRootElement.Elements()
+        //                          where int.Parse(item.Element("Id").Value) == droneToAdd.Id
+        //                          select item).FirstOrDefault();
+        //    if (tempDrone != null)
+        //        throw new AlreadyExistException("The drone already exist in the system");
 
-            tempDrone.Element("Id").Value = updatedDrone.Id.ToString();
-            tempDrone.Element("Model").Value = updatedDrone.Model.ToString();
-            tempDrone.Element("MaxWeight").Value = updatedDrone.MaxWeight.ToString();
+        //    //add a drone to drone's xml
+        //    droneRootElement.Add(new XElement("Id", droneToAdd.Id),
+        //                         new XElement("model", droneToAdd.Model),
+        //                         new XElement("MaxWeight", droneToAdd.MaxWeight));
 
-            XMLTools.SaveListToXMLElement(droneRootElement, dronesPath);
-        }
-        #endregion
-
-
-        #region GetDrone
-        /// <summary>
-        /// gets a drone by the id
-        /// </summary>
-        /// <param name="DroneId"></param>
-        /// <returns>drone</returns>
-        public Drone GetDrone(int DroneId) //the function gets the id number of the required drone
-        {
-
-            XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
-
-            var tempDrone = (from item in droneRootElement.Elements()
-                             where int.Parse(item.Element("Id").Value) == DroneId
-                             select new Drone()
-                             {
-                                 Id = int.Parse(item.Element("Id").Value),
-                                 Model = item.Element("Model").Value,
-                                 MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), item.Element("MaxWeight").Value.ToString())
-
-                             }).FirstOrDefault();
-
-            // if didn't find it throw an Exeption                                                                      
-            if (tempDrone.Id == default)
-                throw new DoesntExistException("This drone doesn't exist in the system");
-
-            return tempDrone;   // if found it return the drone
-        }
-        #endregion
+        //    XMLTools.SaveListToXMLElement(droneRootElement, dronesPath);
+        //}
+        //#endregion
 
 
-        #region GetDronesList
-        /// <summary>
-        /// get the lidt of the drones
-        /// </summary>
-        /// <returns>list of drone</returns>
-        public IEnumerable<Drone> GetDronesList(Func<Drone, bool> predicat = null)
-        {
+        //#region UpdateDrone
+        ///// <summary>
+        ///// update drone id,model,weight
+        ///// </summary>
+        ///// <param name="updatedDrone"></param>
+        //public void UpdateDrone(Drone updatedDrone)
+        //{
 
-            XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
+        //    XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
 
-            var v = from item in droneRootElement.Elements()
-                    orderby int.Parse(item.Element("Id").Value.ToString())
-                    select new Drone()
-                    {
-                        Id = int.Parse(item.Element("Id").Value),
-                        Model = item.Element("Model").Value,
-                        MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), item.Element("MaxWeight").Value.ToString())
-                    };
+        //    XElement tempDrone = (from item in droneRootElement.Elements()
+        //                          where int.Parse(item.Element("Id").Value) == updatedDrone.Id
+        //                          select item).FirstOrDefault();
+        //    if (tempDrone == null)
+        //        throw new DoesntExistException("Error the drone to update doesn't exis in the system");
 
-            if (predicat == null)
-                return v.AsEnumerable().OrderBy(D => D.Id);
+        //    tempDrone.Element("Id").Value = updatedDrone.Id.ToString();
+        //    tempDrone.Element("Model").Value = updatedDrone.Model.ToString();
+        //    tempDrone.Element("MaxWeight").Value = updatedDrone.MaxWeight.ToString();
 
-            return v.Where(predicat).OrderBy(D => D.Id);
+        //    XMLTools.SaveListToXMLElement(droneRootElement, dronesPath);
+        //}
+        //#endregion
 
-        }
-        #endregion
+
+        //#region GetDrone
+        ///// <summary>
+        ///// gets a drone by the id
+        ///// </summary>
+        ///// <param name="DroneId"></param>
+        ///// <returns>drone</returns>
+        //public Drone GetDrone(int DroneId) //the function gets the id number of the required drone
+        //{
+
+        //    XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
+
+        //    var tempDrone = (from item in droneRootElement.Elements()
+        //                     where int.Parse(item.Element("Id").Value) == DroneId
+        //                     select new Drone()
+        //                     {
+        //                         Id = int.Parse(item.Element("Id").Value),
+        //                         Model = item.Element("Model").Value.ToString(),
+        //                         MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), item.Element("MaxWeight").Value.ToString())
+
+        //                     }).FirstOrDefault();
+
+        //    // if didn't find it throw an Exeption                                                                      
+        //    if (tempDrone.Id == default)
+        //        throw new DoesntExistException("This drone doesn't exist in the system");
+
+        //    return tempDrone;   // if found it return the drone
+        //}
+        //#endregion
+
+
+        //#region GetDronesList
+        ///// <summary>
+        ///// get the lidt of the drones
+        ///// </summary>
+        ///// <returns>list of drone</returns>
+        //public IEnumerable<Drone> GetDronesList(Func<Drone, bool> predicat = null)
+        //{
+
+        //    XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
+
+        //    var v = from item in droneRootElement.Elements()
+        //            orderby int.Parse(item.Element("Id").Value)
+        //            select new Drone()
+        //            {
+        //                Id = int.Parse(item.Element("Id").Value),
+        //                Model = item.Element("Model").Value.ToString(),
+        //                MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), item.Element("MaxWeight").Value.ToString())
+        //            };
+
+        //    if (predicat == null)
+        //        return v.AsEnumerable().OrderBy(D => D.Id);
+
+        //    return v.Where(predicat).OrderBy(D => D.Id);
+
+        //}
+        //#endregion
+
+        //#endregion
+
+
+
+
+        #region ---------------------------------------DRONECHARGE------------------------------------------
 
 
         #region GetDroneChargesList
@@ -176,15 +183,23 @@ namespace Dal
         /// <returns>list of  drones in charge</returns>
         public IEnumerable<DroneCharge> GetDroneChargesList(Func<DroneCharge, bool> predicat = null)
         {
-            var v = from item in DataSource.DroneChargesList
-                    orderby item.EntranceTime
-                    select item;
+
+            XElement droneChargeRootElement = XMLTools.LoadListFromXMLElement(droneChargesPath);
+
+            var v = from item in droneChargeRootElement.Elements()
+                    orderby int.Parse(item.Element("DroneId").Value)
+                    select new DroneCharge()
+                    {
+                        DroneId = int.Parse(item.Element("DroneId").Value),
+                        EntranceTime = DateTime.Parse(item.Element("EntranceTime").Value),
+                        LeavingTime = DateTime.Parse(item.Element("LeavingTime").Value),
+                        StationId = int.Parse(item.Element("StationId").Value),
+                    };
 
             if (predicat == null)
-                return v.AsEnumerable().OrderBy(R => R.DroneId);
+                return v.AsEnumerable().OrderBy(D => D.DroneId);
 
-            return v.Where(predicat).OrderBy(R => R.DroneId);
-
+            return v.Where(predicat).OrderBy(D => D.DroneId);
         }
         #endregion
 
@@ -197,23 +212,23 @@ namespace Dal
         /// <param name="MyStation"></param>
         public void UpdateDroneChargeCheckIn(int MyDrone, int MyStation)
         {
-            int stationIndex = DataSource.StationsList.FindIndex(x => x.Id == MyStation); //search station in station's list and update charge slots 
+            List<DO.DroneCharge> ListDronesCharge = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargesPath);
+
+            List<DO.Station> ListStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
+
+            int stationIndex = ListStations.FindIndex(x => x.Id == MyStation); //search station in station's list and update charge slots 
             if (stationIndex < 0)
                 throw new DoesntExistException("the station doesn't exist in the system");
 
-            DataSource.DroneChargesList.Add // add charge to drone's charge's list
-                (
-                new DroneCharge
-                {
-                    StationId = MyStation,
-                    DroneId = MyDrone,
-                    EntranceTime = DateTime.Now,
+            ListDronesCharge.Add // add charge to drone's charge's list
+                 (new DroneCharge()
+                 {
+                     StationId = MyStation,
+                     DroneId = MyDrone,
+                     EntranceTime = DateTime.Now,
+                 });
 
-                });
-            Station tempStation = DataSource.StationsList[stationIndex];
-            tempStation.FreeChargeSlots--;
-            DataSource.StationsList[stationIndex] = tempStation;
-
+            XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(ListDronesCharge, droneChargesPath);
         }
         #endregion
 
@@ -226,22 +241,28 @@ namespace Dal
         /// <param name="MyStation"></param>
         public void UpdateDroneChargeCheckout(int MyDrone, int MyStation)
         {
+            List<DO.DroneCharge> ListDronesCharge = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargesPath);
+
             //finding the place in drone's charge's list where the drone we need to release is
-            int chargeIndex = DataSource.DroneChargesList.FindIndex(x => x.DroneId == MyDrone);
+            int chargeIndex = ListDronesCharge.FindIndex(x => x.DroneId == MyDrone);
             if (chargeIndex < 0)
                 throw new DoesntExistException("the drone doesn't exist in the system");
 
-            //search station in station's list and update charge slots
-            int stationIndex = DataSource.StationsList.FindIndex(x => x.Id == MyStation);
+            List<DO.Station> ListStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
+
+            //search station in station's list and update charge slots 
+            int stationIndex = ListStations.FindIndex(x => x.Id == MyStation);
             if (stationIndex < 0)
                 throw new DoesntExistException("the station doesn't exist in the system");
 
-            Station tempStation = DataSource.StationsList[stationIndex];
+            Station tempStation = ListStations[stationIndex];
             tempStation.FreeChargeSlots++;
-            DataSource.StationsList[stationIndex] = tempStation;
+            ListStations[stationIndex] = tempStation;
 
-            DataSource.DroneChargesList.Remove(DataSource.DroneChargesList[chargeIndex]);
+            ListDronesCharge.Remove(ListDronesCharge[chargeIndex]);
 
+            XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(ListDronesCharge, droneChargesPath);
+            XMLTools.SaveListToXMLSerializer<DO.Station>(ListStations, stationsPath);
         }
         #endregion
 
@@ -253,8 +274,16 @@ namespace Dal
         /// <returns></returns>
         public double[] getElectricityUseByDrone()
         {
-            double[] electricityUseByDrone = { DataSource.Config.available, DataSource.Config.lightWeightCarry,
-            DataSource.Config.mediumWeightCarry, DataSource.Config.heavyWeightCarry, DataSource.Config.droneChargeRange};
+            XElement electricityUseByDrone1RootElement = XMLTools.LoadListFromXMLElement(configPath);
+
+            double[] electricityUseByDrone = 
+            {
+                 double.Parse( electricityUseByDrone1RootElement.Element("available").Value),
+                 double.Parse( electricityUseByDrone1RootElement.Element("lightWeightCarry").Value),
+                 double.Parse( electricityUseByDrone1RootElement.Element("mediumWeightCarry").Value),
+                 double.Parse( electricityUseByDrone1RootElement.Element("heavyWeightCarry").Value),
+                 double.Parse( electricityUseByDrone1RootElement.Element("droneChargeRange").Value)
+            };
 
             return electricityUseByDrone;
         }
@@ -262,9 +291,6 @@ namespace Dal
 
 
         #endregion
-
-
-
 
 
 
@@ -335,6 +361,7 @@ namespace Dal
         public IEnumerable<DO.Station> GetStationsList(Func<DO.Station, bool> predicat = null)
         {
             List<DO.Station> listStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
+
             var v = from item in listStations
                     select item;
 
