@@ -1,0 +1,65 @@
+﻿<Window x:Class="PL.ParcelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="ParcelWindow" Height="500" Width="800">
+    <Grid x:Name="MainGridParcel">
+        <Grid RenderTransformOrigin="0.525,0.53">
+            <Grid x:Name="AddParcelGrid" Background="#FFD6F2F4">
+                <Label x:Name="ParcelId" Content="Id:" HorizontalAlignment="Left" Margin="117,40,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="ParcelSender" Content="Sender:" HorizontalAlignment="Left" Margin="117,80,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="ParcelTarget" Content="Max Target:" HorizontalAlignment="Left" Margin="117,120,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="ParcelWeight" Content="Weight:" HorizontalAlignment="Left" Margin="117,160,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="ParcelPriority" Content="Priority:" HorizontalAlignment="Left" Margin="117,200,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="ParcelDrone" Content="Drone:" HorizontalAlignment="Left" Margin="117,240,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="ParcelRequestedTime" Content="Requested Time:" HorizontalAlignment="Left" Margin="117,280,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="ParcelScheduledTime" Content="Scheduled Time:" HorizontalAlignment="Left" Margin="117,320,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="ParcelPickUpTime" Content="Picked Up Time:" HorizontalAlignment="Left" Margin="117,360,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="ParcelDeliveredTime" Content="Delivered Time:" HorizontalAlignment="Left" Margin="117,400,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <TextBox x:Name="IdParcelText" HorizontalAlignment="Left" Margin="358,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="SenderParcelText" HorizontalAlignment="Left" Margin="358,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="TargetParcelText" HorizontalAlignment="Left" Margin="358,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="WeightParcelText" HorizontalAlignment="Left" Margin="358,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="PriorityParcelText" HorizontalAlignment="Left" Margin="358,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="DroneParcelText" HorizontalAlignment="Left" Margin="358,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="RequestedParcelText" HorizontalAlignment="Left" Margin="358,280,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="ScheduledParcelText" HorizontalAlignment="Left" Margin="358,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="PickUpParcelText" HorizontalAlignment="Left" Margin="358,360,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="DeliveredParcelText" HorizontalAlignment="Left" Margin="358,400,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <Button x:Name="AddToList" Content="Add" HorizontalAlignment="Left" Margin="586,356,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" FontWeight="Bold" Click="AddToList_Click"/>
+                <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="685,356,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" FontWeight="Bold" Click="CancelButton_Click" RenderTransformOrigin="0.556,0.495"/>
+                <ListBox x:Name="ParcelSelected_Box" ItemsSource="{Binding}" Margin="600,0,0,200" FontFamily="David" FontSize="20" FontWeight="Bold"/>
+            </Grid>
+            <Grid Name="UpdateParcelGrid" Background="#FFD6F2F4">
+                <Grid RenderTransformOrigin="0.481,0.531" Grid.ColumnSpan="2">
+                    <Label x:Name="ParcelId_View" Content="Id:" HorizontalAlignment="Left" Margin="400,40,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="ParcelSender_View" Content="Sender's Name:" HorizontalAlignment="Left" Margin="400,80,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="ParcelTarget_View" Content="Receiver's Name:" HorizontalAlignment="Left" Margin="400,120,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="ParcelWeight_View" Content="Weight:" HorizontalAlignment="Left" Margin="400,160,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="ParcelPriority_View" Content="Priority:" HorizontalAlignment="Left" Margin="400,200,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="ParcelDrone_View" Content="Drone:" HorizontalAlignment="Left" Margin="400,240,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="RequestedParcelText_View" Content="Time Requested:" HorizontalAlignment="Left" Margin="400,280,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="ScheduledParcelText_View" Content="Time Scheduled:" HorizontalAlignment="Left" Margin="400,320,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="PickUpParcelText_View" Content="Time Collected:" HorizontalAlignment="Left" Margin="400,360,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="DeliveredParcelText_View" Content="Time Delivered:" HorizontalAlignment="Left" Margin="400,400,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <TextBox x:Name="IdParcelText_View" HorizontalAlignment="Left" Margin="600,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="SenderParcelText_View" HorizontalAlignment="Left" Margin="600,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="TargetParcelText_View" HorizontalAlignment="Left" Margin="600,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Width="124" Height="30" FontFamily="David"/>
+                    <TextBox x:Name="WeightText_View" HorizontalAlignment="Left" Margin="600,160,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="PriorityParcel_View" HorizontalAlignment="Left" Margin="600,200,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="DroneParcel_View" HorizontalAlignment="Left" Margin="600,240,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David" Text="{Binding ElementName=LocationText_View, Path=DataContext}"/>
+                    <TextBox x:Name="RequestedParcel_View" HorizontalAlignment="Left" Margin="600,280,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="ScheduledParcel_View" HorizontalAlignment="Left" Margin="600,320,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="PickUpParcel_View" HorizontalAlignment="Left" Margin="600,360,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="deliveredParcel_View" HorizontalAlignment="Left" Margin="600,400,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206" Click="UpdateButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0"/>
+
+                </Grid>
+            </Grid>
+        </Grid>
+        
+    </Grid>
+</Window>

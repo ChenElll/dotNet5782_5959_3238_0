@@ -1,0 +1,53 @@
+﻿<Window x:Class="PL.CustomerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="CustomerWindow" Height="450" Width="800">
+    <Grid x:Name="MainGridCustomer">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="77*"/>
+            <ColumnDefinition Width="323*"/>
+        </Grid.ColumnDefinitions>
+        <Grid RenderTransformOrigin="0.525,0.53" Grid.ColumnSpan="2">
+            <Grid x:Name="AddCustomerGrid" Background="#FFD6F2F4">
+                <Label x:Name="CustomerId" Content="Id:" HorizontalAlignment="Left" Margin="117,66,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="CustomerName" Content="Name:" HorizontalAlignment="Left" Margin="117,141,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="CustomerLattitude" Content="lattitude:" HorizontalAlignment="Left" Margin="117,217,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="CustomerLongitude" Content="longitude:" HorizontalAlignment="Left" Margin="117,293,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="CustomerPhoneNumber" Content="N° of free charge slots:" HorizontalAlignment="Left" Margin="117,369,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <TextBox x:Name="IdCustomerText" HorizontalAlignment="Left" Margin="358,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="NameCustomerText" HorizontalAlignment="Left" Margin="358,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="LattitudeCustomerText" HorizontalAlignment="Left" Margin="358,217,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Width="124" Height="25" FontFamily="David"/>
+                <TextBox x:Name="LongitudeCustomerText" HorizontalAlignment="Left" Margin="358,293,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <TextBox x:Name="CustomerPhoneText" HorizontalAlignment="Left" Margin="358,369,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                <Button x:Name="AddToCustomerList" Content="Add" HorizontalAlignment="Left" Margin="530,380,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" FontWeight="Bold" Click="AddCustomer_Click"/>
+                <Button x:Name="CancelCustomer" Content="Cancel" HorizontalAlignment="Left" Margin="650,380,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" Click="CancelCustomer_Click" />
+                <ListBox x:Name="CustomerSelected_Box" ItemsSource="{Binding}" Margin="600,0,0,200" FontFamily="David" FontSize="20" FontWeight="Bold"/>
+            </Grid>
+
+            <Grid Name="UpdateCustomerGrid" Background="#FFD6F2F4">
+                <Grid RenderTransformOrigin="0.481,0.531" Grid.ColumnSpan="2">
+                    <Label x:Name="CustomerId_View" Content="Id:" HorizontalAlignment="Left" Margin="380,40,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="CustomerName_View" Content="Name:" HorizontalAlignment="Left" Margin="380,90,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="CustomerLattitude_View" Content="Lattitude:" HorizontalAlignment="Left" Margin="380,140,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="CustomerLongitude_View" Content="Longitude:" HorizontalAlignment="Left" Margin="380,190,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="CustomerPhone_View" Content="Phone number" HorizontalAlignment="Left" Margin="380,240,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="ParcelsFromCustomer_View" Content="Parcels from customer:" HorizontalAlignment="Left" Margin="380,290,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="ParcelsToCustomer_View" Content="Parcels to customer:" HorizontalAlignment="Left" Margin="380,360,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <TextBox x:Name="CustomerIdText_View" HorizontalAlignment="Left" Margin="600,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="CustomerNameText_View" HorizontalAlignment="Left" Margin="600,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="CustomerLattitudeText_View" HorizontalAlignment="Left" Margin="600,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Width="124" Height="30" FontFamily="David"/>
+                    <TextBox x:Name="CustomerLongitudeText_View" HorizontalAlignment="Left" Margin="600,190,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="CustomerPhoneText_View" HorizontalAlignment="Left" Margin="600,240,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <ListBox x:Name="ListOfCustomerFrom_View" Margin="600,290,75,80"/>
+                    <ListBox x:Name="ListOfCustomerTo_View" Margin="600,360,75,10"/>
+                    <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206" Click="UpdateCustomerButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0"/>
+
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
