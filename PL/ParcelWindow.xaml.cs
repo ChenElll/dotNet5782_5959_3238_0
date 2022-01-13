@@ -70,6 +70,11 @@ namespace PL
             Close();
         }
 
+        /// <summary>
+        /// function to add a parcel to the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddToList_Click(object sender, RoutedEventArgs e)
         {
             CustomerInParcel customerS = new();
@@ -108,7 +113,37 @@ namespace PL
                 parcelListWindow.parcelToListsBL.Add(bl.GetParcelList().First(d => d.Id == parcel.Id));
                 Close();
             }
+        }
 
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            BO.ParcelToList parcel = new BO.ParcelToList
+            {
+                Id = myParcel.Id,
+                NameSender = myParcel.Sender.CustomerName,
+                NameTarget = myParcel.Target.CustomerName,
+                Weight = myParcel.Weight,
+                Priority = myParcel.Priority,
+                ParcelStatus = (ParcelStatus)bl.GetDroneList().First(x => x.Id == myParcel.Drone.Id).Status,
+            };
+
+
+            if (parcelListWindow.parcelToListsBL.Remove(bl.GetParcelList().First(x => x.Id == myParcel.Id)))
+            {
+                myParcel.ScheduleTime = DateTime.Parse(ScheduledParcel_View.Text);
+                myParcel.PickUpTime = DateTime.Parse(PickUpParcel_View.Text);
+                myParcel.DeliveredTime = DateTime.Parse(deliveredParcel_View.Text);
+                bl.UpdateDeliveryToCustomer(myParcel.Id);
+                bl.UpdatePickUpParcel(myParcel.Id);
+                bl.UpdateScheduleParcel(myParcel.Id);
+                parcelListWindow.parcelToListsBL.Add(parcel);
+                MessageBoxResult result = MessageBox.Show("Station succefully updated");
+                Close();
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("you can't update the station");
+            }
         }
     }
 }
