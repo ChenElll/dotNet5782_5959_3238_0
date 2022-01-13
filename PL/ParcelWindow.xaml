@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="ParcelWindow" Height="500" Width="800">
     <Grid x:Name="MainGridParcel">
-        <Grid RenderTransformOrigin="0.525,0.53">
-            <Grid x:Name="AddParcelGrid" Background="#FFD6F2F4">
+        <Grid RenderTransformOrigin="0.525,0.53" Background="#FFB9D1EA">
+            <Grid x:Name="AddParcelGrid">
                 <Label x:Name="ParcelId" Content="Id:" HorizontalAlignment="Left" Margin="117,40,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                 <Label x:Name="ParcelSender" Content="Sender:" HorizontalAlignment="Left" Margin="117,80,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                 <Label x:Name="ParcelTarget" Content="Max Target:" HorizontalAlignment="Left" Margin="117,120,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
@@ -33,7 +33,7 @@
                 <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="685,356,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" FontWeight="Bold" Click="CancelButton_Click" RenderTransformOrigin="0.556,0.495"/>
                 <ListBox x:Name="ParcelSelected_Box" ItemsSource="{Binding}" Margin="600,0,0,200" FontFamily="David" FontSize="20" FontWeight="Bold"/>
             </Grid>
-            <Grid Name="UpdateParcelGrid" Background="#FFD6F2F4">
+            <Grid Name="UpdateParcelGrid" Background="#FFB9D1EA">
                 <Grid RenderTransformOrigin="0.481,0.531" Grid.ColumnSpan="2">
                     <Label x:Name="ParcelId_View" Content="Id:" HorizontalAlignment="Left" Margin="400,40,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                     <Label x:Name="ParcelSender_View" Content="Sender's Name:" HorizontalAlignment="Left" Margin="400,80,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
@@ -60,6 +60,5 @@
                 </Grid>
             </Grid>
         </Grid>
-        
     </Grid>
 </Window>

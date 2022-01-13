@@ -12,12 +12,12 @@
             <ColumnDefinition Width="323*"/>
         </Grid.ColumnDefinitions>
         <Grid RenderTransformOrigin="0.525,0.53" Grid.ColumnSpan="2">
-            <Grid x:Name="AddCustomerGrid" Background="#FFD6F2F4">
+            <Grid x:Name="AddCustomerGrid" Background="#FFB9D1EA">
                 <Label x:Name="CustomerId" Content="Id:" HorizontalAlignment="Left" Margin="117,66,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                 <Label x:Name="CustomerName" Content="Name:" HorizontalAlignment="Left" Margin="117,141,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                 <Label x:Name="CustomerLattitude" Content="lattitude:" HorizontalAlignment="Left" Margin="117,217,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                 <Label x:Name="CustomerLongitude" Content="longitude:" HorizontalAlignment="Left" Margin="117,293,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
-                <Label x:Name="CustomerPhoneNumber" Content="N° of free charge slots:" HorizontalAlignment="Left" Margin="117,369,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                <Label x:Name="CustomerPhoneNumber" Content="Phone Number:" HorizontalAlignment="Left" Margin="117,369,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                 <TextBox x:Name="IdCustomerText" HorizontalAlignment="Left" Margin="358,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                 <TextBox x:Name="NameCustomerText" HorizontalAlignment="Left" Margin="358,141,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                 <TextBox x:Name="LattitudeCustomerText" HorizontalAlignment="Left" Margin="358,217,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Width="124" Height="25" FontFamily="David"/>
@@ -28,7 +28,7 @@
                 <ListBox x:Name="CustomerSelected_Box" ItemsSource="{Binding}" Margin="600,0,0,200" FontFamily="David" FontSize="20" FontWeight="Bold"/>
             </Grid>
 
-            <Grid Name="UpdateCustomerGrid" Background="#FFD6F2F4">
+            <Grid Name="UpdateCustomerGrid" Background="#FFB9D1EA">
                 <Grid RenderTransformOrigin="0.481,0.531" Grid.ColumnSpan="2">
                     <Label x:Name="CustomerId_View" Content="Id:" HorizontalAlignment="Left" Margin="380,40,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                     <Label x:Name="CustomerName_View" Content="Name:" HorizontalAlignment="Left" Margin="380,90,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>

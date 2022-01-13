@@ -57,6 +57,7 @@ namespace PL
                                                         select item);
             customerListWindow = customerToLists;
             myCustomer = selectedItem;
+            this.DataContext = selectedItem;
             AddCustomerGrid.Visibility = Visibility.Hidden;
             UpdateCustomerGrid.Visibility = Visibility.Visible;
             CustomerIdText_View.Text = selectedItem.Id.ToString();
@@ -86,7 +87,30 @@ namespace PL
         /// <param name="e"></param>
         private void UpdateCustomerButton_Click(object sender, RoutedEventArgs e)
         {
+            BO.CustomerToList customer = new BO.CustomerToList
+            {
+                Id = myCustomer.Id,
+                CustomerName = myCustomer.CustomerName,
+                PhoneNumber = myCustomer.PhoneNumber,
+                NumberParcelsOnWay = ,
+                NumberParcelsReceived = ,
+                NumberSentAndProvidedParcels = ,
+                NumberSentAnd_Not_ProvidedParcels=,
+            };
 
+
+            if (customerListWindow.customerToListsBL.Remove(bl.GetCustomerList().First(x => x.Id == myCustomer.Id)))
+            {
+                customer.CustomerName = CustomerNameText_View.Text;
+                customer.PhoneNumber = CustomerPhoneText_View.Text;
+                customerListWindow.customerToListsBL.Add(customer);
+                MessageBoxResult result = MessageBox.Show("Station succefully updated");
+                Close();
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("you can't update the station");
+            }
         }
 
         private void AddCustomer_Click(object sender, RoutedEventArgs e)
@@ -97,7 +121,7 @@ namespace PL
                 Id = int.Parse(CustomerIdText_View.Text),
                 CustomerName = NameCustomerText.Text,
                 PhoneNumber = CustomerPhoneText.Text,
-                //Location= new Location {Longtitude=(double)LongitudeCustomerText.Text, Lattitude= (double)LattitudeCustomerText.Text },
+                Location= new Location {Longtitude=double.Parse(LongitudeCustomerText.Text), Lattitude= double.Parse(LattitudeCustomerText.Text) },
                 //FromCustomer= from ,
                 //ToCustomer=,
             };

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         FontFamily="Arial Rounded MT Bold" FontSize="30" HorizontalAlignment="Center"
-        Title="CustomerListWindow" Height="500" Width="900">
+        Title="CustomerListWindow" Height="450" Width="800">
     <Window.Resources>
         <Style x:Key="ComboBox" TargetType="{x:Type ComboBox}">
             <Setter Property="Template">
@@ -101,8 +101,8 @@
             </Grid.ColumnDefinitions>
         </Grid>
 
-        <Button x:Name="AddingCustomerButton" Content="Add Customer" Grid.Column="1" HorizontalAlignment="Left" Margin="108,360,0,0" Grid.Row="1" VerticalAlignment="Top" Height="47" Width="140" FontSize="18" Click="AddingCustomerButton_Click"/>
-        <Button x:Name="CancelButton" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="260,360,0,0" Grid.Row="1" VerticalAlignment="Top" Height="48" Width="119" FontSize="18" Click="CancelButton_Click"/>
+        <Button x:Name="AddingCustomerButton" Content="Add Customer" Grid.Column="1" HorizontalAlignment="Left" Margin="108,320,0,0" Grid.Row="1" VerticalAlignment="Top" Height="47" Width="140" FontSize="18" Click="AddingCustomerButton_Click"/>
+        <Button x:Name="CancelButton" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="260,320,0,0" Grid.Row="1" VerticalAlignment="Top" Height="48" Width="119" FontSize="18" Click="CancelButton_Click"/>
         <ListView x:Name="Customers_ListBox" Margin="10,56,10,80" Grid.Row="1" 
                  MouseDoubleClick="ChooseCustomerFromTheList" FontSize="20" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderThickness="2,2,2,2" BorderBrush="#FF005BFF" IsSynchronizedWithCurrentItem="False">
             <ListView.View>
@@ -116,6 +116,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
     </Grid>
 </Window>
