@@ -160,6 +160,8 @@
             </ListView.View>
         </ListView>
 
+   
+
         <ComboBox x:Name="WeightSelector"
                   Style="{StaticResource ComboBox}" 
                   SelectionChanged="StatuesAndWeight_SelectionChange"

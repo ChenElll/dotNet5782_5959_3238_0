@@ -43,7 +43,7 @@ namespace PL
             WeightSelect.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             StationIdSelection.ItemsSource = from station in bl.GetStationList()
                                              select station.Id;
-
+            
             DroneSelected_Box.ItemsSource = (System.Collections.IEnumerable)myDrone;
         }
 
@@ -280,6 +280,7 @@ namespace PL
             droneListWindow.droneToListsBL.Remove(drone);
             droneListWindow.droneToListsBL.Add(drone);
         }
+        //< ProgressBar x:Name="BatteryProgressBar" DataContext="{Binding Path=Battery}" />
 
     }
 }

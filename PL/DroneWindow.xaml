@@ -35,18 +35,47 @@
                     <TextBox x:Name="BatteryText_View" HorizontalAlignment="Left" Margin="600,238,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                     <TextBox x:Name="StatusText_View" HorizontalAlignment="Left" Margin="600,304,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                     <TextBox x:Name="LocationText_View" HorizontalAlignment="Left" Margin="600,370,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
-                    <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206" Click="UpdateButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0"/>
+                    <Button x:Name="UpdateButton"  Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206" Click="UpdateButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0" RenderTransformOrigin="1,0">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                     <Button x:Name="ChargeButton" 
                             Content="{Binding ElementName=SendToChargeButton, Path=DataContext}" 
                             HorizontalAlignment="Left" Margin="27,132,0,0" VerticalAlignment="Top" 
-                            FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206"/>
+                            FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                     <Label x:Name="ScheduleDrone_label" Content="Schedule drone"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" FontFamily="David" FontWeight="Bold" Height="20" Width="90" Margin="6,320,0,0"/>
-                    <Label x:Name="CollectDrone_label" Content="Collect parcel"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" FontFamily="David" FontWeight="Bold" Height="20" Width="90" Margin="127,320,0,0"/>
-                    <Label x:Name="DeliverDrone_label" Content="Deliver parcel"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" FontFamily="David" FontWeight="Bold" Height="20" Width="90" Margin="247,320,0,0"/>
-                    <Button x:Name="ScheduleDroneButton" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontFamily="David" FontWeight="Bold" Height="75" Width="80" Margin="10,340,0,0" Click="ScheduleDroneButton_Click" Background="#FFF6F6F6"/>
-                    <Button x:Name="PickUpParcelButton" HorizontalAlignment="Left" Margin="130,340,0,0" IsEnabled="{Binding ElementName=StatusDrone_View, Path=DataContext}"  VerticalAlignment="Top" FontSize="14" FontFamily="David" FontWeight="Bold" Height="75" Width="80" Background="#FFF6F6F6" Click="PickUpParcelButton_Click"/>
-                    <Button x:Name="DeliverParcelButton" HorizontalAlignment="Left" Margin="257,340,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="David" FontWeight="Bold" Height="75" Width="80" Background="#FFF6F6F6">
-                        <Image Height="65" Width="77"  OpacityMask="Black" Source="/delivered_icon.png"/>
+                        <Label x:Name="CollectDrone_label" Content="Collect parcel"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" FontFamily="David" FontWeight="Bold" Height="20" Width="90" Margin="127,320,0,0"/>
+                        <Label x:Name="DeliverDrone_label" Content="Deliver parcel"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" FontFamily="David" FontWeight="Bold" Height="20" Width="90" Margin="247,320,0,0"/>
+                    <Button x:Name="ScheduleDroneButton" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontFamily="David" FontWeight="Bold" Height="75" Width="80" Margin="10,340,0,0" Click="ScheduleDroneButton_Click" Background="#FFF6F6F6">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="PickUpParcelButton" HorizontalAlignment="Left" Margin="130,340,0,0" IsEnabled="{Binding ElementName=StatusDrone_View, Path=DataContext}"  VerticalAlignment="Top" FontSize="14" FontFamily="David" FontWeight="Bold" Height="75" Width="80" Background="#FFF6F6F6" Click="PickUpParcelButton_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                        <Button x:Name="DeliverParcelButton" HorizontalAlignment="Left" Margin="257,340,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="David" FontWeight="Bold" Height="75" Width="80" Background="#FFF6F6F6">
+                            <Image Height="65" Width="77"  OpacityMask="Black" Source="/delivered_icon.png"/>
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"/>
+                            </Style>
+                        </Button.Resources>
                     </Button>
                 </Grid>
                 <Image HorizontalAlignment="Left" Height="39" Margin="91,354,0,0" VerticalAlignment="Top" Width="84" Source="/006781-3d-transparent-glass-icon-arrows-dotted-arrow-right-400x400.png" />
