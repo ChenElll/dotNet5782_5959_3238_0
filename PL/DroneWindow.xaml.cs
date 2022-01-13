@@ -59,8 +59,9 @@ namespace PL
             new ObservableCollection<BO.DroneToList>(from item in bl.GetDroneList()
                                                          where item.Id == selectedItem.Id
                                                          select item);
-            droneListWindow = droneToLists;
             myDrone = selectedItem;
+            DataContext = myDrone;
+            droneListWindow = droneToLists;
             AddDroneGrid.Visibility = Visibility.Hidden;
             UpdateDroneGrid.Visibility = Visibility.Visible;
             IdDroneText_View.Text = selectedItem.Id.ToString();
@@ -213,24 +214,12 @@ namespace PL
         {
             if (ModelDroneText.Text != ModelDroneText_View.Text)
             {
-                // myDrone = bl.GetDrone(myDrone.Id);
-                DroneToList drone = new DroneToList
-                {
-                    Id = myDrone.Id,
-                    Model = myDrone.Model,
-                    MaxWeight = myDrone.MaxWeight,
-                    Status = myDrone.Status,
-                    Battery = myDrone.Battery,
-                    Location = myDrone.Location,
-                };
 
-
-                if (droneListWindow.droneToListsBL.Remove(drone)) //??
+                if (ModelDroneText.Text != ModelDroneText_View.Text) //??
                 {
-                    myDrone.Model = ModelDroneText_View.Text.ToString();
-                    drone.Model = myDrone.Model;
+                    myDrone.Model = ModelDroneText_View.Text;
                     bl.SetDroneName(myDrone);
-                    droneListWindow.droneToListsBL.Add(drone);
+
                     MessageBoxResult result = MessageBox.Show("drone succefully updated");
                     Close();
                 }
