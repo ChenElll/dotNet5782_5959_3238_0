@@ -92,10 +92,10 @@ namespace PL
                 Id = myCustomer.Id,
                 CustomerName = myCustomer.CustomerName,
                 PhoneNumber = myCustomer.PhoneNumber,
-                NumberParcelsOnWay = ,
-                NumberParcelsReceived = ,
-                NumberSentAndProvidedParcels = ,
-                NumberSentAnd_Not_ProvidedParcels=,
+                //NumberParcelsOnWay = ,
+                //NumberParcelsReceived = ,
+                //NumberSentAndProvidedParcels = ,
+                //NumberSentAnd_Not_ProvidedParcels=,
             };
 
 

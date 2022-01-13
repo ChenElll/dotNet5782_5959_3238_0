@@ -88,9 +88,34 @@
             <Style.Triggers>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="Lable" TargetType="{x:Type Label}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Label" >
+                        <Label HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Width="151" Height="70" FontSize="36" Background="#00000000"
+                                HorizontalContentAlignment="Right" VerticalContentAlignment="Center"  Grid.RowSpan="2">
+                            <Label.OpacityMask>
+                                <LinearGradientBrush>
+                                    <GradientStop Color="Black"/>
+                                    <GradientStop Color="White" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Label.OpacityMask>
+                        </Label>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+        
     </Window.Resources>
 
-    <Grid Name="MainGrid" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" >
+   
+   
+
+    <Grid Name="MainGridDrone" Background="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200*"/>
             <ColumnDefinition Width="200*"/>
@@ -133,14 +158,26 @@
                    Width="151" Height="70" FontSize="36" Background="#00000000"
                    HorizontalContentAlignment="Right" VerticalContentAlignment="Center"  Grid.RowSpan="2">
                 <Label.OpacityMask>
-                    <LinearGradientBrush 
-                                         Opacity="1" SpreadMethod="Pad">
+                    <LinearGradientBrush>
                         <GradientStop Color="Black"/>
                         <GradientStop Color="White" Offset="1"/>
                     </LinearGradientBrush>
                 </Label.OpacityMask>
             </Label>
         </Grid>
+
+        <ComboBox x:Name="WeightSelector"
+                  Style="{StaticResource ComboBox}" 
+                  SelectionChanged="StatuesAndWeight_SelectionChange"
+                  Grid.Column="1" 
+                  ToolTip="Choose the maximum weight that the drone can carry"/>
+
+        <ComboBox x:Name="StatusSelector"
+                  Style="{StaticResource ComboBox}" 
+                  SelectionChanged="StatuesAndWeight_SelectionChange" 
+                  Grid.Column="0" 
+                  ToolTip="Choose the drone status"/>
+
 
         <ListView x:Name="Drones_ListBox" Margin="10,56,10,95" Grid.Row="1"
                  MouseDoubleClick="ChooseDroneFromTheList" FontFamily="Arial Rounded MT Bold"
@@ -160,18 +197,7 @@
             </ListView.View>
         </ListView>
 
-        <ComboBox x:Name="WeightSelector"
-                  Style="{StaticResource ComboBox}" 
-                  SelectionChanged="StatuesAndWeight_SelectionChange"
-                  Grid.Column="1" 
-                  ToolTip="Choose the maximum weight that the drone can carry"/>
-
-        <ComboBox x:Name="StatusSelector"
-                  Style="{StaticResource ComboBox}" 
-                  SelectionChanged="StatuesAndWeight_SelectionChange" 
-                  Grid.Column="0" 
-                  ToolTip="Choose the drone status"/>
-
+     
         <Button x:Name="AddingDroneButton" Content="Add drone" HorizontalAlignment="Left" Margin="81,460,0,0" Grid.Row="1" FontSize="22" VerticalAlignment="Top" Height="47" Width="147" Click="AddingDrone_Click" Grid.Column="1"/>
         <Button x:Name="CancelButton" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="247,460,0,0" Grid.Row="1" VerticalAlignment="Top" Height="47" Width="140" FontSize="22" Click="CancelAdd_Click"/>
 

@@ -2,19 +2,11 @@
 using BO;
 using DO;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PL
 {
@@ -57,8 +49,8 @@ namespace PL
             InitializeComponent();
             bl = blD;
             new ObservableCollection<BO.DroneToList>(from item in bl.GetDroneList()
-                                                         where item.Id == selectedItem.Id
-                                                         select item);
+                                                     where item.Id == selectedItem.Id
+                                                     select item);
             myDrone = selectedItem;
             DataContext = myDrone;
             droneListWindow = droneToLists;
@@ -152,7 +144,7 @@ namespace PL
             }
             if (closeWindow)
             {
-                droneListWindow.droneToListsBL.Add(bl.GetDroneList().First(d => d.Id == drone.Id));
+                droneListWindow.droneToListsBL.Add(bl.GetDroneList(d => d.Id == drone.Id).First());
                 Close();
             }
         }
@@ -212,23 +204,20 @@ namespace PL
         /// <param name="e"></param>
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ModelDroneText.Text != ModelDroneText_View.Text)
+            if (ModelDroneText.Text != ModelDroneText_View.Text) //??
             {
+                myDrone.Model = ModelDroneText_View.Text;
+                bl.SetDroneName(myDrone);
 
-                if (ModelDroneText.Text != ModelDroneText_View.Text) //??
-                {
-                    myDrone.Model = ModelDroneText_View.Text;
-                    bl.SetDroneName(myDrone);
-
-                    MessageBoxResult result = MessageBox.Show("drone succefully updated");
-                    Close();
-                }
-                else
-                {
-                    MessageBoxResult result = MessageBox.Show("you can't update the drone");
-                }
-
+                MessageBoxResult result = MessageBox.Show("drone succefully updated");
+                Close();
             }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("you can't update the drone");
+            }
+
+
         }
 
         /// <summary>
@@ -281,5 +270,9 @@ namespace PL
             droneListWindow.droneToListsBL.Add(drone);
         }
 
+        private void ChargeButton_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

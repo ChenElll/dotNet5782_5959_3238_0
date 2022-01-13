@@ -62,38 +62,6 @@ namespace PL
             open.Show();
         }
 
-        /// <summary>
-        /// select station by their number of charge slots
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FreeChargeSlots_SelectionChange(object sender, SelectionChangedEventArgs e)
-        {
-            if (ExistSlotsSelector.SelectedItem != null && ExistSlotsSelector.SelectedItem.ToString() == "No")
-            {
-                Stations_ListBox.ItemsSource = from item in stationToListsBL
-                                               where item.FreeChargeSlots == '0'
-                                               orderby item.Id
-                                               select item;
-            }
-            else if ((ExistSlotsSelector.SelectedItem == null && ChargeSlotsSelector.SelectedItem == null)
-                || (ExistSlotsSelector.SelectedItem != null && ChargeSlotsSelector.SelectedItem == null && (ExistSlotsSelector.SelectedItem.ToString() == "Yes")))
-            {
-                Stations_ListBox.ItemsSource = from item in stationToListsBL
-                                               orderby item.Id
-                                               select item;
-            }
-            else if ((ExistSlotsSelector.SelectedItem == null && ChargeSlotsSelector.SelectedItem != null) ||
-                (ExistSlotsSelector.SelectedItem != null && ChargeSlotsSelector.SelectedItem != null && ExistSlotsSelector.SelectedItem.ToString() == "Yes"))
-            {
-                Stations_ListBox.ItemsSource = from item in stationToListsBL
-                                               where item.FreeChargeSlots == (int)ChargeSlotsSelector.SelectedItem
-                                               orderby item.Id
-                                               select item;
-            }
-
-        }
-
 
         /// <summary>
         /// button add a station
