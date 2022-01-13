@@ -108,9 +108,9 @@
 
             <ComboBox x:Name="ChargeSlotsSelector" 
                       Grid.Column="1"
-                    
-                  SelectionChanged="FreeChargeSlots_SelectionChange"  
-                  ToolTip="Sort by " Grid.Row="1"/>
+                    ToolTip="Sort by " Grid.Row="1"></ComboBox>
+               <!--   SelectionChanged="FreeChargeSlots_SelectionChange"  -->
+                  
 
 
         </Grid>
