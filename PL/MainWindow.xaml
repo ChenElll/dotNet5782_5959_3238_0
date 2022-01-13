@@ -57,20 +57,21 @@
 
     <Grid>
         <StackPanel>
-            <MediaElement x:Name="clip" Source="/production ID_4193140.mp4" Visibility="Visible" MediaEnded="clipVideo_MediaEnded" Loaded="clipVideo_MediaEnded" 
-                          LoadedBehavior="Play" UnloadedBehavior="Manual"/>
+            <MediaElement x:Name="clip" Source="production ID_4193140.mp4" Visibility="Visible" MediaEnded="clipVideo_MediaEnded" 
+                          Loaded="clipVideo_MediaEnded"  LoadedBehavior="Play" UnloadedBehavior="Manual"/>
+                         
         </StackPanel>
 
-        <Button x:Name="ShowDronesList" Content="Drones" VerticalAlignment="Top" Height="105"
+        <Button x:Name="ShowDronesList" Content="Drones" VerticalAlignment="Top" Height="100"
                 Click="ShowDrones_Click"  Margin="0,0,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
 
-        <Button x:Name="ShowStationsList" Content="Stations" VerticalAlignment="Top" Height="85"
-                Click="ShowStations_Click"  Margin="0,87,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
+        <Button x:Name="ShowStationsList" Content="Stations" VerticalAlignment="Top" Height="100"
+                Click="ShowStations_Click"  Margin="0,110,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
 
-        <Button x:Name="ShowCustomersList" Content="Customers" VerticalAlignment="Top" Height="105"
-                Click="ShowCustomers_Click"  Margin="0,217,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
+        <Button x:Name="ShowCustomersList" Content="Customers" VerticalAlignment="Top" Height="100"
+                Click="ShowCustomers_Click"  Margin="0,222,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
 
-        <Button x:Name="ShowParcelsList" Content="Parcels" VerticalAlignment="Top" Height="105"
-                Click="ShowParcels_Click"  Margin="0,325,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
+        <Button x:Name="ShowParcelsList" Content="Parcels" VerticalAlignment="Top" Height="100"
+                Click="ShowParcels_Click"  Margin="0,333,590,0" Background="AliceBlue" BorderBrush="Snow" Opacity="0.5"/>
     </Grid>
 </Window>

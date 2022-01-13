@@ -2,11 +2,11 @@
 {
     public enum DroneStatuses
     {
-        available = 1, maintenance, shipped
+        All, available = 1, maintenance, shipped
     }
 
     public enum ParcelStatus
     {
-        Requested = 1, scheduled, pickedUp, delivered
+        All, Requested = 1, scheduled, pickedUp, delivered
     }
 }

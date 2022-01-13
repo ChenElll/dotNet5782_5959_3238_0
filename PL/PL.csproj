@@ -24,4 +24,10 @@
     <Resource Include="scheduled.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="production ID_4193140.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

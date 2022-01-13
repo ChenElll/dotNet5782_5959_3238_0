@@ -1,19 +1,12 @@
-﻿using BL;
-using BlApi;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using BlApi;
+using BO;
+using DO;
 
 namespace PL
 {
@@ -22,6 +15,7 @@ namespace PL
     /// </summary>
     public partial class StationListWindow : Window
     {
+
         IBL bl;
         public ObservableCollection<BO.BaseStationToList> stationToListsBL;
 
@@ -75,36 +69,45 @@ namespace PL
         /// <param name="e"></param>
         private void FreeChargeSlots_SelectionChange(object sender, SelectionChangedEventArgs e)
         {
-            if (ExistSlotsSelector.SelectedItem.ToString() == "No")
+            if (ExistSlotsSelector.SelectedItem != null && ExistSlotsSelector.SelectedItem.ToString() == "No")
             {
                 Stations_ListBox.ItemsSource = from item in stationToListsBL
-                                               where item.FreeChargeSlots == 0
+                                               where item.FreeChargeSlots == '0'
                                                orderby item.Id
                                                select item;
             }
-            else
+            else if ((ExistSlotsSelector.SelectedItem == null && ChargeSlotsSelector.SelectedItem == null)
+                || (ExistSlotsSelector.SelectedItem != null && ChargeSlotsSelector.SelectedItem == null && (ExistSlotsSelector.SelectedItem.ToString() == "Yes")))
+            {
+                Stations_ListBox.ItemsSource = from item in stationToListsBL
+                                               orderby item.Id
+                                               select item;
+            }
+            else if ((ExistSlotsSelector.SelectedItem == null && ChargeSlotsSelector.SelectedItem != null) ||
+                (ExistSlotsSelector.SelectedItem != null && ChargeSlotsSelector.SelectedItem != null && ExistSlotsSelector.SelectedItem.ToString() == "Yes"))
             {
                 Stations_ListBox.ItemsSource = from item in stationToListsBL
                                                where item.FreeChargeSlots == (int)ChargeSlotsSelector.SelectedItem
                                                orderby item.Id
                                                select item;
             }
+
         }
 
 
-        ///// <summary>
-        ///// button add a station
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void AddingStationButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    System.Windows.Controls.Button addStationBn = sender as System.Windows.Controls.Button;
-        //    if (addStationBn != null)
-        //    {
-        //        new StationWindow(bl, this).Show();
-        //    }
-        //}
+        /// <summary>
+        /// button add a station
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddingStationButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.Button addStationBn = sender as System.Windows.Controls.Button;
+            if (addStationBn != null)
+            {
+                new StationWindow(bl, this).Show();
+            }
+        }
 
 
         /// <summary>

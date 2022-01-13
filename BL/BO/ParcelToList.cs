@@ -3,7 +3,7 @@
 namespace BO
 {
     public class ParcelToList
-	{
+    {
         public int Id { get; set; }
         public string NameSender { get; set; }
         public string NameTarget { get; set; }

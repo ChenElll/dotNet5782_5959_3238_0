@@ -27,8 +27,8 @@ namespace PL
 
             droneToListsBL =
             new ObservableCollection<BO.DroneToList>(from item in bl.GetDroneList()
-                                                         orderby item.Id
-                                                         select item);
+                                                     orderby item.Id
+                                                     select item);
             Drones_ListBox.DataContext = droneToListsBL;
             Drones_ListBox.ItemsSource = droneToListsBL;
             StatusSelector.ItemsSource = Enum.GetValues(enumType: typeof(BO.DroneStatuses));
@@ -37,16 +37,16 @@ namespace PL
 
         }
 
-    private void DroneToListsBL_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        // = new ObservableCollection<DroneToList>();
-        ObservableCollection<DroneToList> obsSender = sender as ObservableCollection<DroneToList>;
-        NotifyCollectionChangedAction action = e.Action;
-    }
+        private void DroneToListsBL_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            // = new ObservableCollection<DroneToList>();
+            ObservableCollection<DroneToList> obsSender = sender as ObservableCollection<DroneToList>;
+            NotifyCollectionChangedAction action = e.Action;
+        }
 
 
-    //choice to select a drone according to it status and weight
-    private void StatuesAndWeight_SelectionChange(object sender, SelectionChangedEventArgs e)
+        //choice to select a drone according to it status and weight
+        private void StatuesAndWeight_SelectionChange(object sender, SelectionChangedEventArgs e)
         {
 
             Drones_ListBox.ItemsSource = from item in droneToListsBL

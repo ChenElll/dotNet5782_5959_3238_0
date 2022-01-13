@@ -83,8 +83,8 @@ namespace PL
             {
                 Id = int.Parse(IdStationText.Text),
                 Name = NameStationText.Text,
-                Location = { Lattitude = LattitudeStationText.Text, Longtitude = (double)LattitudeStationText.Text },
-                FreeChargeSlots = (int)NumOfChargeSlotsText.Text,
+                Location = { Lattitude = double.Parse(LattitudeStationText.Text), Longtitude = double.Parse(LattitudeStationText.Text) },
+                FreeChargeSlots = int.Parse(NumOfChargeSlotsText.Text),
             };
             MessageBoxResult result = MessageBox.Show("Station succefully added");
             try

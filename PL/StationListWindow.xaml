@@ -128,10 +128,13 @@
             </ComboBox>
 
         </Grid>
-        <Button x:Name="AddingStationButton" Content="Add Station" Grid.Column="1" HorizontalAlignment="Left" Margin="108,360,0,0" Grid.Row="1" VerticalAlignment="Top" Height="47" Width="122" FontSize="20" Click="AddingStationButton_Click"/>
-        <Button x:Name="CancelButton" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="260,360,0,0" Grid.Row="1" VerticalAlignment="Top" Height="48" Width="119" FontSize="20" Click="CancelButton_Click"/>
+        <Button x:Name="AddingStationButton" Content="Add Station" Grid.Column="1" HorizontalAlignment="Left" Margin="108,360,0,0" 
+                Grid.Row="1" VerticalAlignment="Top" Height="47" Width="122" FontSize="20" Click="AddingStationButton_Click"/>
+        <Button x:Name="CancelButton" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="260,360,0,0" Grid.Row="1" 
+                VerticalAlignment="Top" Height="48" Width="119" FontSize="20" Click="CancelButton_Click"/>
         <ListView x:Name="Stations_ListBox" Margin="10,56,10,80" Grid.Row="1" 
-                 MouseDoubleClick="ChooseStationFromTheList" FontFamily="Arial Rounded MT Bold" FontSize="20" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderThickness="2,2,2,2" BorderBrush="#FF005BFF" IsSynchronizedWithCurrentItem="False">
+                 MouseDoubleClick="ChooseStationFromTheList" FontFamily="Arial Rounded MT Bold" FontSize="20" Grid.ColumnSpan="2"
+                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderThickness="2,2,2,2" BorderBrush="#FF005BFF" IsSynchronizedWithCurrentItem="False">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=Id}" Width="100"/>

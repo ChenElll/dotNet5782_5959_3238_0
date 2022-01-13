@@ -3,12 +3,12 @@ namespace DO
 {
     public enum WeightCategories
     {
-        light = 1, medium, heavy
+        All, light = 1, medium, heavy
     }
 
     public enum Priorities
     {
-        regular = 1, fast, emergency
+        All, regular = 1, fast, emergency
     }
 
     public enum LongitudeLattitude
