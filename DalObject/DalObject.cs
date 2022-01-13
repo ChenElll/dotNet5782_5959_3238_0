@@ -11,7 +11,10 @@ namespace Dal
         #region singelton
         static readonly DalObject instance = new DalObject();
         static DalObject() { }// static ctor to ensure instance init is done just before first usage
-        DalObject() { } // default => private
+        DalObject()
+        {
+            DataSource.Initialize();
+        } // default => private
         public static DalObject Instance { get => instance; }// The public Instance property to use
         #endregion
 
@@ -56,66 +59,61 @@ namespace Dal
             #region Initialize
             public static void Initialize()
             {
-                StationsList = new List<Station>
+                StationsList.Add(
+                new Station
                 {
-                    new Station
-                    {
-                        Id = 1,
-                        Name = "NorthJerusalem",
-                        Longtitude = 31.87,
-                        Lattitude = 35.1695,
-                        FreeChargeSlots = MyRandom.Next(4),
-                    },
+                    Id = 1,
+                    Name = "NorthJerusalem",
+                    Longtitude = 31.87,
+                    Lattitude = 35.1695,
+                    FreeChargeSlots = MyRandom.Next(4),
+                });
 
-                    new Station
-                    {
-                        Id = 3,
-                        Name = "SouthJerusalem",
-                        Longtitude = 31.709,
-                        Lattitude = 35.1695,
-                        FreeChargeSlots = MyRandom.Next(4),
-                    }
-                };
+                StationsList.Add(
+                new Station
+                {
+                    Id = 3,
+                    Name = "SouthJerusalem",
+                    Longtitude = 31.709,
+                    Lattitude = 35.1695,
+                    FreeChargeSlots = MyRandom.Next(4),
+                });
+
 
 
 
                 for (int i = 0; i < 5; i++) // initializing the drone's list with 5 drones
                 {
 
-                    DronesList = new List<Drone>
+                    DronesList.Add(
+                    new Drone
                     {
-                        new Drone
-                        {
-                            Id = MyRandom.Next(1000, 10000),
-                            Model = ("Drone" + i),
-                            MaxWeight = (WeightCategories)MyRandom.Next(1, 4)
-                        }
-                    };
+                        Id = MyRandom.Next(1000, 10000),
+                        Model = ("Drone" + i),
+                        MaxWeight = (WeightCategories)MyRandom.Next(1, 4)
+                    });
                 }
 
 
                 string[] CustomersNames = new string[10] { "Abby", "Adam", "Roy", "Dan", "Shon", "John", "James", "Robert", "Mary", "Sarah" };
                 for (int i = 0; i < 10; i++) // initialize the customer's list with ten customers
                 {
-                    CustomersList = new List<Customer>
+                    CustomersList.Add(
+                    new Customer
                     {
-                        new Customer
-                        {
-                            Id = MyRandom.Next(100000000, 1000000000),
-                            CustomerName = CustomersNames[i],
-                            PhoneNumber = $"0{MyRandom.Next(50, 59)}{MyRandom.Next(1000000, 10000000)}",
-                            Lattitude = 35.1052 + MyRandom.Next(2, 15) / 100,
-                            Longtitude = 31.7082 + MyRandom.Next(17) / 100,
-                        }
-                    };
+                        Id = MyRandom.Next(100000000, 1000000000),
+                        CustomerName = CustomersNames[i],
+                        PhoneNumber = $"0{MyRandom.Next(50, 59)}{MyRandom.Next(1000000, 10000000)}",
+                        Lattitude = 35.1052 + MyRandom.Next(2, 15) / 100,
+                        Longtitude = 31.7082 + MyRandom.Next(17) / 100,
+                    });
                 }
 
                 for (int i = 0; i < 10; i++) // initialize the parcel's list with ten parcels
                 {
                     Config.ParcelsNumber++;
 
-                    ParcelsList = new List<Parcel>
-                    {
+                    ParcelsList.Add(
                         new Parcel
                         {
                             Id = Config.ParcelsNumber, // each parcel has to be bigger than the previous
@@ -127,8 +125,7 @@ namespace Dal
                             Weight = (WeightCategories)MyRandom.Next(1, 4),
                             DroneId = 0,
                             RequestedTime = DateTime.Now,
-                        }
-                     };
+                        });
                 }
 
 
