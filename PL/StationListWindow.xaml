@@ -84,8 +84,8 @@
             <RowDefinition Height="550*"/>
         </Grid.RowDefinitions>
 
-        <Grid Name="UpGridStation" Grid.Row="0" 
-              Background="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Grid.ColumnSpan="2" Margin="0,0,0,1">
+        <Grid Name="UpGridStation" Grid.Row="0"
+              Background="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Grid.ColumnSpan="4" Margin="0,0,0,1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="37*"/>
                 <RowDefinition Height="37*"/>
@@ -100,41 +100,24 @@
                 <ColumnDefinition Width="200*"/>
             </Grid.ColumnDefinitions>
 
-            <Label x:Name="FreeChargeSlots" Content="Number of free charge slots:" Height="70" FontSize="18" Background="#00000000" 
-                    HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.RowSpan="2" Margin="0,-7,140,-7" Grid.ColumnSpan="2">
-                <Label.OpacityMask>
-                    <LinearGradientBrush>
-                        <GradientStop Color="Black"/>
-                        <GradientStop Color="White"/>
-                    </LinearGradientBrush>
-                </Label.OpacityMask>
-            </Label>
 
-            <Label x:Name="IfFreeChargeSlots" Content="Free charge slots existing" Height="70" FontSize="18" Background="#00000000" 
-                    HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.RowSpan="2" Margin="160,-7,0,-7" Grid.ColumnSpan="2" Grid.Column="1">
-                <Label.OpacityMask>
-                    <LinearGradientBrush>
-                        <GradientStop Color="Black"/>
-                        <GradientStop Color="White"/>
-                    </LinearGradientBrush>
-                </Label.OpacityMask>
-            </Label>
-            <ComboBox Grid.Column="3" HorizontalAlignment="Left" Margin="42,14,0,0" VerticalAlignment="Top" Width="89" Height="30" Grid.RowSpan="2"
-                      SelectionChanged="FreeChargeSlots_SelectionChange"
-                      x:Name="ExistSlotsSelector"
-                  ToolTip="Choose if they are free charge slots">
-                <ComboBoxItem>Yes</ComboBoxItem>
-                <ComboBoxItem>No</ComboBoxItem>
-            </ComboBox>
+            <Label x:Name="FreeChargeSlots"
+                  Content="Sort by " 
+                  Grid.Column="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.RowSpan="2"/>
+
+
+            <ComboBox x:Name="ChargeSlotsSelector" 
+                      Grid.Column="1"
+                    
+                  SelectionChanged="FreeChargeSlots_SelectionChange"  
+                  ToolTip="Sort by " Grid.Row="1"/>
+
 
         </Grid>
-        <Button x:Name="AddingStationButton" Content="Add Station" Grid.Column="1" HorizontalAlignment="Left" Margin="108,360,0,0" 
-                Grid.Row="1" VerticalAlignment="Top" Height="47" Width="122" FontSize="20" Click="AddingStationButton_Click"/>
-        <Button x:Name="CancelButton" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="260,360,0,0" Grid.Row="1" 
-                VerticalAlignment="Top" Height="48" Width="119" FontSize="20" Click="CancelButton_Click"/>
+        <Button x:Name="AddingStationButton" Content="Add Station" Grid.Column="1" HorizontalAlignment="Left" Margin="108,360,0,0" Grid.Row="1" VerticalAlignment="Top" Height="47" Width="122" FontSize="20" Click="AddingStationButton_Click"/>
+        <Button x:Name="CancelButton" Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="260,360,0,0" Grid.Row="1" VerticalAlignment="Top" Height="48" Width="119" FontSize="20" Click="CancelButton_Click"/>
         <ListView x:Name="Stations_ListBox" Margin="10,56,10,80" Grid.Row="1" 
-                 MouseDoubleClick="ChooseStationFromTheList" FontFamily="Arial Rounded MT Bold" FontSize="20" Grid.ColumnSpan="2"
-                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderThickness="2,2,2,2" BorderBrush="#FF005BFF" IsSynchronizedWithCurrentItem="False">
+                 MouseDoubleClick="ChooseStationFromTheList" FontFamily="Arial Rounded MT Bold" FontSize="20" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderThickness="2,2,2,2" BorderBrush="#FF005BFF" IsSynchronizedWithCurrentItem="False">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=Id}" Width="100"/>
@@ -145,9 +128,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ComboBox x:Name="ChargeSlotsSelector" HorizontalAlignment="Left" Margin="270,0,0,0" VerticalAlignment="Center" Width="83" Height="35"
-                  SelectionChanged="FreeChargeSlots_SelectionChange"  
-                  ToolTip="Choose the number of free charge slots"/>
 
     </Grid>
 </Window>
+
+

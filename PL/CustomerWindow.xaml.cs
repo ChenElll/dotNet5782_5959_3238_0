@@ -87,7 +87,16 @@ namespace PL
         /// <param name="e"></param>
         private void UpdateCustomerButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            BO.CustomerToList customer = new BO.CustomerToList
+            {
+                Id = myCustomer.Id,
+                CustomerName = myCustomer.CustomerName,
+                PhoneNumber = myCustomer.PhoneNumber,
+                //NumberParcelsOnWay = ,
+                //NumberParcelsReceived = ,
+                //NumberSentAndProvidedParcels = ,
+                //NumberSentAnd_Not_ProvidedParcels=,
+            };
 
 
             if (customerListWindow.customerToListsBL.Remove(bl.GetCustomerList().First(x => x.Id == myCustomer.Id)))
