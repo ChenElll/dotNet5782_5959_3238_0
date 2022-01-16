@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -23,31 +24,48 @@ namespace PL
         {
             InitializeComponent();
             bl = ibl;
-            droneToListsBL =
-            new ObservableCollection<BO.DroneToList>(from item in bl.GetDroneList()
-                                                     orderby item.Model
-                                                     select item);
-            
+
+
+
+            droneToListsBL = new ObservableCollection<BO.DroneToList>();
+            var dronesTemp = (from item in bl.GetDroneList()
+                              orderby item.Id
+                              select item).AsEnumerable();
+
+
+            foreach (var item in dronesTemp)
+            {
+                droneToListsBL.Add(item);
+            }
+
+
+
             Drones_ListBox.ItemsSource = droneToListsBL;
             StatusSelector.ItemsSource = Enum.GetValues(enumType: typeof(BO.DroneStatuses));
             WeightSelector.ItemsSource = Enum.GetValues(enumType: typeof(DO.WeightCategories));
             droneToListsBL.CollectionChanged += DroneToListsBL_CollectionChanged;
-           // DroneWindow DrnWnd = new(bl,this);
+            // DroneWindow DrnWnd = new(bl,this);
             //DrnWnd.UpdateButton.Click += DrnWnd.UpdateButton_Click;
         }
 
         private void DroneToListsBL_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ObservableCollection < DroneToList > d = new ObservableCollection<DroneToList>();
-            ObservableCollection<DroneToList> obsSender = sender as ObservableCollection<DroneToList>;
-            NotifyCollectionChangedAction action = e.Action;
+            StatuesAndWeight_SelectionChange();
+
+            
+            //ObservableCollection < DroneToList > d = new ObservableCollection<DroneToList>();
+            //ObservableCollection<DroneToList> obsSender = sender as ObservableCollection<DroneToList>;
+            //NotifyCollectionChangedAction action = e.Action;
         }
 
-
-        //choice to select a drone according to it status and weight
-        private void StatuesAndWeight_SelectionChange(object sender, SelectionChangedEventArgs e)
+        public void StatuesAndWeight_SelectionChange(object sender, SelectionChangedEventArgs e)
         {
+            StatuesAndWeight_SelectionChange();
 
+        }
+        //choice to select a drone according to it status and weight
+        public void StatuesAndWeight_SelectionChange()
+        {
             Drones_ListBox.ItemsSource = from item in droneToListsBL
                                          where
                                             (StatusSelector.SelectedItem == null
@@ -58,6 +76,9 @@ namespace PL
                                          || item.MaxWeight == (WeightCategories)WeightSelector.SelectedItem)
                                          orderby item.Id
                                          select item;
+
+           
+
         }
 
         /// <summary>
@@ -83,8 +104,16 @@ namespace PL
         {
             DroneWindow open =
                 new DroneWindow(bl, bl.GetDrone(((DroneToList)Drones_ListBox.SelectedItem).Id), this);
+            
+           // Drones_ListBox.ItemsSource = bl.GetDroneList();
             open.Show();
 
+        }
+
+        internal void refresh()
+        {
+            Close();
+            new List_Of_Drones(bl).Show();
         }
 
         /// <summary>

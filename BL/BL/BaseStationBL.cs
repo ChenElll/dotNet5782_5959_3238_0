@@ -2,7 +2,7 @@
 using BO;
 using System.Collections.Generic;
 using System.Linq;
-using DO;
+//using DO;
 using BlApi;
 
 namespace BL
@@ -114,7 +114,7 @@ namespace BL
         /// returns the whole station's list
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<BO.BaseStationToList> GetStationList(Func<Station, bool> predicat = null)
+        public IEnumerable<BO.BaseStationToList> GetStationList(Func<DO.Station, bool> predicat = null)
         {
             try
             {

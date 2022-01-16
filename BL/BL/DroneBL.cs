@@ -1,5 +1,4 @@
 ﻿using BO;
-using DO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +61,13 @@ namespace BL
                     throw new InvalidInputException("drone id can not be negative");
 
                 //find drone in data base and set the details
-                DO.Drone droneDO = dal.GetDronesList(x => x.Id == droneBO.Id).First();
+                BO.DroneToList droneToListBO 
+                    = (BO.DroneToList)GetDroneList(x => x.Id == droneBO.Id).FirstOrDefault().CopyPropertiesToNew(typeof(BO.DroneToList));
+                droneToListBO.Model = droneBO.Model;
+                
+                droneToListListBL[droneToListListBL.FindIndex(x => x.Id == droneBO.Id)] = droneToListBO;
+
+                DO.Drone droneDO = (DO.Drone)dal.GetDronesList(x => x.Id == droneBO.Id).FirstOrDefault().CopyPropertiesToNew(typeof(DO.Drone));
                 droneDO.Model = droneBO.Model;
                 dal.UpdateDrone(droneDO);
             }

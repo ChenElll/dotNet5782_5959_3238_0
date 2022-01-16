@@ -1,4 +1,7 @@
-﻿namespace BO
+﻿using System;
+using DO;
+
+namespace BO
 {
     public class Location
     {

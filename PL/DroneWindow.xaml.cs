@@ -50,25 +50,26 @@ namespace PL
             new ObservableCollection<BO.DroneToList>(from item in bl.GetDroneList()
                                                      where item.Id == selectedItem.Id
                                                      select item);
+            BO.DroneToList tempDrone = bl.GetDroneList(item =>item.Id == selectedItem.Id).FirstOrDefault();
             myDrone = bl.GetDrone(selectedItem.Id);
             DataContext = myDrone;
             droneListWindow = droneToLists;
             AddDroneGrid.Visibility = Visibility.Hidden;
             UpdateDroneGrid.Visibility = Visibility.Visible;
-            IdDroneText_View.Text = selectedItem.Id.ToString();
+            IdDroneText_View.Text = tempDrone.Id.ToString();
             IdDroneText_View.IsEnabled = false;
-            ModelDroneText_View.Text = selectedItem.Model.ToString();
+            ModelDroneText_View.Text = tempDrone.Model.ToString();
             ModelDroneText_View.IsEnabled = true;
-            WeightSelect_View.Text = selectedItem.MaxWeight.ToString();
+            WeightSelect_View.Text = tempDrone.MaxWeight.ToString();
             WeightSelect_View.IsEnabled = false;
-            BatteryText_View.Text = ((float)selectedItem.Battery).ToString();
+            BatteryText_View.Text = ((float)tempDrone.Battery).ToString();
             BatteryText_View.IsEnabled = false;
-            StatusText_View.Text = selectedItem.Status.ToString();
+            StatusText_View.Text = tempDrone.Status.ToString();
             StatusText_View.IsEnabled = false;
-            //LocationText_View.Text = selectedItem.Location.Lattitude.ToString() + selectedItem.Location.Longtitude.ToString(); //??
+            LocationText_View.Text = tempDrone.Location.ToString(); //??
             LocationText_View.IsEnabled = false;
 
-            ChargeButton.DataContext = selectedItem.Status;
+            ChargeButton.DataContext = tempDrone.Status;
             //PickUpParcelButton.DataContext = selectedItem.Status;
 
             // send drone to charge and send to delivery buttons just for drones that are available
@@ -103,7 +104,6 @@ namespace PL
             }
 
         }
-
 
         //---------------------------------------------------- ADDING DRONE -------------------------------------------------------//
 
@@ -210,14 +210,16 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             if (ModelDroneText.Text != ModelDroneText_View.Text) //??
             {
                 myDrone.Model = ModelDroneText_View.Text;
                 bl.SetDroneName(myDrone);
+                droneListWindow.refresh();
                 MessageBoxResult result = MessageBox.Show("drone succefully updated");
                 Close();
+                
             }
             else
             {
