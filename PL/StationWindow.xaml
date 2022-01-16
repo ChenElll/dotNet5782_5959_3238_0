@@ -12,7 +12,7 @@
             <ColumnDefinition Width="323*"/>
         </Grid.ColumnDefinitions>
         <Grid RenderTransformOrigin="0.525,0.53" Grid.ColumnSpan="2">
-            <Grid x:Name="AddStationGrid" Background="#FFD6F2F4">
+            <Grid x:Name="AddStationGrid" Background="#FFB9D1EA">
                 <Label x:Name="StationId" Content="Id:" HorizontalAlignment="Left" Margin="117,66,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                 <Label x:Name="StationName" Content="Name:" HorizontalAlignment="Left" Margin="117,141,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                 <Label x:Name="StationLattitude" Content="lattitude:" HorizontalAlignment="Left" Margin="117,217,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
@@ -25,10 +25,9 @@
                 <TextBox x:Name="NumOfChargeSlotsText" HorizontalAlignment="Left" Margin="358,369,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                 <Button x:Name="AddToStationList" Content="Add" HorizontalAlignment="Left" Margin="530,380,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" FontWeight="Bold" Click="AddToList_Click"/>
                 <Button x:Name="CancelStation" Content="Cancel" HorizontalAlignment="Left" Margin="650,380,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" Click="CancelStation_Click" />
-                <ListBox x:Name="StationSelected_Box" ItemsSource="{Binding}" Margin="600,0,0,200" FontFamily="David" FontSize="20" FontWeight="Bold"/>
             </Grid>
 
-            <Grid Name="UpdateStationGrid" Background="#FFD6F2F4">
+            <Grid Name="UpdateStationGrid" Background="#FFB9D1EA">
                 <Grid RenderTransformOrigin="0.481,0.531" Grid.ColumnSpan="2">
                     <Label x:Name="StationId_View" Content="Id:" HorizontalAlignment="Left" Margin="380,40,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                     <Label x:Name="StationName_View" Content="Name:" HorizontalAlignment="Left" Margin="380,106,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
@@ -41,11 +40,9 @@
                     <TextBox x:Name="StationLattitudeText_View" HorizontalAlignment="Left" Margin="600,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Width="124" Height="30" FontFamily="David"/>
                     <TextBox x:Name="StationLongitudeText_View" HorizontalAlignment="Left" Margin="600,238,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                     <TextBox x:Name="FreeChargeSlotsText_View" HorizontalAlignment="Left" Margin="600,304,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
-                    <ListView x:Name="ListOfDroneInCharge" Margin="600,370,75,10">
-
-                    </ListView>
+                    <TextBox x:Name="ListOfDroneInCharge" Margin="600,370,75,10" TextWrapping="Wrap">
+                    </TextBox>
                     <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206" Click="UpdateButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0"/>
-
                 </Grid>
             </Grid>
         </Grid>

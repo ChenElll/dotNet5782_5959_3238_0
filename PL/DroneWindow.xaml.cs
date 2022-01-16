@@ -36,7 +36,6 @@ namespace PL
             StationIdSelection.ItemsSource = from station in bl.GetStationList()
                                              select station.Id;
             
-            DroneSelected_Box.ItemsSource = (System.Collections.IEnumerable)myDrone;
         }
 
         /// <summary>
@@ -51,7 +50,7 @@ namespace PL
             new ObservableCollection<BO.DroneToList>(from item in bl.GetDroneList()
                                                      where item.Id == selectedItem.Id
                                                      select item);
-            myDrone = selectedItem;
+            myDrone = bl.GetDrone(selectedItem.Id);
             DataContext = myDrone;
             droneListWindow = droneToLists;
             AddDroneGrid.Visibility = Visibility.Hidden;
@@ -158,33 +157,42 @@ namespace PL
         /// <param name="e"></param>
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            TextBox text = sender as TextBox;
-            if (text == null) return;
-            if (e == null) return;
+            try
+            {
+                TextBox text = sender as TextBox;
+                if (text == null) return;
+                if (e == null) return;
 
-            //allow get out of the text box
-            if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
+                //allow get out of the text box
+                if (e.Key is Key.Enter or Key.Return or Key.Tab)
+                {
+                    return;
+                }
+
+                //allow list of system keys (add other key here if you want to allow)
+                if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
+                    e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home || e.Key == Key.End ||
+                    e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
+                    return;
+
+                char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
+
+                //allow control system keys
+                if (char.IsControl(c)) return;
+
+                //allow digits (without Shift or Alt)
+                if (char.IsDigit(c))
+                    if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
+                        return; //let this key be written inside the textbox
+
+                //forbid letters and signs (#,$, %, ...)
+                e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
                 return;
-
-            //allow list of system keys (add other key here if you want to allow)
-            if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
-                e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home || e.Key == Key.End ||
-                e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
-                return;
-
-            char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
-
-            //allow control system keys
-            if (Char.IsControl(c)) return;
-
-            //allow digits (without Shift or Alt)
-            if (Char.IsDigit(c))
-                if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
-                    return; //let this key be written inside the textbox
-
-            //forbid letters and signs (#,$, %, ...)
-            e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
-            return;
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("you can enter only numbers");
+            }
 
         }
 
@@ -202,13 +210,12 @@ namespace PL
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        public void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             if (ModelDroneText.Text != ModelDroneText_View.Text) //??
             {
                 myDrone.Model = ModelDroneText_View.Text;
                 bl.SetDroneName(myDrone);
-
                 MessageBoxResult result = MessageBox.Show("drone succefully updated");
                 Close();
             }

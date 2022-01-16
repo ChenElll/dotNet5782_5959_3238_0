@@ -22,24 +22,23 @@ namespace PL
         public List_Of_Drones(IBL ibl)
         {
             InitializeComponent();
-
             bl = ibl;
-
             droneToListsBL =
             new ObservableCollection<BO.DroneToList>(from item in bl.GetDroneList()
-                                                     orderby item.Id
+                                                     orderby item.Model
                                                      select item);
-            Drones_ListBox.DataContext = droneToListsBL;
+            
             Drones_ListBox.ItemsSource = droneToListsBL;
             StatusSelector.ItemsSource = Enum.GetValues(enumType: typeof(BO.DroneStatuses));
             WeightSelector.ItemsSource = Enum.GetValues(enumType: typeof(DO.WeightCategories));
             droneToListsBL.CollectionChanged += DroneToListsBL_CollectionChanged;
-
+           // DroneWindow DrnWnd = new(bl,this);
+            //DrnWnd.UpdateButton.Click += DrnWnd.UpdateButton_Click;
         }
 
-        private void DroneToListsBL_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void DroneToListsBL_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            // = new ObservableCollection<DroneToList>();
+            ObservableCollection < DroneToList > d = new ObservableCollection<DroneToList>();
             ObservableCollection<DroneToList> obsSender = sender as ObservableCollection<DroneToList>;
             NotifyCollectionChangedAction action = e.Action;
         }

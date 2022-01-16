@@ -31,7 +31,6 @@
                 <TextBox x:Name="DeliveredParcelText" HorizontalAlignment="Left" Margin="358,400,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                 <Button x:Name="AddToList" Content="Add" HorizontalAlignment="Left" Margin="586,356,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" FontWeight="Bold" Click="AddToList_Click"/>
                 <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="685,356,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" FontWeight="Bold" Click="CancelButton_Click" RenderTransformOrigin="0.556,0.495"/>
-                <ListBox x:Name="ParcelSelected_Box" ItemsSource="{Binding}" Margin="600,0,0,200" FontFamily="David" FontSize="20" FontWeight="Bold"/>
             </Grid>
             <Grid Name="UpdateParcelGrid" Background="#FFB9D1EA">
                 <Grid RenderTransformOrigin="0.481,0.531" Grid.ColumnSpan="2">

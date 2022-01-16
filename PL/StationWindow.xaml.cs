@@ -27,7 +27,6 @@ namespace PL
             this.bl = blD;
             stationListWindow = stationToLists;
             this.DataContext = myStation;
-            StationSelected_Box.ItemsSource = (System.Collections.IEnumerable)myStation;
             AddStationGrid.Visibility = Visibility.Visible;
             UpdateStationGrid.Visibility = Visibility.Hidden;
         }
@@ -42,11 +41,18 @@ namespace PL
             InitializeComponent();
             bl = blD;
             new ObservableCollection<BO.BaseStationToList>(from item in bl.GetStationList()
-                                                               where item.Id == selectedItem.Id
-                                                               select item);
+                                                           where item.Id == selectedItem.Id
+                                                           select item);
+            myStation = bl.GetStation(selectedItem.Id);
+            DataContext = myStation;
+            stationListWindow = stationToLists;
             AddStationGrid.Visibility = Visibility.Hidden;
             UpdateStationGrid.Visibility = Visibility.Visible;
-            //ListOfDroneInCharge = DroneInCharge;
+            LongitudeStationText.Text = selectedItem.Location.Longtitude.ToString();
+            LattitudeStationText.Text = selectedItem.Location.Lattitude.ToString();
+            FreeChargeSlotsText_View.Text = selectedItem.FreeChargeSlots.ToString();
+            ListOfDroneInCharge.Text = (from item in selectedItem.DronesInCharge
+                                        select item.Id).ToString();
 
         }
 
@@ -75,6 +81,7 @@ namespace PL
                 Name = NameStationText.Text,
                 Location = { Lattitude = double.Parse(LattitudeStationText.Text), Longtitude = double.Parse(LattitudeStationText.Text) },
                 FreeChargeSlots = int.Parse(NumOfChargeSlotsText.Text),
+                DronesInCharge = (System.Collections.Generic.List<DroneInCharge>)ListOfDroneInCharge.Text.AsEnumerable(),
             };
             MessageBoxResult result = MessageBox.Show("Station succefully added");
             try
@@ -89,7 +96,7 @@ namespace PL
             }
             if (closeWindow)
             {
-                stationListWindow.stationToListsBL.Add(bl.GetStationList().First(d => d.Id == station.Id));
+                stationListWindow.stationToListsBL.Add(bl.GetStationList().FirstOrDefault(x => x.Id == station.Id));
                 Close();
             }
         }
@@ -105,21 +112,13 @@ namespace PL
         /// <param name="e"></param>
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            // myStation = bl.GetStation(myStation.Id);?
-            BaseStationToList station = new BaseStationToList
-            {
-                Id = myStation.Id,
-                Name = myStation.Name,
-                FreeChargeSlots = myStation.FreeChargeSlots,
-                OccupiedChargeSlots = myStation.DronesInCharge.Count,
-            };
+            myStation = bl.GetStation(myStation.Id);
 
-            if (stationListWindow.stationToListsBL.Remove(station))
+            if (StationNameText_View.Text!=myStation.Name)
             {
                 myStation.Name = StationNameText_View.Text.ToString();
-                station.Name = myStation.Name;
                 bl.SetStationDetails(myStation.Id);
-                stationListWindow.stationToListsBL.Add(station);
+                stationListWindow.stationToListsBL.Add(bl.GetStationList().First(x=>x.Id==myStation.Id));
                 MessageBoxResult result = MessageBox.Show("Station succefully updated");
                 Close();
             }

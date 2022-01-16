@@ -184,11 +184,11 @@
                   FontSize="20" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" 
                   VerticalContentAlignment="Stretch" BorderThickness="2,2,2,2" BorderBrush="#FF005BFF" 
                   IsSynchronizedWithCurrentItem="False"
-                  ItemBindingGroup="{Binding Path=DroneToListsBL_CollectionChanged}">
+                  ItemBindingGroup="{Binding Path=Text, Mode=TwoWay}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=Id}" Width="100"/>
-                    <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Path= Model, Mode=TwoWay}" Width="150"/>
+                    <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Path= Model}" Width="150"/>
                     <GridViewColumn Header="Max Weight" DisplayMemberBinding="{Binding Path=MaxWeight}" Width="150"/>
                     <GridViewColumn Header="Battery" DisplayMemberBinding="{Binding Path=Battery}" Width="150"/>
                     <GridViewColumn Header="Statue" DisplayMemberBinding="{Binding Path=Status}" Width="200"/>

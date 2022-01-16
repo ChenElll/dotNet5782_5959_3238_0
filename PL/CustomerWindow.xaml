@@ -42,8 +42,8 @@
                     <TextBox x:Name="CustomerLattitudeText_View" HorizontalAlignment="Left" Margin="600,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Width="124" Height="30" FontFamily="David"/>
                     <TextBox x:Name="CustomerLongitudeText_View" HorizontalAlignment="Left" Margin="600,190,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                     <TextBox x:Name="CustomerPhoneText_View" HorizontalAlignment="Left" Margin="600,240,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
-                    <ListBox x:Name="ListOfCustomerFrom_View" Margin="600,290,75,80"/>
-                    <ListBox x:Name="ListOfCustomerTo_View" Margin="600,360,75,10"/>
+                    <TextBox x:Name="ListOfCustomerFrom_View" Margin="600,290,75,80" />
+                    <TextBox x:Name="ListOfCustomerTo_View" Margin="600,360,75,10" TextWrapping="Wrap"/>
                     <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206" Click="UpdateCustomerButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0"/>
 
                 </Grid>

@@ -39,7 +39,7 @@ namespace PL
             this.DataContext = myCustomer;
             AddCustomerGrid.Visibility = Visibility.Visible;
             UpdateCustomerGrid.Visibility = Visibility.Hidden;
-            CustomerSelected_Box.ItemsSource = (System.Collections.IEnumerable)myCustomer;
+
         }
 
 
@@ -66,14 +66,14 @@ namespace PL
             CustomerNameText_View.IsEnabled = true;
             CustomerPhoneText_View.Text = selectedItem.PhoneNumber.ToString();
             CustomerPhoneText_View.IsEnabled = true;
-            ParcelsFromCustomer_View.Content = (from item in selectedItem.FromCustomer
-                                                select item.Id).ToString();
-            ParcelsFromCustomer_View.IsEnabled = false;
-            ParcelsToCustomer_View.Content = (from item in selectedItem.ToCustomer
-                                              select item.Id).ToString();
-            ParcelsToCustomer_View.IsEnabled = false;
-            CustomerLattitudeText_View.DataContext = selectedItem.Location.Lattitude;
-            CustomerLongitudeText_View.DataContext = selectedItem.Location.Longtitude;
+            //ListOfCustomerFrom_View.Text = (from item in selectedItem.FromCustomer
+            //                                select item.Id).ToString();
+            ListOfCustomerFrom_View.IsEnabled = false;
+            ListOfCustomerTo_View.Text = (from item in selectedItem.ToCustomer
+                                          select item.Id).ToString();
+            ListOfCustomerTo_View.IsEnabled = false;
+            CustomerLattitudeText_View.Text = selectedItem.Location.Lattitude.ToString();
+            CustomerLongitudeText_View.Text = selectedItem.Location.Longtitude.ToString();
             CustomerLattitudeText_View.IsEnabled = false;
             CustomerLongitudeText_View.IsEnabled = false;
 
@@ -103,7 +103,7 @@ namespace PL
             {
                 //customer.CustomerName = CustomerNameText_View.Text;
                 //customer.PhoneNumber = CustomerPhoneText_View.Text;
-                
+
                 MessageBoxResult result = MessageBox.Show("Station succefully updated");
                 Close();
             }
@@ -121,9 +121,10 @@ namespace PL
                 Id = int.Parse(CustomerIdText_View.Text),
                 CustomerName = NameCustomerText.Text,
                 PhoneNumber = CustomerPhoneText.Text,
-                Location= new Location {Longtitude=double.Parse(LongitudeCustomerText.Text), Lattitude= double.Parse(LattitudeCustomerText.Text) },
-                //FromCustomer= from ,
-                //ToCustomer=,
+                Location = new Location { Longtitude = double.Parse(LongitudeCustomerText.Text), Lattitude = double.Parse(LattitudeCustomerText.Text) },
+                //FromCustomer = from item in ListOfCustomerFrom_View.Text
+                //               select item,
+                //ToCustomer = ,
             };
             MessageBoxResult result = MessageBox.Show("customer succefully added");
             try

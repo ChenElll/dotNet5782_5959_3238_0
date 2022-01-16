@@ -40,7 +40,6 @@ namespace PL
             AddParcelGrid.Visibility = Visibility.Visible;
             UpdateParcelGrid.Visibility = Visibility.Hidden;
 
-            ParcelSelected_Box.ItemsSource = (System.Collections.IEnumerable)myParcel;
         }
 
         /// <summary>
