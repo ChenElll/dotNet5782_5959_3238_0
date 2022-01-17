@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
     <Id>6742</Id>
@@ -17,7 +17,7 @@
   </Drone>
   <Drone>
     <Id>3782</Id>
-    <Model>Drone3</Model>
+    <Model>Dr</Model>
     <MaxWeight>medium</MaxWeight>
   </Drone>
   <Drone>
