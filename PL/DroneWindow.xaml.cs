@@ -93,7 +93,12 @@ namespace PL
 
         }
 
+
+
         //---------------------------------------------------- ADDING DRONE -------------------------------------------------------//
+
+
+
 
         private void StationIdSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -126,8 +131,8 @@ namespace PL
             }
             catch (Exception)
             {
-                MessageBox.Show("can't add the drone"); //to string override
-                //exception
+                MessageBox.Show("can't add the drone"); 
+                
             }
             if (closeWindow)
             {
@@ -192,7 +197,12 @@ namespace PL
         }
 
 
+
+
         //---------------------------------------------------- UPDATE DRONE -------------------------------------------------------//
+
+
+
 
         /// <summary>
         /// function to update drone's details

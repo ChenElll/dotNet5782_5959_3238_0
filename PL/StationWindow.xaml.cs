@@ -18,7 +18,7 @@ namespace PL
 
 
         /// <summary>
-        /// constructor for adding station
+        /// CONSTRUCTOR FOR ADDING STATION
         /// </summary>
         /// <param name="blD"></param>
         /// <param name="stationToLists"></param>
@@ -36,7 +36,7 @@ namespace PL
 
 
         /// <summary>
-        /// constructor for updates details of the station
+        /// CONSTRUCTOR FOR UPDATE DETAILS OF THE STATION
         /// </summary>
         /// <param name="blD"></param>
         /// <param name="drone"></param>
@@ -87,18 +87,17 @@ namespace PL
                 Name = NameStationText.Text,
                 Location = { Lattitude = double.Parse(LattitudeStationText.Text), Longtitude = double.Parse(LattitudeStationText.Text) },
                 FreeChargeSlots = int.Parse(NumOfChargeSlotsText.Text),
-                DronesInCharge = (System.Collections.Generic.List<DroneInCharge>)ListOfDroneInCharge.Text.AsEnumerable(),
             };
             MessageBoxResult result = MessageBox.Show("Station succefully added");
             try
             {
                 bl.AddStation(station);
                 myStation = bl.GetStation(station.Id);
+
             }
             catch (Exception)
             {
-                MessageBox.Show("can't add the station"); //to string override
-                //exception
+                MessageBox.Show("can't add the station"); 
             }
             if (closeWindow)
             {
@@ -124,7 +123,7 @@ namespace PL
             {
                 myStation.Name = StationNameText_View.Text.ToString();
                 myStation.FreeChargeSlots = int.Parse(FreeChargeSlotsText_View.Text);
-                bl.SetStationDetails(myStation.Id);
+                bl.SetStationDetails(myStation.Id,myStation.Name,myStation.FreeChargeSlots.ToString());
                 stationListWindow.refresh();
                 MessageBoxResult result = MessageBox.Show("Station succefully updated");
                 Close();

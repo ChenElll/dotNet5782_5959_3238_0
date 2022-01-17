@@ -31,7 +31,7 @@ namespace PL
             new ObservableCollection<BO.BaseStationToList>(from item in bl.GetStationList()
                                                            orderby item.Id
                                                            select item);
-            Stations_ListBox.DataContext = stationToListsBL;
+            //Stations_ListBox.DataContext = stationToListsBL;
             Stations_ListBox.ItemsSource = stationToListsBL;
             stationToListsBL.CollectionChanged += StationToListsBL_CollectionChanged;
             ChargeSlotsSelector.ItemsSource = Enumerable.Range(0, 100);
