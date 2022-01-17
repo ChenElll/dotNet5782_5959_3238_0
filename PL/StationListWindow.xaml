@@ -85,7 +85,7 @@
         </Grid.RowDefinitions>
 
         <Grid Name="UpGridStation" Grid.Row="0"
-              Background="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Grid.ColumnSpan="4" Margin="0,0,0,1">
+              Background="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" Grid.ColumnSpan="2" Margin="0,-9,0,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="37*"/>
                 <RowDefinition Height="37*"/>
@@ -103,14 +103,14 @@
 
             <Label x:Name="FreeChargeSlots"
                   Content="Sort by " 
-                  Grid.Column="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.RowSpan="2"/>
+                  Grid.Column="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.RowSpan="2" Margin="-21,0,21,0"/>
 
 
             <ComboBox x:Name="ChargeSlotsSelector" 
                       Grid.Column="1"
-                    ToolTip="Sort by " Grid.Row="1"></ComboBox>
-               <!--   SelectionChanged="FreeChargeSlots_SelectionChange"  -->
-                  
+                    ToolTip="Sort by " Margin="0,16,0,12" Grid.RowSpan="2"
+                    SelectionChanged="FreeChargeSlots_SelectionChange"/>
+
 
 
         </Grid>
@@ -123,7 +123,8 @@
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=Id}" Width="100"/>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path= Name}" Width="150"/>
                     <GridViewColumn Header="Free Charge Slots" DisplayMemberBinding="{Binding Path=FreeChargeSlots}" Width="250"/>
-                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding Path=Location}" Width="200"/>
+                    <GridViewColumn Header="Longtitude" DisplayMemberBinding="{Binding Path=Location.Longtitude}" Width="200"/>
+                    <GridViewColumn Header="Lattitude" DisplayMemberBinding="{Binding Path=Location.Lattitude}" Width="200"/>
                     <GridViewColumn Header="Drone in charge" DisplayMemberBinding="{Binding Path=DroneInCharge}" Width="250"/>
                 </GridView>
             </ListView.View>

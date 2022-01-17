@@ -9,7 +9,6 @@ namespace BO
         public Priorities Priority { get; set; }
         public WeightCategories ParcelWeight { get; set; }
         public CustomerInParcel Sender { get; set; }
-
         public CustomerInParcel Target { get; set; }
         public Location Collection { get; set; }
         public Location DeliveryDestination { get; set; }

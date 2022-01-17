@@ -1,5 +1,6 @@
 ﻿using BlApi;
 using BO;
+using DO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -48,7 +49,7 @@ namespace PL
         /// <param name="blD"></param>
         /// <param name="selectedItem"></param>
         /// <param name="parcelToLists"></param>
-        public ParcelWindow(IBL blD, Parcel selectedItem, ParcelListWindow parcelToLists)
+        public ParcelWindow(IBL blD, BO.Parcel selectedItem, ParcelListWindow parcelToLists)
         {
             InitializeComponent();
             bl = blD;
@@ -88,8 +89,8 @@ namespace PL
                 Id = int.Parse(IdParcelText.Text),
                 Sender = customerS,
                 Target = customerT,
-                //Weight = (WeightCategories).Parse(WeightParcelText.Text),
-                //Priority = (Priorities).PriorityParcelText.Text,
+                //Weight = (WeightCategories)WeightParcelText.Text,
+                //Priority = (Priorities).PriorityParcelText.Text,   //////??????
                 Drone = droneInParcel,
                 RequestedTime = DateTime.Parse(RequestedParcel_View.Text),
                 ScheduleTime = DateTime.Parse(ScheduledParcelText.Text),

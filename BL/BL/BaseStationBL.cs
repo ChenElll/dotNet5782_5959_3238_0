@@ -90,8 +90,8 @@ namespace BL
                 //get the station from station list in dal layer
                 DO.Station stationDO = dal.GetStation(stationId);
                 //filter from drone charge's list those with the station's id wanted
-                List<DO.DroneCharge> droneChargesListDO =
-                    (List<DO.DroneCharge>)dal.GetDroneChargesList(D => D.StationId == stationId);
+                //List<DO.DroneCharge> droneChargesListDO =
+                //    (List<DO.DroneCharge>)dal.GetDroneChargesList(D => D.StationId == stationId);
 
                 //copy properties from dal station to bl station
                 BO.BaseStation baseStationBO = (BO.BaseStation)stationDO.CopyPropertiesToNew(typeof(BO.BaseStation));

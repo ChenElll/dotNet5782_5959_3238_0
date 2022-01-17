@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="StationWindow" Height="450" Width="800">
+        Title="StationWindow" Height="500" Width="800">
     <Grid x:Name="MainGridStation">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="77*"/>
@@ -35,14 +35,20 @@
                     <Label x:Name="StationLongitude_View" Content="Longitude:" HorizontalAlignment="Left" Margin="380,238,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                     <Label x:Name="DroneInCharge_View" Content="Drones in charge" HorizontalAlignment="Left" Margin="380,370,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                     <Label x:Name="StationChatgeSlots_View" Content="N° of free charge slots:" HorizontalAlignment="Left" Margin="380,304,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
-                    <TextBox x:Name="StationIdText_View" HorizontalAlignment="Left" Margin="600,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
-                    <TextBox x:Name="StationNameText_View" HorizontalAlignment="Left" Margin="600,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
-                    <TextBox x:Name="StationLattitudeText_View" HorizontalAlignment="Left" Margin="600,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Width="124" Height="30" FontFamily="David"/>
-                    <TextBox x:Name="StationLongitudeText_View" HorizontalAlignment="Left" Margin="600,238,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="StationIdText_View" HorizontalAlignment="Left" Margin="600,40,0,0" TextWrapping="Wrap" IsEnabled="False" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="StationNameText_View" HorizontalAlignment="Left" Margin="600,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="48" FontSize="20" FontFamily="David"/>
+                    <TextBox x:Name="StationLattitudeText_View" HorizontalAlignment="Left" Text="{Binding Path=Location.Lattitude}" IsEnabled="False" Margin="600,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Width="124" Height="30" FontFamily="David"/>
+                    <TextBox x:Name="StationLongitudeText_View" HorizontalAlignment="Left" Text="{Binding Path=Location.Longtitude}" IsEnabled="False" Margin="600,238,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                     <TextBox x:Name="FreeChargeSlotsText_View" HorizontalAlignment="Left" Margin="600,304,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
-                    <TextBox x:Name="ListOfDroneInCharge" Margin="600,370,75,10" TextWrapping="Wrap">
+                    <TextBox x:Name="ListOfDroneInCharge" Margin="600,370,75,10" Text="{Binding Path=DroneInCharge}" IsEnabled="False" TextWrapping="Wrap">
                     </TextBox>
-                    <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206" Click="UpdateButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0"/>
+                    <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206" Click="UpdateButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                 </Grid>
             </Grid>
         </Grid>

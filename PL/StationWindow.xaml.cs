@@ -16,6 +16,7 @@ namespace PL
         private BO.BaseStation myStation = null;
         private StationListWindow stationListWindow;
 
+
         /// <summary>
         /// constructor for adding station
         /// </summary>
@@ -31,6 +32,9 @@ namespace PL
             UpdateStationGrid.Visibility = Visibility.Hidden;
         }
 
+
+
+
         /// <summary>
         /// constructor for updates details of the station
         /// </summary>
@@ -43,16 +47,18 @@ namespace PL
             new ObservableCollection<BO.BaseStationToList>(from item in bl.GetStationList()
                                                            where item.Id == selectedItem.Id
                                                            select item);
+
             myStation = bl.GetStation(selectedItem.Id);
             DataContext = myStation;
             stationListWindow = stationToLists;
             AddStationGrid.Visibility = Visibility.Hidden;
             UpdateStationGrid.Visibility = Visibility.Visible;
-            LongitudeStationText.Text = selectedItem.Location.Longtitude.ToString();
-            LattitudeStationText.Text = selectedItem.Location.Lattitude.ToString();
             FreeChargeSlotsText_View.Text = selectedItem.FreeChargeSlots.ToString();
+            StationIdText_View.Text = selectedItem.Id.ToString();
+            StationNameText_View.Text = selectedItem.Name.ToString();
             ListOfDroneInCharge.Text = (from item in selectedItem.DronesInCharge
-                                        select item.Id).ToString();
+                                        select item.Id).ToList().ToString();
+
 
         }
 
@@ -114,11 +120,12 @@ namespace PL
         {
             myStation = bl.GetStation(myStation.Id);
 
-            if (StationNameText_View.Text!=myStation.Name)
+            if (StationNameText_View.Text!=myStation.Name || FreeChargeSlotsText_View.Text!= myStation.FreeChargeSlots.ToString())
             {
                 myStation.Name = StationNameText_View.Text.ToString();
+                myStation.FreeChargeSlots = int.Parse(FreeChargeSlotsText_View.Text);
                 bl.SetStationDetails(myStation.Id);
-                stationListWindow.stationToListsBL.Add(bl.GetStationList().First(x=>x.Id==myStation.Id));
+                stationListWindow.refresh();
                 MessageBoxResult result = MessageBox.Show("Station succefully updated");
                 Close();
             }
