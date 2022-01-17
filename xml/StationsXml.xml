@@ -12,6 +12,6 @@
     <Name>SouthJerusalem</Name>
     <Longtitude>31.709</Longtitude>
     <Lattitude>35.1695</Lattitude>
-    <FreeChargeSlots>1</FreeChargeSlots>
+    <FreeChargeSlots>2</FreeChargeSlots>
   </Station>
 </ArrayOfStation>

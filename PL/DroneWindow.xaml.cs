@@ -216,17 +216,14 @@ namespace PL
             {
                 myDrone.Model = ModelDroneText_View.Text;
                 bl.SetDroneName(myDrone);
-                droneListWindow.refresh();
                 MessageBoxResult result = MessageBox.Show("drone succefully updated");
                 Close();
-
+                droneListWindow.refresh();
             }
             else
             {
                 MessageBoxResult result = MessageBox.Show("you can't update the drone");
             }
-
-
         }
 
         /// <summary>
@@ -245,7 +242,9 @@ namespace PL
             }
             else
             {
-                //bl.SetReleaseDroneFromCharge(myDrone.Id,);
+                bl.SetReleaseDroneFromCharge(myDrone.Id);
+                droneListWindow.refresh();
+                Close();
             }
         }
 

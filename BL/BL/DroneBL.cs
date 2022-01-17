@@ -94,7 +94,7 @@ namespace BL
                     throw new InvalidInputException("Drone id can not be negative");
 
                 //search the drone in the list of drone
-                BO.DroneToList droneBO = GetDroneList(x => x.Id == droneId).First();
+                BO.DroneToList droneBO = GetDroneList(x => x.Id == droneId).FirstOrDefault();
 
                 if (droneBO.Status != DroneStatuses.available)
                 {
@@ -136,11 +136,12 @@ namespace BL
                 }
 
                 // find the closest station 
-                DO.Station closestStation = dal.GetStationsList(S => S.FreeChargeSlots > 0 && S.Id == closestStationId).First();
+                DO.Station closestStation = dal.GetStationsList(S => S.Id == closestStationId).FirstOrDefault();
 
                 droneBO.Battery -= minDistance * available;  //update drone range charge in accordance to the distance between the drone and the station
-                droneBO.Location.Longtitude = closestStation.Longtitude;  //drone location = station location
-                droneBO.Location.Lattitude = closestStation.Lattitude;
+
+                droneBO.Location = new Location() { Lattitude = closestStation.Lattitude, Longtitude = closestStation.Longtitude }; //drone location = station location
+
                 droneBO.Status = DroneStatuses.maintenance;   //drone statue in maintenance
 
 

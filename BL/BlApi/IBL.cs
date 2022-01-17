@@ -22,7 +22,7 @@ namespace BlApi
 
         void SetSendDroneToCharge(int droneId);
 
-        void SetReleaseDroneFromCharge(int droneId, TimeSpan ChargingTime);
+        void SetReleaseDroneFromCharge(int droneId, TimeSpan ChargingTime = default);
 
         void UpdateScheduleParcel(int droneId);
 

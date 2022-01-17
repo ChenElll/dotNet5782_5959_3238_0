@@ -1,2 +1,15 @@
 <?xml version="1.0"?>
-<ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DroneCharge>
+    <DroneId>3782</DroneId>
+    <StationId>3</StationId>
+    <EntranceTime>2022-01-17T18:08:07.3909656+02:00</EntranceTime>
+    <LeavingTime>2022-01-17T19:09:14.6153857+02:00</LeavingTime>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>3782</DroneId>
+    <StationId>3</StationId>
+    <EntranceTime>2022-01-17T19:09:10.2282779+02:00</EntranceTime>
+    <LeavingTime xsi:nil="true" />
+  </DroneCharge>
+</ArrayOfDroneCharge>

@@ -151,12 +151,12 @@ namespace Dal
             XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
 
             var v = (from item in droneRootElement.Elements()
-                    select new Drone()
-                    {
-                        Id = int.Parse(item.Element("Id").Value),
-                        Model = item.Element("Model").Value.ToString(),
-                        MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), item.Element("MaxWeight").Value.ToString())
-                    }).ToList();
+                     select new Drone()
+                     {
+                         Id = int.Parse(item.Element("Id").Value),
+                         Model = item.Element("Model").Value.ToString(),
+                         MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), item.Element("MaxWeight").Value.ToString())
+                     }).ToList();
 
             if (predicat == null)
                 return v.AsEnumerable();
@@ -166,7 +166,7 @@ namespace Dal
         }
         #endregion
 
-#endregion
+        #endregion
 
 
 
@@ -181,23 +181,16 @@ namespace Dal
         /// <returns>list of  drones in charge</returns>
         public IEnumerable<DroneCharge> GetDroneChargesList(Func<DroneCharge, bool> predicat = null)
         {
+            List<DO.DroneCharge> droneChargeRoot = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargesPath);
 
-            XElement droneChargeRootElement = XMLTools.LoadListFromXMLElement(droneChargesPath);
 
-            var v = from item in droneChargeRootElement.Elements()
-                    orderby int.Parse(item.Element("DroneId").Value)
-                    select new DroneCharge()
-                    {
-                        DroneId = int.Parse(item.Element("DroneId").Value),
-                        EntranceTime = DateTime.Parse(item.Element("EntranceTime").Value),
-                        LeavingTime = DateTime.Parse(item.Element("LeavingTime").Value),
-                        StationId = int.Parse(item.Element("StationId").Value),
-                    };
+            var v = from item in droneChargeRoot
+                    select item;
 
             if (predicat == null)
-                return v.AsEnumerable().OrderBy(D => D.DroneId);
+                return v.AsEnumerable();
 
-            return v.Where(predicat).OrderBy(D => D.DroneId);
+            return v.Where(predicat);
         }
         #endregion
 
@@ -253,11 +246,14 @@ namespace Dal
             if (stationIndex < 0)
                 throw new DoesntExistException("the station doesn't exist in the system");
 
+            DroneCharge TemproneCharge = ListDronesCharge[chargeIndex];
+            TemproneCharge.LeavingTime = DateTime.Now;
+            ListDronesCharge[chargeIndex] = TemproneCharge;
+
             Station tempStation = ListStations[stationIndex];
             tempStation.FreeChargeSlots++;
             ListStations[stationIndex] = tempStation;
 
-            ListDronesCharge.Remove(ListDronesCharge[chargeIndex]);
 
             XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(ListDronesCharge, droneChargesPath);
             XMLTools.SaveListToXMLSerializer<DO.Station>(ListStations, stationsPath);
