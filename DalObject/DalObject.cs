@@ -129,27 +129,6 @@ namespace Dal
                 }
 
 
-
-                //#region רישום לקבצים להריץ ולמחוק
-
-                //#region DS XML Files
-                //string dronesPath = @"DronesXml.xml";
-                //string customersPath = @"CustomersXml.xml";
-                //string droneChargesPath = @"DroneChargesXml.xml";
-                //string parcelsPath = @"ParceslXml.xml";
-                //string stationsPath = @"StationsXml.xml";
-                //#endregion
-
-
-
-                //XMLTools.SaveListToXMLSerializer<DO.Drone>(DronesList, dronesPath);
-                //XMLTools.SaveListToXMLSerializer<DO.Customer>(CustomersList, customersPath);
-                //XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(DroneChargesList, droneChargesPath);
-                //XMLTools.SaveListToXMLSerializer<DO.Parcel>(ParcelsList, parcelsPath);
-                //XMLTools.SaveListToXMLSerializer<DO.Station>(StationsList, stationsPath);
-
-
-                //#endregion
             }
 
         }

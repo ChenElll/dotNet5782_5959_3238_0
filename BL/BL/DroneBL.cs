@@ -61,15 +61,17 @@ namespace BL
                     throw new InvalidInputException("drone id can not be negative");
 
                 //find drone in data base and set the details
-                BO.DroneToList droneToListBO 
-                    = (BO.DroneToList)GetDroneList(x => x.Id == droneBO.Id).FirstOrDefault().CopyPropertiesToNew(typeof(BO.DroneToList));
-                droneToListBO.Model = droneBO.Model;
+                //BO.DroneToList droneToListBO
+                //    = (BO.DroneToList)GetDroneList(x => x.Id == droneBO.Id).FirstOrDefault().CopyPropertiesToNew(typeof(BO.DroneToList));
+                //droneToListBO.Model = droneBO.Model;
+
                 
-                droneToListListBL[droneToListListBL.FindIndex(x => x.Id == droneBO.Id)] = droneToListBO;
 
                 DO.Drone droneDO = (DO.Drone)dal.GetDronesList(x => x.Id == droneBO.Id).FirstOrDefault().CopyPropertiesToNew(typeof(DO.Drone));
                 droneDO.Model = droneBO.Model;
                 dal.UpdateDrone(droneDO);
+
+                droneToListListBL[droneToListListBL.FindIndex(x => x.Id == droneBO.Id)].Model = droneBO.Model;
             }
             catch (Exception ex)
             {
@@ -226,9 +228,10 @@ namespace BL
         {
             try
             {
-                var v = from item in droneToListListBL
-                        orderby item.Id
-                        select item;
+                var v = (from item in droneToListListBL
+                         orderby item.Id
+                         select item).AsEnumerable();
+
 
                 if (predicat == null)
                     return v.AsEnumerable().OrderBy(D => D.Id);

@@ -51,7 +51,7 @@ namespace PL
                                                      where item.Id == selectedItem.Id
                                                      select item);
             BO.DroneToList tempDrone = bl.GetDroneList(item =>item.Id == selectedItem.Id).FirstOrDefault();
-            myDrone = bl.GetDrone(selectedItem.Id);
+            myDrone = (BO.Drone)tempDrone.CopyPropertiesToNew(typeof(BO.Drone));
             DataContext = myDrone;
             droneListWindow = droneToLists;
             AddDroneGrid.Visibility = Visibility.Hidden;

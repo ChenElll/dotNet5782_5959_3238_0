@@ -148,22 +148,20 @@ namespace Dal
         /// <returns>list of drone</returns>
         public IEnumerable<Drone> GetDronesList(Func<Drone, bool> predicat = null)
         {
-
             XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
 
-            var v = from item in droneRootElement.Elements()
-                    orderby int.Parse(item.Element("Id").Value)
+            var v = (from item in droneRootElement.Elements()
                     select new Drone()
                     {
                         Id = int.Parse(item.Element("Id").Value),
                         Model = item.Element("Model").Value.ToString(),
                         MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), item.Element("MaxWeight").Value.ToString())
-                    };
+                    }).ToList();
 
             if (predicat == null)
-                return v.AsEnumerable().OrderBy(D => D.Id);
+                return v.AsEnumerable();
 
-            return v.Where(predicat).OrderBy(D => D.Id);
+            return v.Where(predicat);
 
         }
         #endregion
@@ -274,18 +272,9 @@ namespace Dal
         /// <returns></returns>
         public double[] getElectricityUseByDrone()
         {
-            XElement electricityUseByDrone1RootElement = XMLTools.LoadListFromXMLElement(configPath);
+            List<double> electricityUseByDrone1RootElement = XMLTools.LoadListFromXMLSerializer<double>(configPath);
 
-            double[] electricityUseByDrone =
-            {
-                 double.Parse( electricityUseByDrone1RootElement.Element("available").Value),
-                 double.Parse( electricityUseByDrone1RootElement.Element("lightWeightCarry").Value),
-                 double.Parse( electricityUseByDrone1RootElement.Element("mediumWeightCarry").Value),
-                 double.Parse( electricityUseByDrone1RootElement.Element("heavyWeightCarry").Value),
-                 double.Parse( electricityUseByDrone1RootElement.Element("droneChargeRange").Value)
-            };
-
-            return electricityUseByDrone;
+            return electricityUseByDrone1RootElement.ToArray();
         }
         #endregion
 

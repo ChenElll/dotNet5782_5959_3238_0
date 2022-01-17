@@ -15,12 +15,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXml", "DalXml\DalXml.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{7000F713-4B5F-4235-8400-CC76ED0BD456}"
 	ProjectSection(SolutionItems) = preProject
+		xml\ConfigXml.xml = xml\ConfigXml.xml
+		xml\CustomersXml.xml = xml\CustomersXml.xml
 		xml\dal-config.xml = xml\dal-config.xml
+		xml\DroneChargesXml.xml = xml\DroneChargesXml.xml
+		xml\DronesXml.xml = xml\DronesXml.xml
+		xml\ParceslXml.xml = xml\ParceslXml.xml
+		xml\StationsXml.xml = xml\StationsXml.xml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleDal", "ConsoleDal\ConsoleDal.csproj", "{EC3E2D49-02FD-4296-8DFA-4FA5236F0878}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDal", "ConsoleDal\ConsoleDal.csproj", "{EC3E2D49-02FD-4296-8DFA-4FA5236F0878}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBl", "ConsoleBl\ConsoleBl.csproj", "{413928BE-A94F-4C37-BD7A-BF96E7E61288}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleBl", "ConsoleBl\ConsoleBl.csproj", "{413928BE-A94F-4C37-BD7A-BF96E7E61288}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Drone>
+    <Id>6742</Id>
+    <Model>Drone0</Model>
+    <MaxWeight>light</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>4513</Id>
+    <Model>Drone1</Model>
+    <MaxWeight>medium</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>9752</Id>
+    <Model>Drone2</Model>
+    <MaxWeight>heavy</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>3782</Id>
+    <Model>Drone3</Model>
+    <MaxWeight>medium</MaxWeight>
+  </Drone>
+  <Drone>
+    <Id>5194</Id>
+    <Model>Drone4</Model>
+    <MaxWeight>heavy</MaxWeight>
+  </Drone>
+</ArrayOfDrone>
