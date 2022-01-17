@@ -31,9 +31,15 @@ namespace PL
             new ObservableCollection<BO.BaseStationToList>(from item in bl.GetStationList()
                                                            orderby item.Id
                                                            select item);
-            Stations_ListBox.DataContext = stationToListsBL;
+            //Stations_ListBox.DataContext = stationToListsBL;
             Stations_ListBox.ItemsSource = stationToListsBL;
+            stationToListsBL.CollectionChanged += StationToListsBL_CollectionChanged;
             ChargeSlotsSelector.ItemsSource = Enumerable.Range(0, 100);
+        }
+
+        private void StationToListsBL_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            FreeChargeSlots_SelectionChange();
         }
 
         /// <summary>
@@ -88,6 +94,21 @@ namespace PL
             Close();
         }
 
+        public void FreeChargeSlots_SelectionChange()
+        {
+            Stations_ListBox.ItemsSource = from item in stationToListsBL
+                                           where (int)ChargeSlotsSelector.SelectedItem == item.FreeChargeSlots
+                                           select item;
+        }
 
+        public void FreeChargeSlots_SelectionChange(object sender, SelectionChangedEventArgs e)
+        {
+            FreeChargeSlots_SelectionChange();
+        }
+        internal void refresh()
+        {
+            Close();
+            new StationListWindow(bl).Show();
+        }
     }
 }

@@ -107,12 +107,13 @@
                  MouseDoubleClick="ChooseCustomerFromTheList" FontSize="20" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderThickness="2,2,2,2" BorderBrush="#FF005BFF" IsSynchronizedWithCurrentItem="False">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=Id}" Width="100"/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=Id}" Width="150"/>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path= CustomerName}" Width="150"/>
                     <GridViewColumn Header="Phone Number" DisplayMemberBinding="{Binding Path=PhoneNumber}" Width="250"/>
-                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding Path=Location}" Width="200"/>
-                    <GridViewColumn Header="Parcels From Customer" DisplayMemberBinding="{Binding Path=FromCustomer}" Width="250"/>
-                    <GridViewColumn Header="Parcels To Customer" DisplayMemberBinding="{Binding Path=ToCustomer}" Width="250"/>
+                    <GridViewColumn Header="N° Sent and Provide parcels" DisplayMemberBinding="{Binding Path=NumberSentAndProvidedParcels}" Width="300"/>
+                    <GridViewColumn Header="N° Sent and Not Provided Parcels" DisplayMemberBinding="{Binding Path=NumberSentAnd_Not_ProvidedParcels}" Width="300"/>
+                    <GridViewColumn Header="N° of Parcels received" DisplayMemberBinding="{Binding Path=NumberParcelsReceived}" Width="300"/>
+                    <GridViewColumn Header="N° of Parcels on Way" DisplayMemberBinding="{Binding Path=NumberParcelsOnWay}" Width="250"/>
                 </GridView>
             </ListView.View>
         </ListView>

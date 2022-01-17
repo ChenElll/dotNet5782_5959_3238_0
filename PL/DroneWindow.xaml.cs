@@ -35,7 +35,7 @@ namespace PL
             WeightSelect.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             StationIdSelection.ItemsSource = from station in bl.GetStationList()
                                              select station.Id;
-            
+
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace PL
             new ObservableCollection<BO.DroneToList>(from item in bl.GetDroneList()
                                                      where item.Id == selectedItem.Id
                                                      select item);
-            BO.DroneToList tempDrone = bl.GetDroneList(item =>item.Id == selectedItem.Id).FirstOrDefault();
-            myDrone = (BO.Drone)tempDrone.CopyPropertiesToNew(typeof(BO.Drone));
+            BO.DroneToList tempDrone = bl.GetDroneList(item => item.Id == selectedItem.Id).FirstOrDefault();
+            myDrone = bl.GetDrone(selectedItem.Id);
             DataContext = myDrone;
             droneListWindow = droneToLists;
             AddDroneGrid.Visibility = Visibility.Hidden;
@@ -68,9 +68,7 @@ namespace PL
             StatusText_View.IsEnabled = false;
             LocationText_View.Text = tempDrone.Location.ToString(); //??
             LocationText_View.IsEnabled = false;
-
             ChargeButton.DataContext = tempDrone.Status;
-            //PickUpParcelButton.DataContext = selectedItem.Status;
 
             // send drone to charge and send to delivery buttons just for drones that are available
             // release drone from charge button just for drones that are in maintenance
@@ -93,19 +91,14 @@ namespace PL
             }
 
 
-            if (myDrone.Status != DroneStatuses.shipped) //איסוף חבילה(רק עבור רחפן במשלוח עם חבילה שעוד לא נאספה
-            {
-                PickUpParcelButton.IsEnabled = false;
-            }
-
-            if (myDrone.Status != DroneStatuses.shipped) //אספקת החבילה(רק עבור הרחפן במשלוח שכבר אסף את החבילה)
-            {
-                DeliverParcelButton.IsEnabled = false;
-            }
-
         }
 
+
+
         //---------------------------------------------------- ADDING DRONE -------------------------------------------------------//
+
+
+
 
         private void StationIdSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -138,8 +131,8 @@ namespace PL
             }
             catch (Exception)
             {
-                MessageBox.Show("can't add the drone"); //to string override
-                //exception
+                MessageBox.Show("can't add the drone");
+
             }
             if (closeWindow)
             {
@@ -149,7 +142,7 @@ namespace PL
         }
 
 
-
+        #region allow to input only positive
         /// <summary>
         /// allow to input only positive number to drone id text box
         /// </summary>
@@ -189,12 +182,14 @@ namespace PL
                 e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
                 return;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("you can enter only numbers");
             }
 
         }
+        #endregion
+
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
@@ -202,7 +197,12 @@ namespace PL
         }
 
 
+
+
         //---------------------------------------------------- UPDATE DRONE -------------------------------------------------------//
+
+
+
 
         /// <summary>
         /// function to update drone's details
@@ -212,14 +212,14 @@ namespace PL
         /// <param name="e"></param>
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ModelDroneText.Text != ModelDroneText_View.Text) //??
+            if (bl.GetDrone(myDrone.Id).Model != ModelDroneText_View.Text)
             {
                 myDrone.Model = ModelDroneText_View.Text;
                 bl.SetDroneName(myDrone);
                 droneListWindow.refresh();
                 MessageBoxResult result = MessageBox.Show("drone succefully updated");
                 Close();
-                
+
             }
             else
             {
@@ -240,6 +240,8 @@ namespace PL
             if (ChargeButton.Content.ToString() == "Send drone to charge")
             {
                 bl.SetSendDroneToCharge(myDrone.Id);
+                droneListWindow.refresh();
+                Close();
             }
             else
             {
@@ -247,9 +249,10 @@ namespace PL
             }
         }
 
-        private void ScheduleDroneButton_Click(object sender, RoutedEventArgs e) //to check
+        private void ScheduleDroneButton_Click(object sender, RoutedEventArgs e) //
         {
-            bl.UpdateScheduleParcel(myDrone.Id); //??
+
+            bl.UpdateScheduleParcel(myDrone.Id);
             DroneToList drone = new DroneToList
             {
                 Id = myDrone.Id,
@@ -265,6 +268,14 @@ namespace PL
 
         private void PickUpParcelButton_Click(object sender, RoutedEventArgs e) //to check
         {
+            if (myDrone.Status != DroneStatuses.shipped && !myDrone.ParcelInTransfer.ParcelStatus) //איסוף חבילה(רק עבור רחפן במשלוח עם חבילה שעוד לא נאספה
+            {
+                PickUpParcelButton.IsEnabled = false;
+            }
+            else
+            {
+                PickUpParcelButton.IsEnabled = true;
+            }
             bl.UpdatePickUpParcel(myDrone.Id); //??
             DroneToList drone = new DroneToList
             {
@@ -278,10 +289,17 @@ namespace PL
             droneListWindow.droneToListsBL.Remove(drone);
             droneListWindow.droneToListsBL.Add(drone);
         }
-        //< ProgressBar x:Name="BatteryProgressBar" DataContext="{Binding Path=Battery}" />
 
-        private void ChargeButton_Click_1(object sender, RoutedEventArgs e)
+        private void DeliverParcelButton_Click(object sender, RoutedEventArgs e)
         {
+            if (myDrone.Status != DroneStatuses.shipped && myDrone.ParcelInTransfer.ParcelStatus) //אספקת החבילה(רק עבור הרחפן במשלוח שכבר אסף את החבילה)
+            {
+                DeliverParcelButton.IsEnabled = false;
+            }
+            else
+            {
+                DeliverParcelButton.IsEnabled = true;
+            }
 
         }
     }

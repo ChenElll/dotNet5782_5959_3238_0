@@ -135,7 +135,7 @@ namespace PL
             catch (Exception)
             {
                 MessageBox.Show("can't add the customer");
-                //exception
+                
             }
             if (closeWindow)
             {
