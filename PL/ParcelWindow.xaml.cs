@@ -57,7 +57,10 @@ namespace PL
                                                       where item.Id == selectedItem.Id
                                                       select item);
             parcelListWindow = parcelToLists;
-            myParcel = selectedItem;
+            myParcel = bl.GetParcel(selectedItem.Id);
+            DataContext = myParcel;
+            SenderParcelText_View.Text = bl.GetParcelList().First(x => x.Id == myParcel.Id).NameSender.ToString();
+            TargetParcelText_View.Text= bl.GetParcelList().First(x => x.Id == myParcel.Id).NameTarget.ToString();
         }
 
         /// <summary>
@@ -86,16 +89,16 @@ namespace PL
             bool closeWindow = true;
             BO.Parcel parcel = new BO.Parcel
             {
-                Id = int.Parse(IdParcelText.Text),
-                Sender = customerS,
-                Target = customerT,
-                //Weight = (WeightCategories)WeightParcelText.Text,
-                //Priority = (Priorities).PriorityParcelText.Text,   //////??????
-                Drone = droneInParcel,
-                RequestedTime = DateTime.Parse(RequestedParcel_View.Text),
-                ScheduleTime = DateTime.Parse(ScheduledParcelText.Text),
-                PickUpTime = DateTime.Parse(PickUpParcelText.Text),
-                DeliveredTime = DateTime.Parse(DeliveredParcelText.Text),
+                //Id = int.Parse(IdParcelText.Text),
+                //Sender = customerS,
+                //Target = customerT,
+                //Weight = WeightCategories WeightParcelText.Text,
+                //Priority = (Priorities).PriorityParcelText.Text,
+                //Drone = droneInParcel,
+                //RequestedTime = (DateTime?)RequestedParcel_View.Text,
+                //ScheduleTime = DateTime.Parse(ScheduledParcelText.Text),
+                //PickUpTime = DateTime.Parse(PickUpParcelText.Text),
+                //DeliveredTime = DateTime.Parse(DeliveredParcelText.Text),
             };
             MessageBoxResult result = MessageBox.Show("Parcel succefully added");
             try
@@ -117,18 +120,9 @@ namespace PL
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            BO.ParcelToList parcel = new BO.ParcelToList
-            {
-                Id = myParcel.Id,
-                NameSender = myParcel.Sender.CustomerName,
-                NameTarget = myParcel.Target.CustomerName,
-                Weight = myParcel.Weight,
-                Priority = myParcel.Priority,
-                ParcelStatus = (ParcelStatus)bl.GetDroneList().First(x => x.Id == myParcel.Drone.Id).Status,
-            };
 
-
-            if (parcelListWindow.parcelToListsBL.Remove(bl.GetParcelList().First(x => x.Id == myParcel.Id)))
+            if (myParcel.RequestedTime.ToString() != RequestedParcel_View.Text || myParcel.ScheduleTime.ToString() != ScheduledParcel_View.Text
+                || myParcel.DeliveredTime.ToString() != deliveredParcel_View.Text || myParcel.PickUpTime.ToString() != PickUpParcel_View.Text)
             {
                 myParcel.ScheduleTime = DateTime.Parse(ScheduledParcel_View.Text);
                 myParcel.PickUpTime = DateTime.Parse(PickUpParcel_View.Text);
@@ -136,13 +130,13 @@ namespace PL
                 bl.UpdateDeliveryToCustomer(myParcel.Id);
                 bl.UpdatePickUpParcel(myParcel.Id);
                 bl.UpdateScheduleParcel(myParcel.Id);
-                parcelListWindow.parcelToListsBL.Add(parcel);
-                MessageBoxResult result = MessageBox.Show("Station succefully updated");
+                parcelListWindow.refresh();
+                MessageBoxResult result = MessageBox.Show("Parcel succefully updated");
                 Close();
             }
             else
             {
-                MessageBoxResult result = MessageBox.Show("you can't update the station");
+                MessageBoxResult result = MessageBox.Show("you can't update the parcel");
             }
         }
     }

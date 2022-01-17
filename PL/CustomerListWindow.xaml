@@ -112,8 +112,8 @@
                     <GridViewColumn Header="Phone Number" DisplayMemberBinding="{Binding Path=PhoneNumber}" Width="250"/>
                     <GridViewColumn Header="N° Sent and Provide parcels" DisplayMemberBinding="{Binding Path=NumberSentAndProvidedParcels}" Width="300"/>
                     <GridViewColumn Header="N° Sent and Not Provided Parcels" DisplayMemberBinding="{Binding Path=NumberSentAnd_Not_ProvidedParcels}" Width="300"/>
-                    <GridViewColumn Header="N° of Parcels received" DisplayMemberBinding="{Binding Path=NumberParcelsReceived}" Width="300"/>
                     <GridViewColumn Header="N° of Parcels on Way" DisplayMemberBinding="{Binding Path=NumberParcelsOnWay}" Width="250"/>
+                    <GridViewColumn Header="N° of Parcels received" DisplayMemberBinding="{Binding Path=NumberParcelsReceived}" Width="300"/>
                 </GridView>
             </ListView.View>
         </ListView>

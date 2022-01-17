@@ -261,8 +261,15 @@ namespace BL
 
                 parcelBO.Sender = GetCustomerInParcel(parcelDO.SenderId);
                 parcelBO.Target = GetCustomerInParcel(parcelDO.TargetId);
-
-                parcelBO.Drone = GetDroneInParcel(parcelDO.DroneId);
+                if(parcelDO.DroneId ==0)
+                {
+                    parcelBO.Drone = null;
+                }
+                else
+                {
+                    parcelBO.Drone = GetDroneInParcel(parcelDO.DroneId);
+                }
+                
 
                 return parcelBO;
             }

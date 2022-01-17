@@ -34,7 +34,14 @@ namespace PL
                                                         select item);
             Customers_ListBox.DataContext = customerToListsBL;
             Customers_ListBox.ItemsSource = customerToListsBL;
+            customerToListsBL.CollectionChanged += CustomerToListsBL_CollectionChanged;
 
+        }
+
+        private void CustomerToListsBL_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Customers_ListBox= (ListView)(from customer in customerToListsBL
+                              select customer);
         }
 
         /// <summary>
@@ -62,6 +69,17 @@ namespace PL
                 new CustomerWindow(bl, this).Show();
             }
         }
+
+
+        /// <summary>
+        /// refresh function
+        /// </summary>
+        internal void refresh()
+        {
+            Close();
+            new CustomerListWindow(bl).Show();
+        }
+
 
         /// <summary>
         /// cancel adding action and close window

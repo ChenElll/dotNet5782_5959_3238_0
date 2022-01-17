@@ -39,8 +39,32 @@ namespace PL
             Parcels_ListBox.ItemsSource = parcelToListsBL;
             WeightSelector.ItemsSource = Enum.GetValues(enumType: typeof(DO.WeightCategories));
             PrioritySelector.ItemsSource = Enum.GetValues(enumType: typeof(DO.Priorities));
+            parcelToListsBL.CollectionChanged += ParcelToListsBL_CollectionChanged;
         }
 
+        /// <summary>
+        /// collection change function
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ParcelToListsBL_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            PriorityAndWeight_SelectionChange();
+        }
+
+
+        
+        public void PriorityAndWeight_SelectionChange(object sender, SelectionChangedEventArgs e)
+        {
+            PriorityAndWeight_SelectionChange();
+        }
+
+
+        /// <summary>
+        /// button to open parcel window and add a parcel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddingParcel_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.Button addParcelBn = sender as System.Windows.Controls.Button;
@@ -50,11 +74,23 @@ namespace PL
             }
         }
 
+
+        /// <summary>
+        /// cancel event - to close the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelAdd_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+
+        /// <summary>
+        /// to open parcel action window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChooseParcelFromTheList(object sender, MouseButtonEventArgs e)
         {
             ParcelWindow open =
@@ -62,7 +98,11 @@ namespace PL
             open.Show();
         }
 
-        private void PriorityAndWeight_SelectionChange(object sender, SelectionChangedEventArgs e)
+
+        /// <summary>
+        /// get a list according to the selected priority and weight
+        /// </summary>
+        private void PriorityAndWeight_SelectionChange()
         {
             Parcels_ListBox.ItemsSource = from item in parcelToListsBL
                                           where
@@ -76,5 +116,13 @@ namespace PL
                                           orderby item.Id
                                           select item;
         }
+
+
+        internal void refresh()
+        {
+            Close();
+            new ParcelListWindow(bl).Show();
+        }
+
     }
 }
