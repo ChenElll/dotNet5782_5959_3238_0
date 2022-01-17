@@ -40,7 +40,7 @@
                     <TextBox x:Name="StationLattitudeText_View" HorizontalAlignment="Left" Text="{Binding Path=Location.Lattitude}" IsEnabled="False" Margin="600,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Width="124" Height="30" FontFamily="David"/>
                     <TextBox x:Name="StationLongitudeText_View" HorizontalAlignment="Left" Text="{Binding Path=Location.Longtitude}" IsEnabled="False" Margin="600,238,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                     <TextBox x:Name="FreeChargeSlotsText_View" HorizontalAlignment="Left" Margin="600,304,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
-                    <TextBox x:Name="ListOfDroneInCharge" Margin="600,370,75,10" Text="{Binding Path=DroneInCharge}" IsEnabled="False" TextWrapping="Wrap">
+                    <TextBox x:Name="ListOfDroneInCharge" Margin="600,370,76,10" Text="{Binding Path=DroneInCharge}" IsEnabled="False" TextWrapping="Wrap">
                     </TextBox>
                     <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206" Click="UpdateButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0">
                         <Button.Resources>

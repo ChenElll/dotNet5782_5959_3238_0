@@ -35,7 +35,7 @@ namespace PL
             WeightSelect.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             StationIdSelection.ItemsSource = from station in bl.GetStationList()
                                              select station.Id;
-            
+
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace PL
             new ObservableCollection<BO.DroneToList>(from item in bl.GetDroneList()
                                                      where item.Id == selectedItem.Id
                                                      select item);
-            BO.DroneToList tempDrone = bl.GetDroneList(item =>item.Id == selectedItem.Id).FirstOrDefault();
+            BO.DroneToList tempDrone = bl.GetDroneList(item => item.Id == selectedItem.Id).FirstOrDefault();
             myDrone = bl.GetDrone(selectedItem.Id);
             DataContext = myDrone;
             droneListWindow = droneToLists;
@@ -131,8 +131,8 @@ namespace PL
             }
             catch (Exception)
             {
-                MessageBox.Show("can't add the drone"); 
-                
+                MessageBox.Show("can't add the drone");
+
             }
             if (closeWindow)
             {
@@ -182,7 +182,7 @@ namespace PL
                 e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
                 return;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("you can enter only numbers");
             }
@@ -212,14 +212,14 @@ namespace PL
         /// <param name="e"></param>
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (myDrone.Model != ModelDroneText_View.Text) 
+            if (bl.GetDrone(myDrone.Id).Model != ModelDroneText_View.Text)
             {
                 myDrone.Model = ModelDroneText_View.Text;
                 bl.SetDroneName(myDrone);
                 droneListWindow.refresh();
                 MessageBoxResult result = MessageBox.Show("drone succefully updated");
                 Close();
-                
+
             }
             else
             {
@@ -252,7 +252,7 @@ namespace PL
         private void ScheduleDroneButton_Click(object sender, RoutedEventArgs e) //
         {
 
-            bl.UpdateScheduleParcel(myDrone.Id); 
+            bl.UpdateScheduleParcel(myDrone.Id);
             DroneToList drone = new DroneToList
             {
                 Id = myDrone.Id,

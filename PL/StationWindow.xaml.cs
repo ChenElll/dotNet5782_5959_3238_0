@@ -87,6 +87,8 @@ namespace PL
                 Name = NameStationText.Text,
                 Location = { Lattitude = double.Parse(LattitudeStationText.Text), Longtitude = double.Parse(LattitudeStationText.Text) },
                 FreeChargeSlots = int.Parse(NumOfChargeSlotsText.Text),
+                DronesInCharge= (System.Collections.Generic.List<DroneInCharge>)ListOfDroneInCharge.Text.AsEnumerable(),
+                
             };
             MessageBoxResult result = MessageBox.Show("Station succefully added");
             try
