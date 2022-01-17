@@ -25,7 +25,7 @@
                 <TextBox x:Name="CustomerPhoneText" HorizontalAlignment="Left" Margin="358,369,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                 <Button x:Name="AddToCustomerList" Content="Add" HorizontalAlignment="Left" Margin="530,380,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" FontWeight="Bold" Click="AddCustomer_Click"/>
                 <Button x:Name="CancelCustomer" Content="Cancel" HorizontalAlignment="Left" Margin="650,380,0,0" VerticalAlignment="Top" Height="41" Width="92" FontFamily="David" FontSize="20" Click="CancelCustomer_Click" />
-                <ListBox x:Name="CustomerSelected_Box" ItemsSource="{Binding}" Margin="600,0,0,200" FontFamily="David" FontSize="20" FontWeight="Bold"/>
+
             </Grid>
 
             <Grid Name="UpdateCustomerGrid" Background="#FFB9D1EA">
@@ -35,16 +35,44 @@
                     <Label x:Name="CustomerLattitude_View" Content="Lattitude:" HorizontalAlignment="Left" Margin="380,140,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                     <Label x:Name="CustomerLongitude_View" Content="Longitude:" HorizontalAlignment="Left" Margin="380,190,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                     <Label x:Name="CustomerPhone_View" Content="Phone number" HorizontalAlignment="Left" Margin="380,240,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
-                    <Label x:Name="ParcelsFromCustomer_View" Content="Parcels from customer:" HorizontalAlignment="Left" Margin="380,290,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
-                    <Label x:Name="ParcelsToCustomer_View" Content="Parcels to customer:" HorizontalAlignment="Left" Margin="380,360,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="ParcelsFromCustomer_View" Content="Parcels from customer:" HorizontalAlignment="Left" Margin="27,155,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
+                    <Label x:Name="ParcelsToCustomer_View" Content="Parcels to customer:" HorizontalAlignment="Left" Margin="27,308,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="David" FontWeight="Bold"/>
                     <TextBox x:Name="CustomerIdText_View" HorizontalAlignment="Left" Margin="600,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                     <TextBox x:Name="CustomerNameText_View" HorizontalAlignment="Left" Margin="600,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                     <TextBox x:Name="CustomerLattitudeText_View" HorizontalAlignment="Left" Margin="600,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" Width="124" Height="30" FontFamily="David"/>
                     <TextBox x:Name="CustomerLongitudeText_View" HorizontalAlignment="Left" Margin="600,190,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
                     <TextBox x:Name="CustomerPhoneText_View" HorizontalAlignment="Left" Margin="600,240,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="124" Height="30" FontSize="20" FontFamily="David"/>
-                    <TextBox x:Name="ListOfCustomerFrom_View" Margin="600,290,75,80" />
-                    <TextBox x:Name="ListOfCustomerTo_View" Margin="600,360,75,10" TextWrapping="Wrap"/>
-                    <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206" Click="UpdateCustomerButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0"/>
+                    <ListView x:Name="ListOfCustomerFrom_View" Margin="27,205,541,148" DisplayMemberPath="{Binding Path=FromCustomer}" MouseDoubleClick="ListOfCustomerFrom_View_MouseDoubleClick">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="25"/>
+                                <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding Weight}"/>
+                                <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding Priority}"/>
+                                <GridViewColumn Header="Sender Id" DisplayMemberBinding="{Binding }"/>
+                                <GridViewColumn Header="Target Id" DisplayMemberBinding="{Binding }"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <ListView x:Name="ListOfCustomerTo_View" Margin="27,338,541,15" DisplayMemberPath="{Binding Path=ToCustomer}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="25"/>
+                                <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding Weight}"/>
+                                <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding Priority}"/>
+                                <GridViewColumn Header="Sender Id" DisplayMemberBinding="{Binding }"/>
+                                <GridViewColumn Header="Target Id" DisplayMemberBinding="{Binding }"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="UpdateButton" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontFamily="David" FontWeight="Bold" Height="70" Width="206"
+                            Click="UpdateCustomerButton_Click" Background="#FFDDDDDD" Margin="27,30,0,0">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
 
                 </Grid>
             </Grid>

@@ -147,15 +147,11 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path=Id}" Width="100"/>
-                    <GridViewColumn Header="Sender" DisplayMemberBinding="{Binding Path= Sender}" Width="150"/>
-                    <GridViewColumn Header="Target" DisplayMemberBinding="{Binding Path=Target}" Width="150"/>
+                    <GridViewColumn Header="Sender" DisplayMemberBinding="{Binding Path= NameSender}" Width="150"/>
+                    <GridViewColumn Header="Target" DisplayMemberBinding="{Binding Path=NameTarget}" Width="150"/>
                     <GridViewColumn Header="Weight" DisplayMemberBinding="{Binding Path=Weight}" Width="150"/>
                     <GridViewColumn Header="Priority" DisplayMemberBinding="{Binding Path=Priority}" Width="200"/>
-                    <GridViewColumn Header="Drone" DisplayMemberBinding="{Binding Path=Drone}" Width="200"/>
-                    <GridViewColumn Header="Requested Time" DisplayMemberBinding="{Binding Path=RequestedTime}" Width="200"/>
-                    <GridViewColumn Header="Scheduled Time" DisplayMemberBinding="{Binding Path=ScheduleTime}" Width="200"/>
-                    <GridViewColumn Header="Pick uped Time" DisplayMemberBinding="{Binding Path=PickUpTime}" Width="200"/>
-                    <GridViewColumn Header="delivered Time" DisplayMemberBinding="{Binding Path=DeliveredTime}" Width="200"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Path=ParcelStatus}" Width="150"/>
                 </GridView>
             </ListView.View>
         </ListView>
