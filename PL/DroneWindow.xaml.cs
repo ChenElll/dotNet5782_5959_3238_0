@@ -17,14 +17,14 @@ namespace PL
     {
         IBL bl;
         private BO.Drone myDrone = null;
-        private List_Of_Drones droneListWindow;
+        private ListOfDrones droneListWindow;
 
         /// <summary>
         /// constructor for adding a drone
         /// </summary>
         /// <param name="blD"></param>
         /// <param name="DroneListWindow"></param>
-        public DroneWindow(IBL blD, List_Of_Drones droneToLists)
+        public DroneWindow(IBL blD, ListOfDrones droneToLists)
         {
             InitializeComponent();
             droneListWindow = droneToLists;
@@ -43,7 +43,7 @@ namespace PL
         /// </summary>
         /// <param name="blD"></param>
         /// <param name="drone"></param>
-        public DroneWindow(IBL blD, BO.Drone selectedItem, List_Of_Drones droneToLists)
+        public DroneWindow(IBL blD, BO.Drone selectedItem, ListOfDrones droneToLists)
         {
             InitializeComponent();
             bl = blD;

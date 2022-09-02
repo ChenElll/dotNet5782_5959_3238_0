@@ -1,6 +1,9 @@
 ﻿
 namespace DO
 {
+    /// <summary>
+    /// Custumer class impl.
+    /// </summary>
     public struct Customer
     {
         public int Id { get; set; }

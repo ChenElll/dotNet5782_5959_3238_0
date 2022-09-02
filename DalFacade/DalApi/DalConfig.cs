@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace DalApi
 {
+    /// <summary>
+    /// Load xml file and copy the content to a Dictionary
+    /// </summary>
     class DalConfig
     {
         internal static string DalName;

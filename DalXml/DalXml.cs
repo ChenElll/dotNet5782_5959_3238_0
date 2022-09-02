@@ -1,26 +1,17 @@
-﻿using System;
+﻿using DalApi;
+using DO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DalApi;
-using DO;
-using Dal;
 using System.Xml.Linq;
 
 namespace Dal
 {
     sealed class DalXml : IDal
     {
-        #region singelton
-        static readonly IDal instance = new DalXml();
-        static DalXml() { }
-
-        public static IDal Instance { get => instance; }
-        #endregion
-
         #region DS XML Files
+        //the data base
         string dronesPath = @"DronesXml.xml";
         string customersPath = @"CustomersXml.xml";
         string droneChargesPath = @"DroneChargesXml.xml";
@@ -29,8 +20,12 @@ namespace Dal
         string configPath = @"ConfigXml.xml";
         #endregion
 
+        #region singelton
+        //oneaccess t he data
+        static readonly IDal instance = new DalXml();
+        static DalXml() { }
 
-        #region ---------------------------------------DRONE------------------------------------------
+        public static IDal Instance { get => instance; }
 
         XElement droneRoot;
 
@@ -48,7 +43,6 @@ namespace Dal
             droneRoot.Save(dronesPath);
         }
 
-
         private void LoadData()
         {
             try
@@ -60,28 +54,27 @@ namespace Dal
                 throw new LoadingException("File upload problem");
             }
         }
+        #endregion
+
+
+        #region ---------------------------------------DRONE------------------------------------------
+
+
 
         #region AddDrone
         /// <summary>
         /// add a drone to the system
         /// </summary>
-        /// <param name="droneToAdd"></param>
-        public void AddingDrone(Drone droneToAdd)
+        /// <param name="newDrone"></param>
+        public void AddingDrone(Drone newDrone)
         {
-            XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
+            List<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronesPath);
 
-            XElement tempDrone = (from item in droneRootElement.Elements()
-                                  where int.Parse(item.Element("Id").Value) == droneToAdd.Id
-                                  select item).FirstOrDefault();
-            if (tempDrone != null)
+            if (dronesList.Any(d => d.Id == newDrone.Id))
                 throw new AlreadyExistException("The drone already exist in the system");
+            dronesList.Add((DO.Drone)newDrone.CopyPropertiesToNew(typeof(DO.Drone)));
 
-            //add a drone to drone's xml
-            droneRootElement.Add(new XElement("Id", droneToAdd.Id),
-                                 new XElement("model", droneToAdd.Model),
-                                 new XElement("MaxWeight", droneToAdd.MaxWeight));
-
-            XMLTools.SaveListToXMLElement(droneRootElement, dronesPath);
+            XMLTools.SaveListToXMLSerializer<DO.Drone>(dronesList, dronesPath);
         }
         #endregion
 
@@ -93,20 +86,14 @@ namespace Dal
         /// <param name="updatedDrone"></param>
         public void UpdateDrone(Drone updatedDrone)
         {
+            List<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronesPath);
 
-            XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
-
-            XElement tempDrone = (from item in droneRootElement.Elements()
-                                  where int.Parse(item.Element("Id").Value) == updatedDrone.Id
-                                  select item).FirstOrDefault();
-            if (tempDrone == null)
+            int droneIndex = dronesList.FindIndex(d => d.Id == updatedDrone.Id);
+            if (droneIndex == -1)
                 throw new DoesntExistException("Error the drone to update doesn't exis in the system");
+            dronesList[droneIndex] = (DO.Drone)updatedDrone.CopyPropertiesToNew(typeof(DO.Drone));
 
-            tempDrone.Element("Id").Value = updatedDrone.Id.ToString();
-            tempDrone.Element("Model").Value = updatedDrone.Model.ToString();
-            tempDrone.Element("MaxWeight").Value = updatedDrone.MaxWeight.ToString();
-
-            XMLTools.SaveListToXMLElement(droneRootElement, dronesPath);
+            XMLTools.SaveListToXMLSerializer<DO.Drone>(dronesList, dronesPath);
         }
         #endregion
 
@@ -115,54 +102,37 @@ namespace Dal
         /// <summary>
         /// gets a drone by the id
         /// </summary>
-        /// <param name="DroneId"></param>
+        /// <param name="droneId">the function gets the id number of the required drone</param>
         /// <returns>drone</returns>
-        public Drone GetDrone(int DroneId) //the function gets the id number of the required drone
+        public Drone GetDrone(int droneId)
         {
+            List<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronesPath);
 
-            XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
-
-            var tempDrone = (from item in droneRootElement.Elements()
-                             where int.Parse(item.Element("Id").Value) == DroneId
-                             select new Drone()
-                             {
-                                 Id = int.Parse(item.Element("Id").Value),
-                                 Model = item.Element("Model").Value.ToString(),
-                                 MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), item.Element("MaxWeight").Value.ToString())
-
-                             }).FirstOrDefault();
-
-            // if didn't find it throw an Exeption                                                                      
-            if (tempDrone.Id == default)
+            if (!dronesList.Any(d => d.Id == droneId))
                 throw new DoesntExistException("This drone doesn't exist in the system");
-
-            return tempDrone;   // if found it return the drone
+            return dronesList.Find(d => d.Id == droneId);
         }
         #endregion
 
 
         #region GetDronesList
         /// <summary>
-        /// get the lidt of the drones
+        /// get the list of the drones
         /// </summary>
-        /// <returns>list of drone</returns>
+        /// <param name="predicat">filter the items to return, acording the requested predicat</param>
+        /// <returns></returns>
         public IEnumerable<Drone> GetDronesList(Func<Drone, bool> predicat = null)
         {
-            XElement droneRootElement = XMLTools.LoadListFromXMLElement(dronesPath);
-
-            var v = (from item in droneRootElement.Elements()
-                     select new Drone()
-                     {
-                         Id = int.Parse(item.Element("Id").Value),
-                         Model = item.Element("Model").Value.ToString(),
-                         MaxWeight = (DO.WeightCategories)Enum.Parse(typeof(DO.WeightCategories), item.Element("MaxWeight").Value.ToString())
-                     }).ToList();
+            List<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronesPath);
 
             if (predicat == null)
-                return v.AsEnumerable();
-
-            return v.Where(predicat);
-
+                return from item in dronesList
+                       orderby item.Id
+                       select item;
+            return from item in dronesList
+                   orderby item.Id
+                   where predicat(item)
+                   select item;
         }
         #endregion
 
@@ -178,19 +148,17 @@ namespace Dal
         /// <summary>
         /// get the list of drone in charge
         /// </summary>
-        /// <returns>list of  drones in charge</returns>
+        /// <param name="predicat">filter the items to return, acording the requested predicat</param>
+        /// <returns></returns>
         public IEnumerable<DroneCharge> GetDroneChargesList(Func<DroneCharge, bool> predicat = null)
         {
-            List<DO.DroneCharge> droneChargeRoot = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargesPath);
-
-
-            var v = from item in droneChargeRoot
-                    select item;
+            List<DO.DroneCharge> droneChargesList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargesPath);
 
             if (predicat == null)
-                return v.AsEnumerable();
-
-            return v.Where(predicat);
+                return droneChargesList.AsEnumerable();
+            return from item in droneChargesList
+                   where predicat(item)
+                   select item;
         }
         #endregion
 
@@ -199,27 +167,31 @@ namespace Dal
         /// <summary>
         /// update drone that was sent to charge
         /// </summary>
-        /// <param name="MyDrone"></param>
-        /// <param name="MyStation"></param>
-        public void UpdateDroneChargeCheckIn(int MyDrone, int MyStation)
+        /// <param name="myDrone"></param>
+        /// <param name="myStation"></param>
+        public void UpdateDroneChargeCheckIn(int myDrone, int myStation)
         {
-            List<DO.DroneCharge> ListDronesCharge = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargesPath);
+            //search station in station's list and update charge slots 
+            List<DO.Station> stationsList = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
+            List<DO.DroneCharge> droneChargesList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargesPath);
 
-            List<DO.Station> ListStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
-
-            int stationIndex = ListStations.FindIndex(x => x.Id == MyStation); //search station in station's list and update charge slots 
-            if (stationIndex < 0)
+            int stationIndex = stationsList.FindIndex(s => s.Id == myStation);
+            if (stationIndex == -1)
                 throw new DoesntExistException("the station doesn't exist in the system");
-
-            ListDronesCharge.Add // add charge to drone's charge's list
+            Station tempStation = stationsList[stationIndex];
+            tempStation.FreeChargeSlots--;
+            stationsList[stationIndex] = tempStation;
+            // add charge to dronecharge list
+            droneChargesList.Add
                  (new DroneCharge()
                  {
-                     StationId = MyStation,
-                     DroneId = MyDrone,
+                     StationId = myStation,
+                     DroneId = myDrone,
                      EntranceTime = DateTime.Now,
                  });
 
-            XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(ListDronesCharge, droneChargesPath);
+            XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(droneChargesList, droneChargesPath);
+            XMLTools.SaveListToXMLSerializer<DO.Station>(stationsList, stationsPath);
         }
         #endregion
 
@@ -228,35 +200,31 @@ namespace Dal
         /// <summary>
         /// update drone that was released from charge
         /// </summary>
-        /// <param name="MyDrone"></param>
-        /// <param name="MyStation"></param>
-        public void UpdateDroneChargeCheckout(int MyDrone, int MyStation)
+        /// <param name="myDrone"></param>
+        /// <param name="myStation"></param>
+        public void UpdateDroneChargeCheckout(int myDrone, int myStation)
         {
-            List<DO.DroneCharge> ListDronesCharge = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargesPath);
-
             //finding the place in drone's charge's list where the drone we need to release is
-            int chargeIndex = ListDronesCharge.FindIndex(x => x.DroneId == MyDrone);
-            if (chargeIndex < 0)
-                throw new DoesntExistException("the drone doesn't exist in the system");
+            List<DO.DroneCharge> droneChargesList = XMLTools.LoadListFromXMLSerializer<DO.DroneCharge>(droneChargesPath);
+            List<DO.Station> stationsList = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
 
-            List<DO.Station> ListStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
+            int droneChargeIndex = droneChargesList.FindIndex(d => d.DroneId == myDrone);
+            if (droneChargeIndex == -1)
+                throw new DoesntExistException("the drone doesn't exist in the system");
+            DroneCharge TemproneCharge = droneChargesList[droneChargeIndex];
+            TemproneCharge.LeavingTime = DateTime.Now;
+            droneChargesList[droneChargeIndex] = TemproneCharge;
 
             //search station in station's list and update charge slots 
-            int stationIndex = ListStations.FindIndex(x => x.Id == MyStation);
-            if (stationIndex < 0)
+            int stationIndex = stationsList.FindIndex(s => s.Id == myStation);
+            if (stationIndex == -1)
                 throw new DoesntExistException("the station doesn't exist in the system");
-
-            DroneCharge TemproneCharge = ListDronesCharge[chargeIndex];
-            TemproneCharge.LeavingTime = DateTime.Now;
-            ListDronesCharge[chargeIndex] = TemproneCharge;
-
-            Station tempStation = ListStations[stationIndex];
+            Station tempStation = stationsList[stationIndex];
             tempStation.FreeChargeSlots++;
-            ListStations[stationIndex] = tempStation;
+            stationsList[stationIndex] = tempStation;
 
-
-            XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(ListDronesCharge, droneChargesPath);
-            XMLTools.SaveListToXMLSerializer<DO.Station>(ListStations, stationsPath);
+            XMLTools.SaveListToXMLSerializer<DO.DroneCharge>(droneChargesList, droneChargesPath);
+            XMLTools.SaveListToXMLSerializer<DO.Station>(stationsList, stationsPath);
         }
         #endregion
 
@@ -286,18 +254,16 @@ namespace Dal
         /// <summary>
         /// add a station to the system
         /// </summary>
-        /// <param name="stationToAdd"></param>
-        public void AddStation(DO.Station stationToAdd)
+        /// <param name="newStation"></param>
+        public void AddStation(DO.Station newStation)
         {
-            List<DO.Station> ListStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
+            List<DO.Station> stationsList = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
 
-            if (ListStations.Exists(x => x.Id == stationToAdd.Id))
+            if (stationsList.Any(s => s.Id == newStation.Id))
                 throw new AlreadyExistException("Station with the same id already exists");
+            stationsList.Add((DO.Station)newStation.CopyPropertiesToNew(typeof(DO.Station)));
 
-            // add a new station to station's list
-            ListStations.Add((DO.Station)stationToAdd.CopyPropertiesToNew(typeof(DO.Station)));
-
-            XMLTools.SaveListToXMLSerializer<DO.Station>(ListStations, stationsPath);
+            XMLTools.SaveListToXMLSerializer<DO.Station>(stationsList, stationsPath);
         }
         #endregion
 
@@ -309,51 +275,47 @@ namespace Dal
         /// <param name="updatedStation"></param>
         public void UpdateStation(Station updatedStation)
         {
-            List<DO.Station> ListStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
+            List<DO.Station> stationsList = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
 
-            int stationIndex = ListStations.FindIndex(s => s.Id == updatedStation.Id);
+            int stationIndex = stationsList.FindIndex(s => s.Id == updatedStation.Id);
             if (stationIndex == -1)
                 throw new DoesntExistException("Error the station to update doesn't exis in the system");
+            stationsList[stationIndex] = (DO.Station)updatedStation.CopyPropertiesToNew(typeof(DO.Station));
 
-            ListStations[stationIndex] = (DO.Station)updatedStation.CopyPropertiesToNew(typeof(DO.Station));
-
-            XMLTools.SaveListToXMLSerializer<DO.Station>(ListStations, stationsPath);
+            XMLTools.SaveListToXMLSerializer<DO.Station>(stationsList, stationsPath);
         }
         #endregion
 
 
         #region GetStation
-        public Station GetStation(int StationId) // the function gets the id number of the station
+        public Station GetStation(int stationId) // the function gets the id number of the station
         {
-            List<DO.Station> ListStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
+            List<DO.Station> stationsList = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
 
-            // the function search the station in station's list
-            Station station = ListStations.Find(x => x.Id == StationId);
-            // if the station was not found throw an exeption 
-            if (station.Id == 0)
+            if (!stationsList.Any(s => s.Id == stationId))
                 throw new DoesntExistException("This station doesn't exist in the system");
-            // if the station was found return the station
-            return station;
+            return stationsList.Find(s => s.Id == stationId);
         }
         #endregion
 
-
         #region GetStationsList
-        ///// <summary>
-        ///// get the list of the station
-        ///// </summary>
-        ///// <returns></returns>
+        /// <summary>
+        /// get the list of the station
+        /// </summary>
+        /// <param name="predicat">filter the items to return, acording the requested predicat</param>
+        /// <returns></returns>
         public IEnumerable<DO.Station> GetStationsList(Func<DO.Station, bool> predicat = null)
         {
-            List<DO.Station> listStations = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
-
-            var v = from item in listStations
-                    select item;
+            List<DO.Station> stationsList = XMLTools.LoadListFromXMLSerializer<DO.Station>(stationsPath);
 
             if (predicat == null)
-                return v.AsEnumerable().OrderBy(s => s.Id);
-
-            return v.Where(predicat).OrderBy(s => s.Id);
+                return from item in stationsList
+                       orderby item.Id
+                       select item;
+            return from item in stationsList
+                   orderby item.Id
+                   where predicat(item)
+                   select item;
         }
         #endregion
 
@@ -368,18 +330,17 @@ namespace Dal
         /// <summary>
         /// add a parcel to the system
         /// </summary>
-        /// <param name="parcelToAdd"></param>
+        /// <param name="newParcel"></param>
         /// <returns></returns>
-        public int AddingParcel(Parcel parcelToAdd)
+        public int AddingParcel(Parcel newParcel)
         {
-            List<DO.Parcel> listParcel = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
+            List<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
 
-            parcelToAdd.Id = listParcel.Last().Id + 1;
-            listParcel.Add((DO.Parcel)parcelToAdd.CopyPropertiesToNew(typeof(DO.Parcel)));
-
-            XMLTools.SaveListToXMLSerializer<DO.Parcel>(listParcel, parcelsPath);
-
-            return listParcel.Last().Id;
+            newParcel.Id = parcelsList.Last().Id + 1; //Give a new number to the new parcel
+            parcelsList.Add((DO.Parcel)newParcel.CopyPropertiesToNew(typeof(DO.Parcel)));
+            //save and return
+            XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, parcelsPath);
+            return newParcel.Id;
         }
         #endregion
 
@@ -391,15 +352,14 @@ namespace Dal
         /// <param name="updatedParcel"></param>
         public void UpdateParcel(Parcel updatedParcel)
         {
-            List<DO.Parcel> listParcel = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
+            List<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
 
-            int parcelIndex = listParcel.FindIndex(d => d.Id == updatedParcel.Id);
+            int parcelIndex = parcelsList.FindIndex(p => p.Id == updatedParcel.Id);
             if (parcelIndex == -1)
                 throw new DoesntExistException("Error the parcel to update doesn't exis in the system");
+            parcelsList[parcelIndex] = (DO.Parcel)updatedParcel.CopyPropertiesToNew(typeof(DO.Parcel));
 
-            listParcel[parcelIndex] = (DO.Parcel)updatedParcel.CopyPropertiesToNew(typeof(DO.Parcel));
-
-            XMLTools.SaveListToXMLSerializer<DO.Parcel>(listParcel, parcelsPath);
+            XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, parcelsPath);
         }
         #endregion
 
@@ -408,116 +368,108 @@ namespace Dal
         /// <summary>
         /// get a parcel by its id
         /// </summary>
-        /// <param name="ParcelId"></param>
+        /// <param name="parcelId">id number of the required parcel</param>
         /// <returns></returns>
-        public Parcel GetParcel(int ParcelId) // the function gets the id number of the required parcel
+        public Parcel GetParcel(int parcelId)
         {
-            List<DO.Parcel> listParcel = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
+            List<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
 
-            // the function search the parcel in parcel's list
-            Parcel parcel = listParcel.Find(d => d.Id == ParcelId);
-            // if the parcel was not found throw an exeption
-            if (parcel.Id == 0)
+            if (!parcelsList.Any(p => p.Id == parcelId))
                 throw new DoesntExistException("This parcel doesn't exist in the system");
-            // if the parcel was found return the parcel
-            return parcel;
+            return parcelsList.Find(p => p.Id == parcelId);
         }
         #endregion
 
 
         #region GetParcelsList
         /// <summary>
-        /// get athe list of all the parcels
+        /// get the list of the parcels
         /// </summary>
+        /// <param name="predicat">filter the items to return, acording the requested predicat</param>
         /// <returns></returns>
         public IEnumerable<Parcel> GetParcelsList(Func<DO.Parcel, bool> predicat = null)
         {
-            List<DO.Parcel> listParcel = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
-
-            var v = from item in listParcel
-                    select item;
+            List<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
 
             if (predicat == null)
-                return v.AsEnumerable().OrderBy(P => P.Id);
-
-            return v.Where(predicat).OrderBy(P => P.Id);
+                return from item in parcelsList
+                       orderby item.Id
+                       select item;
+            return from item in parcelsList
+                   orderby item.Id
+                   where predicat(item)
+                   select item;
         }
         #endregion
 
 
         #region UpdateScheduled
         /// <summary>
-        /// update scheduled parcel
+        /// update parcel's schedule
         /// </summary>
-        /// <param name="MyDroneId"></param>
-        /// <param name="MyParcelId"></param>
-        public void UpdateSchdule(int MyDroneId, int MyParcelId)
+        /// <param name="myDroneId">id of the drone that wil take the parcel</param>
+        /// <param name="myParcelId"></param>
+        public void UpdateSchdule(int myDroneId, int myParcelId)
         {
-            List<DO.Parcel> listParcel = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
+            List<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
+            List<DO.Drone> dronesList = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronesPath);
 
-            int ParcelIndex = listParcel.FindIndex(x => x.Id == MyParcelId); // finding the parcel by id number
-            if (ParcelIndex == -1)
+            int parcelIndex = parcelsList.FindIndex(p => p.Id == myParcelId);
+            if (parcelIndex == -1)
                 throw new DoesntExistException("This parcel doesn't exist in the system");
-
-            List<DO.Drone> listDrone = XMLTools.LoadListFromXMLSerializer<DO.Drone>(dronesPath);
-
-            int DroneIndex = listDrone.FindIndex(x => x.Id == MyDroneId);
-            if (DroneIndex < 0)
+            if (!dronesList.Any(d => d.Id == myDroneId))
                 throw new DoesntExistException("This drone doesn't exist in the system");
 
-            // update the parcel
-            Parcel tempParcel = listParcel[ParcelIndex];
-            tempParcel.DroneId = MyDroneId;
+            Parcel tempParcel = parcelsList[parcelIndex];
+            tempParcel.DroneId = myDroneId;
             tempParcel.ScheduledTime = DateTime.Now;
-            listParcel[ParcelIndex] = tempParcel;
+            parcelsList[parcelIndex] = tempParcel;
 
-            XMLTools.SaveListToXMLSerializer<DO.Parcel>(listParcel, parcelsPath);
+            XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, parcelsPath);
         }
         #endregion
 
 
         #region UpdatePickUp
         /// <summary>
-        /// update parcel to pick up
+        /// update parcel's pick up
         /// </summary>
-        /// <param name="MyParcelId"></param>
-        public void UpdatePickUp(int MyParcelId)
+        /// <param name="myParcelId"></param>
+        public void UpdatePickUp(int myParcelId)
         {
-            List<DO.Parcel> listParcel = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
+            List<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
 
-            int ParcelIndex = listParcel.FindIndex(x => x.Id == MyParcelId); // finding the parcel by id number
-            // updates the pacel 
-            if (ParcelIndex < 0)
+            int parcelIndex = parcelsList.FindIndex(p => p.Id == myParcelId);
+            if (parcelIndex == -1)
                 throw new DoesntExistException("This parcel doesn't exist in the system");
 
-            Parcel tempParcel = listParcel[ParcelIndex];
+            Parcel tempParcel = parcelsList[parcelIndex];
             tempParcel.PickedUpTime = DateTime.Now;
-            listParcel[ParcelIndex] = tempParcel;
+            parcelsList[parcelIndex] = tempParcel;
 
-            XMLTools.SaveListToXMLSerializer<DO.Parcel>(listParcel, parcelsPath);
+            XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, parcelsPath);
         }
         #endregion
 
 
         #region UpdateDelivery
         /// <summary>
-        /// update parcel delivery
+        /// update parcel's delivery
         /// </summary>
-        /// <param name="MyParcelId"></param>
-        public void UpdateDelivery(int MyParcelId)
+        /// <param name="myParcelId"></param>
+        public void UpdateDelivery(int myParcelId)
         {
-            List<DO.Parcel> listParcel = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
+            List<DO.Parcel> parcelsList = XMLTools.LoadListFromXMLSerializer<DO.Parcel>(parcelsPath);
 
-            int ParcelIndex = listParcel.FindIndex(x => x.Id == MyParcelId); // finding the parcel by id number
-                                                                             // updates the pacel 
-            if (ParcelIndex < 0)
+            int ParcelIndex = parcelsList.FindIndex(p => p.Id == myParcelId);
+            if (ParcelIndex <= -1)
                 throw new DoesntExistException("This parcel doesn't exist in the system");
 
-            Parcel tempParcel = listParcel[ParcelIndex];
+            Parcel tempParcel = parcelsList[ParcelIndex];
             tempParcel.DeliveredTime = DateTime.Now;
-            listParcel[ParcelIndex] = tempParcel;
+            parcelsList[ParcelIndex] = tempParcel;
 
-            XMLTools.SaveListToXMLSerializer<DO.Parcel>(listParcel, parcelsPath);
+            XMLTools.SaveListToXMLSerializer<DO.Parcel>(parcelsList, parcelsPath);
         }
         #endregion
 
@@ -530,19 +482,18 @@ namespace Dal
 
         #region AddCustomer
         /// <summary>
-        /// add a customer to the system
+        /// add a new customer to the system
         /// </summary>
-        /// <param name="customerToAdd"></param>
-        public void AddingCustomer(Customer customerToAdd)
+        /// <param name="newCustomer"></param>
+        public void AddingCustomer(Customer newCustomer)
         {
-            List<DO.Customer> listCustomer = XMLTools.LoadListFromXMLSerializer<DO.Customer>(customersPath);
-            //add a new customer to customer's list
-            if (listCustomer.Exists(x => x.Id == customerToAdd.Id))
+            List<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(customersPath);
+
+            if (customersList.Any(C => C.Id == newCustomer.Id))
                 throw new AlreadyExistException("The customer already exist in the system");
+            customersList.Add((DO.Customer)newCustomer.CopyPropertiesToNew(typeof(DO.Customer)));
 
-            listCustomer.Add((DO.Customer)customerToAdd.CopyPropertiesToNew(typeof(DO.Customer)));
-
-            XMLTools.SaveListToXMLSerializer<DO.Customer>(listCustomer, customersPath);
+            XMLTools.SaveListToXMLSerializer<DO.Customer>(customersList, customersPath);
 
         }
         #endregion
@@ -555,58 +506,55 @@ namespace Dal
         /// <param name="updatedCustomer"></param>
         public void UpdateCustomer(Customer updatedCustomer)
         {
-            List<DO.Customer> listCustomer = XMLTools.LoadListFromXMLSerializer<DO.Customer>(customersPath);
+            List<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(customersPath);
 
-            int customerIndex = listCustomer.FindIndex(c => c.Id == updatedCustomer.Id);
+            int customerIndex = customersList.FindIndex(c => c.Id == updatedCustomer.Id);
             if (customerIndex == -1)
                 throw new DoesntExistException("Error the customer to update doesn't exis in the system");
+            customersList[customerIndex] = (DO.Customer)updatedCustomer.CopyPropertiesToNew(typeof(DO.Customer));
 
-            listCustomer[customerIndex] = (DO.Customer)updatedCustomer.CopyPropertiesToNew(typeof(DO.Customer));
-
-            XMLTools.SaveListToXMLSerializer<DO.Customer>(listCustomer, customersPath);
+            XMLTools.SaveListToXMLSerializer<DO.Customer>(customersList, customersPath);
         }
         #endregion
 
 
         #region GetCustomer
         /// <summary>
-        /// gets a customer
+        /// gets customer by the id
         /// </summary>
-        /// <param name="CustomerId"></param>
+        /// <param name="customerId">id numver of the request customer</param>
         /// <returns></returns>
-        public Customer GetCustomer(int CustomerId) // the function gets the id numver of the new customer 
+        public Customer GetCustomer(int customerId)
         {
-            List<DO.Customer> listCustomer = XMLTools.LoadListFromXMLSerializer<DO.Customer>(customersPath);
+            List<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(customersPath);
 
-            // the function search the customer in customer's list
-            Customer customer = listCustomer.Find(x => x.Id == CustomerId);
-
-            // if the customer was not found throw an exception
-            if (customer.Id == 0)
+            Customer customer = customersList.Find(c => c.Id == customerId);
+            if (!customersList.Any(c => c.Id == customerId))
                 throw new DoesntExistException("This customer doesn't exist in the system");
 
-            // if the customer was found return the customer
-            return customer;
+            return customersList.Find(c => c.Id == customerId);
         }
         #endregion
 
 
         #region GetCustomersList
         /// <summary>
-        /// return list of customers
+        /// get the list of the customers
         /// </summary>
+        /// <param name="predicat">filter the items to return, acording the requested predicat</param>
         /// <returns></returns>
         public IEnumerable<Customer> GetCustomersList(Func<DO.Customer, bool> predicat = null)
         {
-            List<DO.Customer> listCustomer = XMLTools.LoadListFromXMLSerializer<DO.Customer>(customersPath);
-
-            var v = from item in listCustomer
-                    select item;
+            List<DO.Customer> customersList = XMLTools.LoadListFromXMLSerializer<DO.Customer>(customersPath);
 
             if (predicat == null)
-                return v.AsEnumerable().OrderBy(C => C.Id);
-
-            return v.Where(predicat).OrderBy(C => C.Id);
+                return from item in customersList
+                       orderby item.Id
+                       select item;
+            return from item in customersList
+                   orderby item.Id
+                   where predicat(item)
+                   select item;
         }
         #endregion
 

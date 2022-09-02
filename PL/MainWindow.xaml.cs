@@ -23,7 +23,7 @@ namespace PL
             Button b = sender as Button;
             if (b != null)
             {
-                new List_Of_Drones(bl).Show();
+                new ListOfDrones(bl).Show();
             }
         }
 

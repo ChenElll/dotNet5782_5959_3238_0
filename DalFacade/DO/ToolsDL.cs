@@ -11,12 +11,6 @@ namespace DO
 {
     public static class ToolsDL
     {
-        //public static IEnumerable<T> ListFilter<T>(this IEnumerable<T> colection, Predicate<T> predicate)
-        //{
-
-        //    return colection.ToList().FindAll(predicate);
-        //}
-
         public static void CopyPropertiesTo<S, T>(this S from, T to)
         {
             var fromType = from.GetType();

@@ -5,6 +5,11 @@ namespace DalApi
 {
     public class DalFactory
     {
+        /// <summary>
+        /// Load the packages of the dal type that in the dalType variable
+        /// for use as a database
+        /// </summary>
+        /// <returns>an object representing the property that use as database</returns>
         public static IDal GetDal()
         {
             string dalType = DalConfig.DalName;

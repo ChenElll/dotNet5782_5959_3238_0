@@ -11,7 +11,6 @@ namespace DO
         public AlreadyExistException(string message) : base(message) { }
         public AlreadyExistException(string message, Exception inner) : base(message, inner) { }
         protected AlreadyExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
     }
 
     [Serializable]
@@ -21,7 +20,6 @@ namespace DO
         public DoesntExistException(string message) : base(message) { }
         public DoesntExistException(string message, Exception inner) : base(message, inner) { }
         protected DoesntExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
     }
 
     [Serializable]
@@ -31,10 +29,8 @@ namespace DO
         public LoadingException() : base() { }
         public LoadingException(string message) : base(message) { }
         public LoadingException(string message, Exception inner) : base(message, inner) { }
-
         public LoadingException(string path, string messege, Exception inner) => filePath = path;
         protected LoadingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
     }
 
     [Serializable]

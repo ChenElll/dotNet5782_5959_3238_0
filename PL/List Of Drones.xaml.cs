@@ -15,12 +15,12 @@ namespace PL
     /// <summary>
     /// Interaction logic for List_Of_Drones.xaml
     /// </summary>
-    public partial class List_Of_Drones : Window
+    public partial class ListOfDrones : Window
     {
         IBL bl;
         public ObservableCollection<BO.DroneToList> droneToListsBL;
 
-        public List_Of_Drones(IBL ibl)
+        public ListOfDrones(IBL ibl)
         {
             InitializeComponent();
             bl = ibl;
@@ -106,7 +106,7 @@ namespace PL
         internal void refresh()
         {
             Close();
-            new List_Of_Drones(bl).Show();
+            new ListOfDrones(bl).Show();
         }
 
         /// <summary>

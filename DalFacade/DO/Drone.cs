@@ -1,6 +1,9 @@
 ﻿
 namespace DO
 {
+    /// <summary>
+    /// Drone class impl.
+    /// </summary>
     public struct Drone
     {
         public int Id { get; set; }
