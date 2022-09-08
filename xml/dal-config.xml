@@ -4,5 +4,6 @@
 	<dal-packages>
 		<list class="DalObject" namespace="Dal">DalObject</list>
 		<xml>DalXml</xml>
+		<db>DalDB</db>
 	</dal-packages>
 </config>
